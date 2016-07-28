@@ -1,0 +1,22 @@
+{
+  "name" : "handsomegyr/wechat",
+  "description" : "A simple PHP client library for weixin",
+  "require" : {
+    "php" : ">=5.2.11",
+    "guzzlehttp/guzzle": "^6.2", 
+  },
+  "authors" : [ {
+    "name" : "郭永荣",
+    "email" : "handsomegyr@gmail.com",
+    "homepage" : "http://github.com/handsomegyr/"
+  } ],
+  "keywords" : [ "weixin" ],
+  "autoload" : {
+    "psr-0" : {
+      "Weixin" : "lib/"
+    }
+  },
+  "license" : "MIT",
+  "type" : "library",
+  "homepage" : "http://github.com/handsomegyr/wechat"
+}

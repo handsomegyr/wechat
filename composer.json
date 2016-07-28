@@ -2,8 +2,8 @@
   "name" : "handsomegyr/wechat",
   "description" : "A simple PHP client library for weixin",
   "require" : {
-    "php" : ">=5.2.11",
-    "guzzlehttp/guzzle": "^6.2", 
+    "php" : ">=5.5",
+    "guzzlehttp/guzzle": "^6.2"
   },
   "authors" : [ {
     "name" : "郭永荣",

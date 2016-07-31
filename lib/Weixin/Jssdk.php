@@ -3,7 +3,7 @@ namespace Weixin;
 
 use Weixin\Helpers;
 use Weixin\Exception;
-use Weixin\Http\Request2;
+use Weixin\Http\Request;
 
 /**
  * 微信JS-SDK
@@ -71,13 +71,13 @@ class Jssdk
      */
     protected function initRequest()
     {
-        $this->_request = new Request2($this->getAccessToken());
+        $this->_request = new Request($this->getAccessToken());
     }
 
     /**
      * 获取请求对象
      *
-     * @return \Weixin\Http\Request2
+     * @return \Weixin\Http\Request
      */
     protected function getRequest()
     {

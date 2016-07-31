@@ -34,9 +34,8 @@ class Client
     private $_from = null;
 
     private $_to = null;
-    
-    // private $_request = null;
-    private $_requests = array();
+
+    private $_request = null;
 
     private $_signature = null;
 
@@ -66,7 +65,6 @@ class Client
     public function setAccessToken($accessToken)
     {
         $this->_accessToken = $accessToken;
-        // $this->initRequest();
         return $this;
     }
 
@@ -110,35 +108,22 @@ class Client
     /**
      * 初始化认证的http请求对象
      */
-    private function initRequest($version = 'v1')
+    private function initRequest()
     {
-        if (empty($version)) {
-            $version = 'v1';
-        }
-        if ($version == 'v1') {
-            $this->_requests[$version] = new \Weixin\Http\Request($this->getAccessToken());
-        } elseif ($version == 'v2') {
-            $this->_requests[$version] = new \Weixin\Http\Request2($this->getAccessToken());
-        } elseif ($version == 'v3') {
-            $this->_requests[$version] = new \Weixin\Http\Request3($this->getAccessToken());
-        }
+        $this->_request = new \Weixin\Http\Request($this->getAccessToken());
     }
 
     /**
      * 获取请求对象
      *
-     * @return \Weixin\Http\Request \Weixin\Http\Request2
+     * @return \Weixin\Http\Request
      */
-    public function getRequest($version = 'v1')
+    public function getRequest()
     {
-        if (empty($version)) {
-            $version = 'v1';
+        if (empty($this->_request)) {
+            $this->initRequest();
         }
-        if (empty($this->_requests[$version])) {
-            $this->initRequest($version);
-            // throw new Exception("尚未初始化{$version}所对应的request对象，请确认是否设定了access token");
-        }
-        return $this->_requests[$version];
+        return $this->_request;
     }
 
     /**

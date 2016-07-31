@@ -4,7 +4,6 @@ namespace Weixin;
 use Weixin\Helpers;
 use Weixin\Exception;
 use Weixin\Http\Request;
-use Guzzle\Http\Client;
 
 /**
  * 微信支付接口
@@ -716,19 +715,8 @@ class Pay337
      */
     public function get($url, $params = array(), $options = array())
     {
-        $client = new Client();
-        $params['access_token'] = $this->getAccessToken();
-        $request = $client->get($url, array(), array(
-            'query' => $params
-        ), $options);
-        
-        $request->getCurlOptions()->set(CURLOPT_SSLVERSION, 1); // CURL_SSLVERSION_TLSv1
-        $response = $client->send($request);
-        if ($response->isSuccessful()) {
-            return $response->getBody(true);
-        } else {
-            throw new Exception("微信服务器未有效的响应请求");
-        }
+        $rst = $this->getRequest()->get($url, $params, $options);
+        return $rst;
     }
 
     /**
@@ -741,19 +729,8 @@ class Pay337
      */
     public function post($url, $xml, $options = array())
     {
-        $client = new Client();
-        $client->setDefaultOption('query', array(
-            'access_token' => $this->getAccessToken()
-        ));
-        $client->setDefaultOption('body', $xml);
-        $request = $client->post($url, null, null, $options);
-        $request->getCurlOptions()->set(CURLOPT_SSLVERSION, 1); // CURL_SSLVERSION_TLSv1
-        $response = $client->send($request);
-        if ($response->isSuccessful()) {
-            return $response->getBody(true);
-        } else {
-            throw new Exception("微信服务器未有效的响应请求");
-        }
+        $rst = $this->getRequest()->post($url, array(), $options, $xml);
+        return $rst;
     }
 
     /**
@@ -864,4 +841,27 @@ class Pay337
      */
     public function updateFeedback($openid, $feedbackid)
     {}
+
+    protected $_request = null;
+
+    /**
+     * 初始化认证的http请求对象
+     */
+    protected function initRequest()
+    {
+        $this->_request = new Request($this->getAccessToken(), false);
+    }
+
+    /**
+     * 获取请求对象
+     *
+     * @return \Weixin\Http\Request
+     */
+    protected function getRequest()
+    {
+        if (empty($this->_request)) {
+            $this->initRequest();
+        }
+        return $this->_request;
+    }
 }

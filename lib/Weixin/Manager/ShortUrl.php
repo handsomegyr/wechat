@@ -27,7 +27,7 @@ class ShortUrl
     public function __construct(Client $client)
     {
         $this->_client = $client;
-        $this->_request = $client->getRequest('v3');
+        $this->_request = $client->getRequest();
     }
 
     /**

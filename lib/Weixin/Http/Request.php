@@ -243,7 +243,7 @@ class Request
         } catch (\Exception $e) {
             $body = $response->getBody();
             if ($this->_json) {
-                $body = substr(str_replace('\"', '"', json_encode($body)), 1, - 1);
+				$body = substr(str_replace('\"', '"', json_encode($body,JSON_UNESCAPED_SLASHES)), 1, - 1);
                 $response->setBody($body);
                 return $response->json();
             } else {

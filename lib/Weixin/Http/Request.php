@@ -236,7 +236,13 @@ class Request
         try {
             $body = $response->getBody();
             if ($this->_json) {
-                return json_decode($body, true);
+                $json = json_decode($body, true);
+				if (JSON_ERROR_NONE !== json_last_error()) {
+					throw new \InvalidArgumentException(
+						'Unable to parse JSON data: '
+					);
+				}
+				return $json;
             } else {
                 return $body;
             }

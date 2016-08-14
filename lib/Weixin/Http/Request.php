@@ -18,13 +18,49 @@ class Request
 
     private $_json = true;
 
-    public function __construct($accessToken, $json = true)
+    private $_accessTokenName = 'access_token';
+
+    public function __construct($accessToken, $json = true, $accessTokenName = 'access_token')
+    {
+        $this->setAccessTokenName($accessTokenName);
+        $this->setAccessToken($accessToken);
+        $this->setJson($json);
+    }
+
+    /**
+     * 设定access token
+     *
+     * @param string $accessToken            
+     */
+    public function setAccessToken($accessToken)
     {
         $this->_accessToken = $accessToken;
         if (empty($this->_accessToken)) {
             throw new Exception("access_token为空");
         }
+        return $this;
+    }
+
+    /**
+     * 设定access token所对应的字段名字
+     *
+     * @param string $accessTokenName            
+     */
+    public function setAccessTokenName($accessTokenName)
+    {
+        $this->_accessTokenName = $accessTokenName;
+        return $this;
+    }
+
+    /**
+     * 设定是否是json输出
+     *
+     * @param string $accessTokenName            
+     */
+    public function setJson($json)
+    {
         $this->_json = $json;
+        return $this;
     }
 
     /**
@@ -37,7 +73,8 @@ class Request
     public function get($url, $params = array(), $options = array())
     {
         $client = new \GuzzleHttp\Client();
-        $params['access_token'] = $this->_accessToken;
+        $query = $this->getQueryParam4AccessToken();
+        $params = array_merge($params, $query);
         $response = $client->get($url, array(
             'query' => $params
         ));
@@ -58,10 +95,9 @@ class Request
     public function post($url, $params = array(), $options = array(), $body = '')
     {
         $client = new \GuzzleHttp\Client();
+        $query = $this->getQueryParam4AccessToken();
         $response = $client->post($url, array(
-            'query' => array(
-                'access_token' => $this->_accessToken
-            ),
+            'query' => $query,
             'body' => empty($body) ? json_encode($params, JSON_UNESCAPED_UNICODE) : $body
         ));
         if ($this->isSuccessful($response)) {
@@ -190,13 +226,24 @@ class Request
     }
 
     /**
+     * Checks if HTTP Status code is Successful (2xx | 304)
+     *
+     * @return bool
+     */
+    public function isSuccessful($response)
+    {
+        $statusCode = $response->getStatusCode();
+        return ($statusCode >= 200 && $statusCode < 300) || $statusCode == 304;
+    }
+
+    /**
      * 下载文件
      *
      * @param string $url            
      * @throws Exception
      * @return array
      */
-    private function getFileByUrl($url = '')
+    protected function getFileByUrl($url = '')
     {
         $opts = array(
             'http' => array(
@@ -224,32 +271,30 @@ class Request
      * @param bytes $fileBytes            
      * @return string
      */
-    private function saveAsTemp($fileName, $fileBytes)
+    protected function saveAsTemp($fileName, $fileBytes)
     {
         $this->_tmp = sys_get_temp_dir() . '/temp_files_' . $fileName;
         file_put_contents($this->_tmp, $fileBytes);
         return $this->_tmp;
     }
 
-    private function getJson($response)
+    protected function getJson($response)
     {
         try {
             $body = $response->getBody();
             if ($this->_json) {
                 $json = json_decode($body, true);
-				if (JSON_ERROR_NONE !== json_last_error()) {
-					throw new \InvalidArgumentException(
-						'Unable to parse JSON data: '
-					);
-				}
-				return $json;
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    throw new \InvalidArgumentException('Unable to parse JSON data: ');
+                }
+                return $json;
             } else {
                 return $body;
             }
         } catch (\Exception $e) {
             $body = $response->getBody();
             if ($this->_json) {
-				$body = substr(str_replace('\"', '"', json_encode($body,JSON_UNESCAPED_SLASHES)), 1, - 1);
+                $body = substr(str_replace('\"', '"', json_encode($body, JSON_UNESCAPED_SLASHES)), 1, - 1);
                 $response->setBody($body);
                 return $response->json();
             } else {
@@ -258,23 +303,19 @@ class Request
         }
     }
 
-    /**
-     * Checks if HTTP Status code is Successful (2xx | 304)
-     *
-     * @return bool
-     */
-    public function isSuccessful($response)
+    protected function getQueryParam4AccessToken()
     {
-        $statusCode = $response->getStatusCode();
-        return ($statusCode >= 200 && $statusCode < 300) || $statusCode == 304;
+        $params = array();
+        if (! empty($this->_accessTokenName)) {
+            $params[$this->_accessTokenName] = $this->_accessToken;
+        }
+        return $params;
     }
 
-    private function sendUploadFileRequest($url, array $otherQuery, $media, array $options = array('fieldName'=>'media'))
+    protected function sendUploadFileRequest($url, array $otherQuery, $media, array $options = array('fieldName'=>'media'))
     {
         $client = new \GuzzleHttp\Client();
-        $query = array(
-            'access_token' => $this->_accessToken
-        );
+        $query = $this->getQueryParam4AccessToken();
         if (! empty($otherQuery)) {
             $query = array_merge($query, $otherQuery);
         }

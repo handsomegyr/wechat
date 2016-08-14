@@ -12,15 +12,15 @@ use Weixin\Exception;
 class Request
 {
 
-    private $_accessToken = null;
+    protected $_accessToken = null;
 
-    private $_tmp = null;
+    protected $_tmp = null;
 
-    private $_json = true;
+    protected $_json = true;
 
-    private $_accessTokenName = 'access_token';
+    protected $_accessTokenName = 'access_token';
 
-    public function __construct($accessToken, $json = true, $accessTokenName = 'access_token')
+    public function __construct($accessToken = '', $json = true, $accessTokenName = 'access_token')
     {
         $this->setAccessTokenName($accessTokenName);
         $this->setAccessToken($accessToken);
@@ -35,9 +35,6 @@ class Request
     public function setAccessToken($accessToken)
     {
         $this->_accessToken = $accessToken;
-        if (empty($this->_accessToken)) {
-            throw new Exception("access_token为空");
-        }
         return $this;
     }
 
@@ -306,7 +303,7 @@ class Request
     protected function getQueryParam4AccessToken()
     {
         $params = array();
-        if (! empty($this->_accessTokenName)) {
+        if (! empty($this->_accessTokenName) && ! empty($this->_accessToken)) {
             $params[$this->_accessTokenName] = $this->_accessToken;
         }
         return $params;

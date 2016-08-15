@@ -1,9 +1,4 @@
 <?php
-/**
- * 获取微信服务端使用的accessToken
- * @author young
- *
- */
 namespace Weixin\Token;
 
 use Weixin\Exception;
@@ -12,8 +7,6 @@ class Component
 {
 
     private $_appid;
-
-    private $_secret;
 
     private $_component_appid;
 
@@ -29,13 +22,10 @@ class Component
 
     private $_context;
 
-    public function __construct($appid, $secret, $component_appid, $component_access_token)
+    public function __construct($appid, $component_appid, $component_access_token)
     {
         if (empty($appid)) {
             throw new Exception('请设定$appid');
-        }
-        if (empty($secret)) {
-            throw new Exception('请设定$secret');
         }
         if (empty($component_appid)) {
             throw new Exception('请设定$component_appid');
@@ -46,7 +36,6 @@ class Component
         
         $this->_state = uniqid();
         $this->_appid = $appid;
-        $this->_secret = $secret;
         $this->_component_appid = $component_appid;
         $this->_component_access_token = $component_access_token;
         
@@ -133,7 +122,7 @@ class Component
             throw new Exception('code不能为空');
         }
         
-        $response = file_get_contents("https: // api.weixin.qq.com/sns/oauth2/component/access_token?appid={$this->_appid}&code={$code}&grant_type=authorization_code&component_appid={$this->_component_appid}&component_access_token={$this->_component_access_token}", false, $this->_context);
+        $response = file_get_contents("https://api.weixin.qq.com/sns/oauth2/component/access_token?appid={$this->_appid}&code={$code}&grant_type=authorization_code&component_appid={$this->_component_appid}&component_access_token={$this->_component_access_token}", false, $this->_context);
         $response = json_decode($response, true);
         
         return $response;

@@ -478,6 +478,24 @@ class Component
         }
     }
 
+	/**
+     * 获取授权页的URL
+     */
+    public function getComponentLoginPage($pre_auth_code, $redirect_uri, $is_redirect = true)
+    {
+        $redirect_uri = trim($redirect_uri);
+        if (filter_var($redirect_uri, FILTER_VALIDATE_URL) === false) {
+            throw new Exception('$redirect_uri无效');
+        }
+        $redirect_uri = urlencode($redirect_uri);
+        $url = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={$this->_appid}&pre_auth_code={$pre_auth_code}&redirect_uri={$redirect_uri}";
+        if (! empty($is_redirect)) {
+            header("location:{$url}");
+            exit();
+        } else {
+            return $url;
+        }
+    }
     public function __destruct()
     {}
 }

@@ -31,6 +31,19 @@ class Component
         $this->_request = new Request();
     }
 
+	/**
+     * 获取请求对象
+     *
+     * @return \Weixin\Http\Request
+     */
+    protected function getRequest()
+    {
+        if (empty($this->_request)) {
+            $this->initRequest();
+        }
+        return $this->_request;
+    }
+	
     public function __construct($component_appid, $component_appsecret)
     {
         $this->_appid = $component_appid;

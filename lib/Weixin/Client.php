@@ -23,7 +23,7 @@ use Weixin\Manager\Ip;
 use Weixin\Manager\Datacube;
 use Weixin\Manager\Poi;
 use Weixin\Manager\Material;
-
+use Weixin\Manager\Tags;
 class Client
 {
 

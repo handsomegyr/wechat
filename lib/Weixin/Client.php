@@ -155,7 +155,12 @@ class Client
     {
         return new Menu($this);
     }
-
+    /**
+     * 获取标签管理
+     */
+    public function getTagsManager(){
+        return new Tags($this);
+    }
     /**
      * 获取分组管理器
      *

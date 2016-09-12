@@ -73,9 +73,10 @@ class Card
      */
     public function uploadLogoUrl($logo)
     {
-        $options = array();
-        $options['fieldName'] = 'buffer';
-        return $this->_request->uploadFile('https://api.weixin.qq.com/cgi-bin/', 'media/uploadimg', $logo);
+        $options = array(
+            'fieldName' => 'buffer'
+        );
+        return $this->_request->uploadFile('https://api.weixin.qq.com/cgi-bin/media/uploadimg', $logo, $options);
     }
 
     /**

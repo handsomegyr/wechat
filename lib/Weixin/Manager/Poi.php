@@ -74,9 +74,10 @@ class Poi
      */
     public function uploadImg($img)
     {
-        $options = array();
-        $options['fieldName'] = 'buffer';
-        return $this->_request->uploadFile('https://api.weixin.qq.com/cgi-bin/', 'media/uploadimg', $img);
+        $options = array(
+            'fieldName' => 'buffer'
+        );
+        return $this->_request->uploadFile('https://api.weixin.qq.com/cgi-bin/media/uploadimg', $img, $options);
     }
 
     /**

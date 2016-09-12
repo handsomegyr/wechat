@@ -331,7 +331,10 @@ class CustomService
         $query = array(
             'kf_account' => $kf_account
         );
-        $rst = $this->_request->sendUploadFileRequest('https://api.weixin.qq.com/customservice/kfacount/uploadheadimg', $query, $media);
+        $options = array(
+            'fieldName' => 'media'
+        );
+        $rst = $this->_request->uploadFile('https://api.weixin.qq.com/customservice/kfacount/uploadheadimg', $media, $options, $query);
         
         return $this->_client->rst($rst);
     }

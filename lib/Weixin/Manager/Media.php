@@ -73,7 +73,10 @@ class Media
         $query = array(
             'type' => $type
         );
-        return $this->_request->sendUploadFileRequest('https://api.weixin.qq.com/cgi-bin/media/upload', $query, $media);
+        $options = array(
+            'fieldName' => 'media'
+        );
+        return $this->_request->uploadFile('https://api.weixin.qq.com/cgi-bin/media/upload', $media, $options, $query);
     }
 
     /**
@@ -195,9 +198,7 @@ class Media
 
     public function uploadImg($img)
     {
-        $options = array();
-        $options['fieldName'] = 'media';
-        return $this->_request->uploadFile('https://api.weixin.qq.com/cgi-bin/', 'media/uploadimg', $img);
+        return $this->_request->uploadFile('https://api.weixin.qq.com/cgi-bin/media/uploadimg', $img);
     }
 
     public function __destruct()

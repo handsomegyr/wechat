@@ -107,22 +107,50 @@ class Request
     /**
      * 上传文件
      *
-     * @param string $baseUrl            
      * @param string $uri            
      * @param string $media
-     *            url或者filepath
-     * @param array $options            
+     *            url或者filepath            
+     * @param array $options
+     * @param array $otherQuery            
      * @throws Exception
      * @return mixed
      */
-    public function uploadFile($baseUrl, $uri, $media, array $options = array('fieldName'=>'media'))
+    public function uploadFile($url, $media, array $options = array('fieldName'=>'media'), array $otherQuery = array())
     {
-        $query = array();
-        return $this->sendUploadFileRequest($baseUrl . $uri, $query, $media, $options);
+        $client = new \GuzzleHttp\Client();
+        $query = $this->getQueryParam4AccessToken();
+        if (! empty($otherQuery)) {
+            $query = array_merge($query, $otherQuery);
+        }
+        if (filter_var($media, FILTER_VALIDATE_URL) !== false) {
+            $fileInfo = $this->getFileByUrl($media);
+            $media = $this->saveAsTemp($fileInfo['name'], $fileInfo['bytes']);
+            $media = fopen($media, 'r');
+        } elseif (is_readable($media)) {
+            $media = fopen($media, 'r');
+        } else {
+            throw new Exception("无效的上传文件");
+        }
+        
+        $response = $client->post($url, array(
+            'query' => $query,
+            'multipart' => array(
+                array(
+                    'name' => $options['fieldName'],
+                    'contents' => $media
+                )
+            )
+        ));
+        
+        if ($this->isSuccessful($response)) {
+            return $this->getJson($response); // $response->json();
+        } else {
+            throw new Exception("微信服务器未有效的响应请求");
+        }
     }
 
     /**
-     * 上传文件
+     * 上传多个文件
      *
      * @param string $uri            
      * @param array $fileParams            
@@ -213,40 +241,6 @@ class Request
             'name' => $filename,
             'bytes' => $fileBytes
         );
-    }
-
-    public function sendUploadFileRequest($url, array $otherQuery, $media, array $options = array('fieldName'=>'media'))
-    {
-        $client = new \GuzzleHttp\Client();
-        $query = $this->getQueryParam4AccessToken();
-        if (! empty($otherQuery)) {
-            $query = array_merge($query, $otherQuery);
-        }
-        if (filter_var($media, FILTER_VALIDATE_URL) !== false) {
-            $fileInfo = $this->getFileByUrl($media);
-            $media = $this->saveAsTemp($fileInfo['name'], $fileInfo['bytes']);
-            $media = fopen($media, 'r');
-        } elseif (is_readable($media)) {
-            $media = fopen($media, 'r');
-        } else {
-            throw new Exception("无效的上传文件");
-        }
-        
-        $response = $client->post($url, array(
-            'query' => $query,
-            'multipart' => array(
-                array(
-                    'name' => $options['fieldName'],
-                    'contents' => $media
-                )
-            )
-        ));
-        
-        if ($this->isSuccessful($response)) {
-            return $this->getJson($response); // $response->json();
-        } else {
-            throw new Exception("微信服务器未有效的响应请求");
-        }
     }
 
     /**

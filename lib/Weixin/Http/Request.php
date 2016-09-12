@@ -290,13 +290,12 @@ class Request
             }
         } catch (\Exception $e) {
             $body = $response->getBody();
-            if ($this->_json) {
-                $body = substr(str_replace('\"', '"', json_encode($body, JSON_UNESCAPED_SLASHES)), 1, - 1);
-                $response->setBody($body);
-                return $response->json();
-            } else {
-                return $body;
+            $body = substr(str_replace('\"', '"', json_encode($body, JSON_UNESCAPED_SLASHES)), 1, - 1);
+            $json = json_decode($body, true);
+            if (JSON_ERROR_NONE !== json_last_error()) {
+                throw new \InvalidArgumentException('Unable to parse JSON data: ');
             }
+            return $json
         }
     }
 

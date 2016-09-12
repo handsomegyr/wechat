@@ -4,7 +4,7 @@ namespace Weixin;
 /**
  * Base exception class for Weixin-related errors.
  *
- * @author guoyongrong <handsomegyr@gmail.com>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Exception extends \Exception
 {

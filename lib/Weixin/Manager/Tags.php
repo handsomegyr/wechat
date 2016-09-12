@@ -9,8 +9,7 @@ use Weixin\Client;
  * 对公众平台的分组进行查询、创建、修改操作，
  * 也可以使用接口在需要时移动用户到某个标签。
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Tags
 {

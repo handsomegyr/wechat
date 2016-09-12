@@ -16,8 +16,7 @@ use Weixin\Client;
  * 如果用户还未关注公众号，则用户可以关注公众号，关注后微信会将带场景值关注事件推送给开发者。
  * 如果用户已经关注公众号，在用户扫描后会自动进入会话，微信也会将带场景值扫描事件推送给开发者。
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Qrcode
 {

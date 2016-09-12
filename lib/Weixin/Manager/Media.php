@@ -2,7 +2,7 @@
 /**
  * 媒体上传下载管理器
  * 
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  *
  */
 namespace Weixin\Manager;
@@ -70,7 +70,10 @@ class Media
      */
     public function upload($type, $media)
     {
-        return $this->_request->upload($type, $media);
+        $query = array(
+            'type' => $type
+        );
+        return $this->_request->sendUploadFileRequest('https://api.weixin.qq.com/cgi-bin/media/upload', $query, $media);
     }
 
     /**
@@ -103,7 +106,9 @@ class Media
      */
     public function download($mediaId)
     {
-        return $this->_request->download($mediaId);
+        $accessToken = $this->_client->getAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token=' . $accessToken . '&media_id=' . $mediaId;
+        return $this->_request->getFileByUrl($url);
     }
 
     /**

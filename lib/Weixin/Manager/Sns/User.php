@@ -32,8 +32,7 @@ use Weixin\Client;
  * 3 如果需要，开发者可以刷新网页授权access_token，避免过期
  * 4 通过网页授权access_token和openid获取用户基本信息
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class User
 {

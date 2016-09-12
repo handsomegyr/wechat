@@ -7,8 +7,7 @@ use Weixin\Client;
  * 获取微信服务器IP地址接口
  * 如果公众号基于安全等考虑，需要获知微信服务器的IP地址列表，以便进行相关限制，可以通过该接口获得微信服务器IP地址列表。
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Ip
 {

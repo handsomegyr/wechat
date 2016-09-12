@@ -6,7 +6,7 @@ use Weixin\Client;
 /**
  * 群发消息接口
  *
- * @author Ben
+ * @author guoyongrong <handsomegyr@126.com>
  *        
  */
 class Mass

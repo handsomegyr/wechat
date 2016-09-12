@@ -2,7 +2,7 @@
 /**
  * 微信客户端总调度器
  * 
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  *
  */
 namespace Weixin;

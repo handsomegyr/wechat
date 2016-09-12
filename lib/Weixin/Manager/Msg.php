@@ -1,7 +1,7 @@
 <?php
 /**
  * 消息控制器
- * @author young
+ * @author guoyongrong <handsomegyr@126.com>
  *
  */
 namespace Weixin\Manager;

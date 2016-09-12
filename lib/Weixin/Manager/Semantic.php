@@ -10,8 +10,7 @@ use Weixin\Client;
  * 只需根据自己的产品特点，
  * 选择相应的服务即可搭建一套智能语义服务。
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Semantic
 {

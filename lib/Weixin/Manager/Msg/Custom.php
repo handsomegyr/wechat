@@ -13,8 +13,7 @@ use Weixin\Client;
  * 此接口主要用于客服等有人工消息处理环节的功能，
  * 方便开发者为用户提供更加优质的服务。
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Custom
 {

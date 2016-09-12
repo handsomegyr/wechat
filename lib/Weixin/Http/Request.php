@@ -105,52 +105,6 @@ class Request
     }
 
     /**
-     * 下载指定路径的文件资源
-     *
-     * @param string $mediaId            
-     * @return array
-     */
-    public function download($mediaId)
-    {
-        $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token=' . $this->_accessToken . '&media_id=' . $mediaId;
-        return $this->getFileByUrl($url);
-    }
-
-    /**
-     * 上传微信多媒体文件
-     *
-     * @param string $type            
-     * @param string $media
-     *            url或者filepath
-     * @throws Exception
-     * @return mixed
-     */
-    public function upload($type, $media)
-    {
-        $query = array(
-            'type' => $type
-        );
-        return $this->sendUploadFileRequest('https://api.weixin.qq.com/cgi-bin/media/upload', $query, $media);
-    }
-
-    /**
-     * 上传客服头像
-     *
-     * @param string $kf_account            
-     * @param string $media
-     *            url或者filepath
-     * @throws Exception
-     * @return mixed
-     */
-    public function uploadheadimg4KfAcount($kf_account, $media)
-    {
-        $query = array(
-            'kf_account' => $kf_account
-        );
-        return $this->sendUploadFileRequest('https://api.weixin.qq.com/customservice/kfacount/uploadheadimg', $query, $media);
-    }
-
-    /**
      * 上传文件
      *
      * @param string $baseUrl            
@@ -240,7 +194,7 @@ class Request
      * @throws Exception
      * @return array
      */
-    protected function getFileByUrl($url = '')
+    public function getFileByUrl($url = '')
     {
         $opts = array(
             'http' => array(
@@ -261,54 +215,7 @@ class Request
         );
     }
 
-    /**
-     * 将指定文件名和内容的数据，保存到临时文件中，在析构函数中删除临时文件
-     *
-     * @param string $fileName            
-     * @param bytes $fileBytes            
-     * @return string
-     */
-    protected function saveAsTemp($fileName, $fileBytes)
-    {
-        $this->_tmp = sys_get_temp_dir() . '/temp_files_' . $fileName;
-        file_put_contents($this->_tmp, $fileBytes);
-        return $this->_tmp;
-    }
-
-    protected function getJson($response)
-    {
-        try {
-            $body = $response->getBody();
-            if ($this->_json) {
-                $json = json_decode($body, true);
-                if (JSON_ERROR_NONE !== json_last_error()) {
-                    throw new \InvalidArgumentException('Unable to parse JSON data: ');
-                }
-                return $json;
-            } else {
-                return $body;
-            }
-        } catch (\Exception $e) {
-            $body = $response->getBody();
-            $body = substr(str_replace('\"', '"', json_encode($body, JSON_UNESCAPED_SLASHES)), 1, - 1);
-            $json = json_decode($body, true);
-            if (JSON_ERROR_NONE !== json_last_error()) {
-                throw new \InvalidArgumentException('Unable to parse JSON data: ');
-            }
-            return $json
-        }
-    }
-
-    protected function getQueryParam4AccessToken()
-    {
-        $params = array();
-        if (! empty($this->_accessTokenName) && ! empty($this->_accessToken)) {
-            $params[$this->_accessTokenName] = $this->_accessToken;
-        }
-        return $params;
-    }
-
-    protected function sendUploadFileRequest($url, array $otherQuery, $media, array $options = array('fieldName'=>'media'))
+    public function sendUploadFileRequest($url, array $otherQuery, $media, array $options = array('fieldName'=>'media'))
     {
         $client = new \GuzzleHttp\Client();
         $query = $this->getQueryParam4AccessToken();
@@ -340,6 +247,57 @@ class Request
         } else {
             throw new Exception("微信服务器未有效的响应请求");
         }
+    }
+
+    /**
+     * 将指定文件名和内容的数据，保存到临时文件中，在析构函数中删除临时文件
+     *
+     * @param string $fileName            
+     * @param bytes $fileBytes            
+     * @return string
+     */
+    protected function saveAsTemp($fileName, $fileBytes)
+    {
+        $this->_tmp = sys_get_temp_dir() . '/temp_files_' . $fileName;
+        file_put_contents($this->_tmp, $fileBytes);
+        return $this->_tmp;
+    }
+
+    protected function getJson($response)
+    {
+        try {
+            $body = $response->getBody();
+            if ($this->_json) {
+                $json = json_decode($body, true);
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    throw new \InvalidArgumentException('Unable to parse JSON data: ');
+                }
+                return $json;
+            } else {
+                return $body;
+            }
+        } catch (\Exception $e) {
+            $body = $response->getBody();
+            if ($this->_json) {
+                $body = substr(str_replace('\"', '"', json_encode($body, JSON_UNESCAPED_SLASHES)), 1, - 1);
+                $json = json_decode($body, true);
+                if (JSON_ERROR_NONE !== json_last_error()) {
+                    throw new \InvalidArgumentException('Unable to parse JSON data: ');
+                }
+                return $json
+            } else {
+                return $body;
+            }
+        }
+    }
+
+    protected function getQueryParam4AccessToken()
+    {
+        $params = array();
+        if (! empty($this->_accessTokenName) && ! empty($this->_accessToken)) {
+            $params[$this->_accessTokenName] = $this->_accessToken;
+        }
+        return $params;
     }
 
     public function __destruct()

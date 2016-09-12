@@ -21,8 +21,7 @@ use Weixin\Client;
  * 微信服务器不会对此作任何处理，并且不会发起重试。
  * 这种情况下，可以使用客服消息接口进行异步回复。
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Reply
 {

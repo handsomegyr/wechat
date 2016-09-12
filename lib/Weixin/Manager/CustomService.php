@@ -9,8 +9,7 @@ use Weixin\Client;
  * 包括客服和用户会话的所有消息记录和会话的创建、关闭等操作记录。
  * 利用此接口可以开发如“消息记录”、“工作监控”、“客服绩效考核”等功能。
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class CustomService
 {
@@ -329,7 +328,11 @@ class CustomService
      */
     public function kfacountUploadheadimg($kf_account, $media)
     {
-        $rst = $this->_request->uploadheadimg4KfAcount($kf_account, $media);
+        $query = array(
+            'kf_account' => $kf_account
+        );
+        $rst = $this->_request->sendUploadFileRequest('https://api.weixin.qq.com/customservice/kfacount/uploadheadimg', $query, $media);
+        
         return $this->_client->rst($rst);
     }
 

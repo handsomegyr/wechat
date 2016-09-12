@@ -12,8 +12,7 @@ use Weixin\Client;
  * 公众号可通过本接口来根据OpenID获取用户基本信息，
  * 包括昵称、头像、性别、所在城市、语言和关注时间。
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class User
 {

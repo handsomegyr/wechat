@@ -1,7 +1,7 @@
 <?php
 /**
  * 获取微信服务端使用的accessToken
- * @author young
+ * @author guoyongrong <handsomegyr@126.com>
  *
  */
 namespace Weixin;

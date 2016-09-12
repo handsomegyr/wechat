@@ -4,7 +4,7 @@ namespace Weixin;
 /**
  * Defines a few helper methods.
  *
- * @author guoyongrong <handsomegyr@gmail.com>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Helpers
 {

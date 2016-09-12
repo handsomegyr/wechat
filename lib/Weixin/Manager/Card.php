@@ -18,8 +18,7 @@ use Weixin\Model\CardBase;
  * 详情参考正文（2.2 添加到卡包JS API 、3.2 拉起卡券列表JSAPI）。
  * 所有API 接口POST 的数据只支持utf8 编码。
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Card
 {

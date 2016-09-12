@@ -11,7 +11,7 @@
  * 3、素材的格式大小等要求与公众平台官网一致。具体是，图片大小不超过2M，支持bmp/png/jpeg/jpg/gif格式，语音大小不超过5M，长度不超过60秒，支持mp3/wma/wav/amr格式
  * 4、调用该接口需https协议
  *
- * @author guoyongrong <handsomegyr@gmail.com>
+ * @author guoyongrong <handsomegyr@126.com>
  *        
  */
 namespace Weixin\Manager;

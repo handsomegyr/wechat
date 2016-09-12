@@ -8,7 +8,7 @@ use Weixin\Http\Request;
 /**
  * 微信支付接口
  *
- * @author guoyongrong <handsomegyr@gmail.com>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Pay337
 {

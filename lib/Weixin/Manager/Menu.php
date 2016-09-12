@@ -3,8 +3,7 @@
  * 自定义菜单接口
  * 自定义菜单能够帮助公众号丰富界面，
  * 让用户更好更快地理解公众号的功能。
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 namespace Weixin\Manager;
 

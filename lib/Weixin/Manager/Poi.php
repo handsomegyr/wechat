@@ -24,8 +24,7 @@ use Weixin\Client;
  * 新的最新字段，但并不是最终结果，仍需等待微信编辑对扩展字段的建议进行采纳后，最
  * 终决定是否生效（有可能更新字段不被采纳） ；
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Poi
 {

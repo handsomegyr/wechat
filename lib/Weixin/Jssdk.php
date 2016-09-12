@@ -8,8 +8,7 @@ use Weixin\Http\Request;
 /**
  * 微信JS-SDK
  *
- * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
+ * @author guoyongrong <handsomegyr@126.com>
  */
 class Jssdk
 {

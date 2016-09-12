@@ -284,7 +284,7 @@ class Request
                 if (JSON_ERROR_NONE !== json_last_error()) {
                     throw new \InvalidArgumentException('Unable to parse JSON data: ');
                 }
-                return $json
+                return $json;
             } else {
                 return $body;
             }

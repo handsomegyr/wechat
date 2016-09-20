@@ -554,11 +554,12 @@ class Card
      *
      * @return mixed
      */
-    public function batchget($offset = 0, $count = 50)
+    public function batchget($offset = 0, $count = 50,$status_list=[])
     {
         $params = array();
         $params['offset'] = $offset;
         $params['count'] = min($count, 50);
+        $params['status_list'] =$status_list;
         $rst = $this->_request->post($this->_url . 'card/batchget', $params);
         return $this->_client->rst($rst);
     }

@@ -94,6 +94,7 @@ class BaseInfo
      * 否
      */
     public $location_id_list = NULL;
+    public $use_all_locations=true;
 
     /**
      * use_custom_code
@@ -285,7 +286,6 @@ class BaseInfo
      * 否
      */
     public $url_name_type = NULL;
-
     /**
      * promotion_url_name_type
      * 特殊权限自定义 cell，权限需单独开通。
@@ -293,6 +293,7 @@ class BaseInfo
      */
     public $promotion_url_name_type = NULL;
 
+    public $sub_merchant_info=NULL;
     public function __construct($logo_url, $brand_name, $code_type, $title, $color, $notice, $description, DateInfo $date_info = NULL, Sku $sku = NULL)
     {
         if ($this->isNotNull($date_info) && ! $date_info instanceof DateInfo)
@@ -321,7 +322,9 @@ class BaseInfo
 		$objBase->set_can_give_friend(NULL);
 		return $objBase;
 	}
-	
+    public function set_sub_merchant_info(SubMerchantInfo $subMerchantInfo){
+        $this->sub_merchant_info=$subMerchantInfo;
+    }
     public function set_sub_title($sub_title)
     {
         $this->sub_title = $sub_title;
@@ -331,7 +334,9 @@ class BaseInfo
     {
         $this->location_id_list = $location_id_list;
     }
-
+    public function set_use_all_locations($b){
+        $this->use_all_locations=$b;
+    }
     public function set_use_custom_code($use_custom_code)
     {
         $this->use_custom_code = $use_custom_code;
@@ -494,6 +499,9 @@ class BaseInfo
         if ($this->isNotNull($this->date_info)) {
             $params['date_info'] = $this->date_info->getParams();
         }
+        if ($this->isNotNull($this->sub_merchant_info)) {
+            $params['sub_merchant_info'] = $this->sub_merchant_info->getParams();
+        }
         if ($this->isNotNull($this->sku)) {
             $params['sku'] = $this->sku->getParams();
         }
@@ -548,6 +556,9 @@ class BaseInfo
         }
         if ($this->isNotNull($this->center_url)) {
             $params['center_url'] = $this->center_url;
+        }
+        if ($this->isNotNull($this->use_all_locations)) {
+            $params['use_all_locations'] = $this->use_all_locations;
         }
         /**
          * 以下字段都是用以微信摇一摇的时候设置

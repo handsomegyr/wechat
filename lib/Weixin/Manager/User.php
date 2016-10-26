@@ -70,7 +70,15 @@ class User
         $rst = $this->_request->get($this->_url . 'user/get', $params);
         return $this->_client->rst($rst);
     }
-
+    /**
+     * 批量获取用户信息
+     */
+    public function getUserInfoBatchget($userList){
+        $params = array();
+        $params['user_list'] = $userList;
+        $rst = $this->_request->post($this->_url . 'user/info/batchget', $params);
+        return $this->_client->rst($rst);
+    }
     /**
      * 设置备注名
      * 开发者可以通过该接口对指定用户设置备注名，该接口暂时开放给微信认证的服务号

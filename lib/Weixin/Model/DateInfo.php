@@ -10,6 +10,8 @@ class DateInfo
     /**
      * type
      * 使用时间的类型是1：固定日期区间，2：固定时长（自领取后按天算）
+     * DATE_TYPE_FIX_TIME_RANGE 表示固定日期区间，
+     * DATE_TYPE_FIX_TERM表示固定时长（自领取后按天算。
      * 是
      */
     public $type = NULL;
@@ -45,19 +47,18 @@ class DateInfo
 
     public function __construct($type, $begin_timestamp, $end_timestamp, $fixed_term, $fixed_begin_term)
     {
-        if (! is_int($type))
-            exit("DateInfo.type must be integer");
-        
+        // if (! is_int($type))
+        // exit("DateInfo.type must be integer");
         $this->type = $type;
-        if ($type == 1)         // 固定日期区间
-        {
+        // 固定日期区间
+        if ($type === 1 || 'DATE_TYPE_FIX_TIME_RANGE' == $type) {
             if (! is_int($begin_timestamp) || ! is_int($end_timestamp))
                 exit("begin_timestamp and  end_timestamp must be integer");
             $this->begin_timestamp = $begin_timestamp;
             $this->end_timestamp = $end_timestamp;
         } else 
-            if ($type == 2)             // 固定时长（自领取后多少天内有效）
-            {
+            // 固定时长（自领取后多少天内有效）
+            if ($type === 2 || 'DATE_TYPE_FIX_TERM' == $type) {
                 if (! is_int($fixed_term) || ! is_int($fixed_begin_term))
                     exit("fixed_term must be integer");
                 $this->fixed_term = $fixed_term;
@@ -88,7 +89,7 @@ class DateInfo
         
         return $params;
     }
-    
+
     protected function isNotNull($var)
     {
         return ! is_null($var);

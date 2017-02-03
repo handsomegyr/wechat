@@ -248,6 +248,9 @@ class Card
     {
         $params = array();
         $params['action_name'] = "QR_CARD";
+        if (! empty($expire_seconds)) {
+            $params['expire_seconds'] = $expire_seconds;
+        }
         $params['action_info']['card'] = array();
         $params['action_info']['card']['card_id'] = $card_id;
         if (! empty($code)) {
@@ -256,9 +259,7 @@ class Card
         if (! empty($openid)) {
             $params['action_info']['card']['openid'] = $openid;
         }
-        if (! empty($expire_seconds)) {
-            $params['action_info']['card']['expire_seconds'] = $expire_seconds;
-        }
+        
         $params['action_info']['card']['is_unique_code'] = $is_unique_code;
         
         if (! empty($balance)) {
@@ -554,12 +555,12 @@ class Card
      *
      * @return mixed
      */
-    public function batchget($offset = 0, $count = 50,$status_list=[])
+    public function batchget($offset = 0, $count = 50, $status_list = [])
     {
         $params = array();
         $params['offset'] = $offset;
         $params['count'] = min($count, 50);
-        $params['status_list'] =$status_list;
+        $params['status_list'] = $status_list;
         $rst = $this->_request->post($this->_url . 'card/batchget', $params);
         return $this->_client->rst($rst);
     }

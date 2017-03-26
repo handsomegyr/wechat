@@ -107,4 +107,36 @@ class Device
         $rst = $this->_request->post($this->_url . 'group/deletedevice', $params);
         return $this->_client->rst($rst);
     }
+    /**
+     * 设备申请
+     */
+    public function applyid($quantity,$apply_reason,$comment,$poi_id){
+        $params=array(
+            'quantity'=>$quantity,
+            'apply_reason'=>$apply_reason,
+            'comment'=>$comment,
+            'poi_id'=>$poi_id,
+        );
+        print_r($params);
+        $rst = $this->_request->post($this->_url . 'applyid', $params);
+        return $this->_client->rst($rst);
+    }
+    /**
+     * 查询所有设备
+     */
+    public function search($type,$device_identifiers,$device_id,$UUID,$major,$minor,$apply_id,$last_seen,$count){
+        $params=array(
+            'type'=>$type,
+            'device_identifiers'=>$device_identifiers,
+            'device_id'=>$device_id,
+            'UUID'=>$UUID,
+            'major'=>$major,
+            'minor'=>$minor,
+            'apply_id'=>$apply_id,
+            'last_seen'=>$last_seen,
+            'count'=>$count,
+        );
+        $rst = $this->_request->post($this->_url . 'search', $params);
+        return $this->_client->rst($rst);
+    }
 }

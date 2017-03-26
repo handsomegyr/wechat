@@ -259,14 +259,12 @@ class Card
         if (! empty($openid)) {
             $params['action_info']['card']['openid'] = $openid;
         }
-        
         $params['action_info']['card']['is_unique_code'] = $is_unique_code;
         
         if (! empty($balance)) {
             $params['action_info']['card']['balance'] = $balance;
         }
         $params['action_info']['card']['outer_id'] = $outer_id;
-        
         $rst = $this->_request->post($this->_url . 'card/qrcode/create', $params);
         return $this->_client->rst($rst);
     }

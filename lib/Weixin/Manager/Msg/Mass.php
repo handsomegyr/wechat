@@ -230,13 +230,15 @@ class Mass
      * @param string $description
      * @return array
      */
-    public function sendGraphTextByTag($tag_id, $media_id,$is_to_all=false )
+    public function sendGraphTextByTag($tag_id, $media_id,$is_to_all=false,$send_ignore_reprint=1 )
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
         $ret['msgtype'] = 'mpnews';
         $ret['mpnews']['media_id'] = $media_id;
+        $ret['send_ignore_reprint'] = $send_ignore_reprint;
+
         return $this->sendAll($ret);
     }
     /**
@@ -383,7 +385,7 @@ class Mass
      * @param string $description            
      * @return array
      */
-    public function sendGraphTextByOpenid(array $toUsers, $media_id, $title = "", $description = "")
+    public function sendGraphTextByOpenid(array $toUsers, $media_id, $title = "", $description = "",$send_ignore_reprint=1)
     {
         $ret = array();
         $ret['touser'] = $toUsers;
@@ -391,6 +393,7 @@ class Mass
         $ret['mpnews']['media_id'] = $media_id;
         $ret['mpnews']['title'] = $title;
         $ret['mpnews']['description'] = $description;
+        $ret['send_ignore_reprint'] = $send_ignore_reprint;
         return $this->send($ret);
     }
 
@@ -438,6 +441,21 @@ class Mass
     public function preview($params)
     {
         $rst = $this->_request->post($this->_url . "message/mass/preview", $params);
+        return $this->_client->rst($rst);
+    }
+    /**
+     * 预览接口【订阅号与服务号认证后均可用】
+     * 开发者可通过该接口发送消息给指定用户，在手机端查看消息的样式和排版。
+     *
+     * @param array $params
+     * @return array
+     */
+    public function get($msg_id)
+    {
+        $params=[
+            "msg_id"=> $msg_id
+        ];
+        $rst = $this->_request->post($this->_url . "message/mass/get", $params);
         return $this->_client->rst($rst);
     }
 }

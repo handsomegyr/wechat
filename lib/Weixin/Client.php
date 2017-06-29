@@ -13,6 +13,7 @@ use Weixin\Manager\Groups;
 use Weixin\Manager\Qrcode;
 use Weixin\Manager\Menu;
 use Weixin\Manager\Shakearound\Device;
+use Weixin\Manager\Shakearound\Page;
 use Weixin\Manager\User;
 use Weixin\Manager\Sns\User as SnsUser;
 use Weixin\Manager\Media;
@@ -269,6 +270,15 @@ class Client
     public function getDeviceManager()
     {
         return new Device($this);
+    }
+    /**
+     * 获取周边摇一摇 页面管理器
+     *
+     * @return \Weixin\Manager\Shakearound\Page
+     */
+    public function getPageManager()
+    {
+        return new Page($this);
     }
     /**
      * 素材管理器

@@ -117,8 +117,17 @@ class Device
             'comment'=>$comment,
             'poi_id'=>$poi_id,
         );
-        print_r($params);
         $rst = $this->_request->post($this->_url . 'applyid', $params);
+        return $this->_client->rst($rst);
+    }
+    /**
+     * 查询设备ID申请的审核状态
+     */
+    public function applyStatus($apply_id){
+        $params=array(
+            'apply_id'=>$apply_id,
+        );
+        $rst = $this->_request->post($this->_url . 'applystatus', $params);
         return $this->_client->rst($rst);
     }
     /**
@@ -137,6 +146,22 @@ class Device
             'count'=>$count,
         );
         $rst = $this->_request->post($this->_url . 'search', $params);
+        return $this->_client->rst($rst);
+    }
+    /**
+     * 配置设备与页面的关联关系
+     */
+    public function bindpage($device_id="",$uuid="",$major="",$minor="",array $page_ids=[]){
+        $params=array(
+            'device_identifier'=>[
+                "device_id"=>$device_id,
+                "uuid"=>$uuid,
+                "major"=>$major,
+                "minor"=>$minor
+            ],
+            'page_ids'=>$page_ids,
+        );
+        $rst = $this->_request->post($this->_url . 'bindpage', $params);
         return $this->_client->rst($rst);
     }
 }

@@ -444,8 +444,7 @@ class Mass
         return $this->_client->rst($rst);
     }
     /**
-     * 预览接口【订阅号与服务号认证后均可用】
-     * 开发者可通过该接口发送消息给指定用户，在手机端查看消息的样式和排版。
+     * 查询群发消息发送状态【订阅号与服务号认证后均可用】
      *
      * @param array $params
      * @return array

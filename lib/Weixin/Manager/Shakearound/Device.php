@@ -7,7 +7,7 @@ use Weixin\Client;
  * 设备信息
  *
  * @author happy
- *        
+ *
  */
 class Device
 {
@@ -151,16 +151,19 @@ class Device
     /**
      * 配置设备与页面的关联关系
      */
-    public function bindpage($device_id="",$uuid="",$major="",$minor="",array $page_ids=[]){
+    public function bindpage($device_id=null,array $page_ids,$uuid="",$major="",$minor=""){
         $params=array(
             'device_identifier'=>[
-                "device_id"=>$device_id,
                 "uuid"=>$uuid,
                 "major"=>$major,
                 "minor"=>$minor
             ],
             'page_ids'=>$page_ids,
         );
+        $device_id=intval($device_id);
+        if($device_id>0){
+            $params['device_identifier']['device_id']=$device_id;
+        }
         $rst = $this->_request->post($this->_url . 'bindpage', $params);
         return $this->_client->rst($rst);
     }

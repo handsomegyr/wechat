@@ -4,13 +4,13 @@ require_once '../vendor/autoload.php';
 try {
     // 集资购
     $openid = 'o4ELSvz-B4_DThF0Vpfrverk3IpY';
-    $appid = "xxxxxxx"; // appID
-    $secret = "xxxxxxx"; // appsecret
+    $appid = "wxbf9165206b992f39"; // appID
+    $secret = "08f81abfab87863a1de2cf13af417a55"; // appsecret
                                                   
     // 获得access_token
                                                   
     // doGetAccessTokenTest($appid, $secret);
-    $access_token = "xxxxxxxx";
+    $access_token = "yMzBpLlUQFcQhjwEgv0AVeMhRc6pFu0mV0XOqCje7EKNgzTrQKh-Byj-IWRvktEiA4QOfiHI-W8xQR6AAObi_364UwQSHTNo272Ix6OW9jEFAGgADAOJP";
     
     // JSSDK
     
@@ -90,9 +90,9 @@ function doJssdkTest($appid, $secret, $access_token)
 
 function doIpTest($client)
 {
-    echo "<br/>获取微信服务器IP地址接口<br/>";
-    $ret = $client->getIpManager()->getcallbackip();
-    print_r($ret);
+    // echo "<br/>获取微信服务器IP地址接口<br/>";
+    // $ret = $client->getIpManager()->getcallbackip();
+    // print_r($ret);
 }
 
 function doGroupTest($client)
@@ -175,11 +175,11 @@ function doMsgTest($client)
     // print_r($ret);
     
     // echo "<br/>发送客服消息接口<br/>";
-    // $content = '我是郭永荣' . uniqid();
-    // $ret = $client->getMsgManager()
-    // ->getCustomSender()
-    // ->sendText($toUser, $content);
-    // print_r($ret);
+    $content = '<a href="http://wwww.baidu.com/">我是郭永荣</a>';
+    $ret = $client->getMsgManager()
+        ->getCustomSender()
+        ->sendText($toUser, $content);
+    print_r($ret);
     
     // echo "<br/>获取设置的行业信息<br/>";
     // $ret = $client->getMsgManager()
@@ -314,7 +314,7 @@ function doMenuTest($client)
 function doCustomServiceTest($client)
 {
     // // 客服消息
-    // $openid = 'o4ELSvz-B4_DThF0Vpfrverk3IpY';
+    $openid = 'o4ELSvz-B4_DThF0Vpfrverk3IpY';
     
     // echo "<br/>上传客服头像接口<br/>";
     // $media = __DIR__ . '/111.jpg';
@@ -453,15 +453,15 @@ function doMaterialTest($client)
     // $count = 20;
     // $ret = $client->getMaterialManager()->batchGetMaterial($type, $offset, $count);
     // print_r($ret);
-    echo "<br/>新增其他类型永久素材接口<br/>";
-    $type = 'image';
-    $media = __DIR__ . '/111.jpg';
-    $description = array(
-        "title" => 'VIDEO_TITLE',
-        "introduction" => 'INTRODUCTION'
-    );
-    $ret = $client->getMaterialManager()->addMaterial($type, $media, $description);
-    print_r($ret);
+    // echo "<br/>新增其他类型永久素材接口<br/>";
+    // $type = 'image';
+    // $media = __DIR__ . '/111.jpg';
+    // $description = array(
+    // "title" => 'VIDEO_TITLE',
+    // "introduction" => 'INTRODUCTION'
+    // );
+    // $ret = $client->getMaterialManager()->addMaterial($type, $media, $description);
+    // print_r($ret);
     // // [media_id] => 9hlY6SpfMJHSxL7ZUJ3v9kZLCp0AamZ904uNkp4jkzA [url] => https:\/\/mmbiz.qlogo.cn\/mmbiz\/OEUan7AibOibQiaVJKrsNHwsS1sib1XRPYTx5qJCmL8fwT5iarYiaxhG5fDDric0UiayUia89ibf1PgfW1UbTsktqHMuotFQ\/0?wx_fmt=jpeg
     
     // echo "<br/>新增永久图文素材接口<br/>";
@@ -659,6 +659,7 @@ function doMediaTest($client)
     // $media = __DIR__ . '/111.jpg';
     // $ret = $client->getMediaManager()->upload('image', $media);
     // print_r($ret);
+    // die('sfsd');
     // echo "<br/>上传图片接口-本地文件<br/>";
     // $media = __DIR__ . '/111.jpg';
     // $ret = $client->getMediaManager()->uploadImg($media);
@@ -670,10 +671,9 @@ function doMediaTest($client)
     // $media = 'http://mmbiz.qpic.cn/mmbiz/OEUan7AibOibTLQIuXPI9KZ7cLnOadiaMI76DI7gT4XTM2vyu9G3G6cqtiaAQUUfIxDOErgZq94ShwX6aovNRZdTHw/0';
     // $ret = $client->getMediaManager()->uploadImg($media);
     // print_r($ret);
-    
     // echo "<br/>获取临时素材接口<br/>";
     // // $mediaId = $ret['media_id'];
-    // $mediaId = 'HWtby8qXD5ClD1VAfkCVo5Yf-e3b6e7GCBKqth542D8qqeYt7iTEfdCaWjQ3O3dr';
+    // $mediaId = 'mucsxFRCO8pglwMZbvX9LA6lEeWiXZCxzcK6ZEsSLWGCL0PDOQTxN4KukTcZotLb';
     // $ret = $client->getMediaManager()->download($mediaId);
     // print_r($ret);
     

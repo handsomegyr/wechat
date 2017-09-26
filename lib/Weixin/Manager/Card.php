@@ -25,7 +25,7 @@ class Card
     // 接口地址
     private $_url = 'https://api.weixin.qq.com/';
 
-    private $_url2 = 'http://api.weixin.qq.com/';
+    private $_url2 = 'https://api.weixin.qq.com/';
 
     private $_client;
 

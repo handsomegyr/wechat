@@ -275,7 +275,7 @@ class MemberCard extends CardBase
         $this->discount = $discount;
     }
 
-    protected function getParams()
+    public function getParams()
     {
         $params = array();
         if ($this->isNotNull($this->supply_bonus)) {

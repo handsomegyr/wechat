@@ -29,7 +29,7 @@ use Weixin\Client;
 class Poi
 {
     // 接口地址
-    private $_url = 'http://api.weixin.qq.com/cgi-bin/';
+    private $_url = 'https://api.weixin.qq.com/cgi-bin/';
 
     private $_client;
 

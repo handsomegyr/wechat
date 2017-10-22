@@ -2,11 +2,10 @@
 namespace Weixin\ThirdParty\AesCrypt;
 
 use Weixin\ThirdParty\AesCrypt\WXBizMsgCrypt;
-
 $appid = 'wx4f4bc4dec97d474b';
 $sessionKey = 'tiihtNczf5v6AKRyjwEUhQ==';
 
-$encryptedData="CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
+$encryptedData = "CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
                 QmRzooG2xrDcvSnxIMXFufNstNGTyaGS
                 9uT5geRa0W4oTOb1WT7fJlAC+oNPdbB+
                 3hVbJSRgv+4lGOETKUQz6OYStslQ142d
@@ -27,7 +26,7 @@ $encryptedData="CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
 $iv = 'r7BXXKkLb8qrSNn05n0qiA==';
 
 $pc = new WXBizDataCrypt($appid, $sessionKey);
-$errCode = $pc->decryptData($encryptedData, $iv, $data );
+$errCode = $pc->decryptData($encryptedData, $iv, $data);
 
 if ($errCode == 0) {
     print($data . "\n");

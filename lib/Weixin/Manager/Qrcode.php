@@ -80,15 +80,23 @@ class Qrcode
     {
         $params = array();
         if ($isTemporary) {
+<<<<<<< HEAD
             $params['expire_seconds'] = min($expire_seconds, 2592000);
+=======
+			$params['expire_seconds'] = min($expire_seconds, 2592000);
+>>>>>>> origin/master
             if (is_numeric($scene_id)) {
                 $params['action_name'] = "QR_SCENE";
                 $params['action_info']['scene']['scene_id'] = $scene_id;
             } else {
                 $params['action_name'] = "QR_STR_SCENE";
                 $params['action_info']['scene']['scene_str'] = $scene_id;
+<<<<<<< HEAD
             }
 
+=======
+            }			
+>>>>>>> origin/master
         } else {
             if (is_numeric($scene_id)) {
                 $params['action_name'] = "QR_LIMIT_SCENE";

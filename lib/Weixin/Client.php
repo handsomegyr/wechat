@@ -26,6 +26,8 @@ use Weixin\Manager\Datacube;
 use Weixin\Manager\Poi;
 use Weixin\Manager\Material;
 use Weixin\Manager\Tags;
+use Weixin\Manager\Giftcard;
+
 class Client
 {
 
@@ -157,12 +159,15 @@ class Client
     {
         return new Menu($this);
     }
+
     /**
      * 获取标签管理
      */
-    public function getTagsManager(){
+    public function getTagsManager()
+    {
         return new Tags($this);
     }
+
     /**
      * 获取分组管理器
      *
@@ -234,6 +239,16 @@ class Client
     }
 
     /**
+     * 获取礼品卡券接口管理器
+     *
+     * @return \Weixin\Manager\Giftcard
+     */
+    public function getGiftCardManager()
+    {
+        return new Giftcard($this);
+    }
+
+    /**
      * 获取微信服务器IP地址管理器
      *
      * @return \Weixin\Manager\Ip
@@ -262,7 +277,8 @@ class Client
     {
         return new Poi($this);
     }
-     /**
+
+    /**
      * 获取周边摇一摇 设备管理器
      *
      * @return \Weixin\Manager\Shakearound\Device
@@ -271,6 +287,7 @@ class Client
     {
         return new Device($this);
     }
+
     /**
      * 获取周边摇一摇 页面管理器
      *
@@ -280,6 +297,7 @@ class Client
     {
         return new Page($this);
     }
+
     /**
      * 素材管理器
      *
@@ -288,6 +306,16 @@ class Client
     public function getMaterialManager()
     {
         return new Material($this);
+    }
+
+    /**
+     * 获取小程序总调度器
+     *
+     * @return \Weixin\Wx\Client
+     */
+    public function getWxClient()
+    {
+        return new \Weixin\Wx\Client($this);
     }
 
     /**

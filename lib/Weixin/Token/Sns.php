@@ -135,6 +135,23 @@ class Sns
         return $response;
     }
 
+    /**
+     * code 换取 session_key
+     *
+     * @throws Exception
+     * @return array
+     */
+    public function getJscode2session($js_code)
+    {
+        if (empty($js_code)) {
+            throw new Exception('js_code不能为空');
+        }
+        $response = file_get_contents("https://api.weixin.qq.com/sns/jscode2session?appid={$this->_appid}&secret={$this->_secret}&js_code={$js_code}&grant_type=authorization_code", false, $this->_context);
+        $response = json_decode($response, true);
+        
+        return $response;
+    }
+
     public function __destruct()
     {}
 }

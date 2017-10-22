@@ -4,7 +4,7 @@ namespace Weixin\Model;
 /**
  * 积分规则。用于微信买单功能。
  */
-class BonusRule
+class BonusRule extends Base
 {
 
     /**
@@ -86,10 +86,5 @@ class BonusRule
             $params['max_reduce_bonus'] = $this->max_reduce_bonus;
         }
         return $params;
-    }
-
-    protected function isNotNull($var)
-    {
-        return ! is_null($var);
     }
 }

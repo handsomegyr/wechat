@@ -4,7 +4,7 @@ namespace Weixin\Model;
 /**
  * 使用日期，有效期的信息
  */
-class DateInfo
+class DateInfo extends Base
 {
 
     /**
@@ -88,10 +88,5 @@ class DateInfo
         }
         
         return $params;
-    }
-
-    protected function isNotNull($var)
-    {
-        return ! is_null($var);
     }
 }

@@ -4,14 +4,14 @@ namespace Weixin\Model;
 /**
  * 子商户信息
  */
-class SubMerchantInfo
+class SubMerchantInfo extends Base
 {
 
-    private $merchant_id=NULL;
+    private $merchant_id = NULL;
 
     public function __construct($merchant_id)
     {
-        $this->merchant_id=$merchant_id;
+        $this->merchant_id = $merchant_id;
     }
 
     public function getParams()
@@ -22,10 +22,5 @@ class SubMerchantInfo
             $params['merchant_id'] = $this->merchant_id;
         }
         return $params;
-    }
-    
-    protected function isNotNull($var)
-    {
-        return ! is_null($var);
     }
 }

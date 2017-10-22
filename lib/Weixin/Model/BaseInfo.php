@@ -4,7 +4,7 @@ namespace Weixin\Model;
 /**
  * 基本的卡券数据
  */
-class BaseInfo
+class BaseInfo extends Base
 {
 
     /**
@@ -94,7 +94,8 @@ class BaseInfo
      * 否
      */
     public $location_id_list = NULL;
-    public $use_all_locations=true;
+
+    public $use_all_locations = true;
 
     /**
      * use_custom_code
@@ -189,7 +190,7 @@ class BaseInfo
     /**
      * center_title
      * 否
-     * string（18）	立即使用
+     * string（18） 立即使用
      * 卡券顶部居中的按钮，仅在卡券状态正常(可以核销)时显示，建议开发者设置此按钮时code_type选择CODE_TYPE_NONE类型。
      */
     public $center_title = NULL;
@@ -197,7 +198,7 @@ class BaseInfo
     /**
      * center_sub_title
      * 否
-     * string（24）	立即享受优惠
+     * string（24） 立即享受优惠
      * 显示在入口下方的提示语，仅在卡券状态正常(可以核销)时显示。
      */
     public $center_sub_title = NULL;
@@ -205,7 +206,7 @@ class BaseInfo
     /**
      * center_url
      * 否
-     * string（128）	www.xxx.com
+     * string（128） www.xxx.com
      * 顶部居中的url，仅在卡券状态正常(可以核销)时显示。
      */
     public $center_url = NULL;
@@ -286,14 +287,46 @@ class BaseInfo
      * 否
      */
     public $url_name_type = NULL;
+
     /**
      * promotion_url_name_type
      * 特殊权限自定义 cell，权限需单独开通。
      * 否
      */
     public $promotion_url_name_type = NULL;
+    
+    // -----以下字段在礼品卡所用--------------
+    /**
+     * max_give_friend_times
+     * 礼品卡最大可赠送次数
+     * 是
+     */
+    public $max_give_friend_times = NULL;
 
-    public $sub_merchant_info=NULL;
+    /**
+     * giftcard_info price
+     * 礼品卡的价格，以分为单位
+     *
+     * @var GiftcardInfo
+     */
+    public $giftcard_info = NULL;
+
+    /**
+     * use_dynamic_code
+     * 是否使用动态码
+     * 否
+     */
+    public $use_dynamic_code = NULL;
+
+    /**
+     * need_push_on_view
+     * true为用户点击进入礼品卡时是否推送事件。
+     * 否
+     */
+    public $need_push_on_view = NULL;
+
+    public $sub_merchant_info = NULL;
+
     public function __construct($logo_url, $brand_name, $code_type, $title, $color, $notice, $description, DateInfo $date_info = NULL, Sku $sku = NULL)
     {
         if ($this->isNotNull($date_info) && ! $date_info instanceof DateInfo)
@@ -311,20 +344,23 @@ class BaseInfo
         $this->date_info = $date_info;
         $this->sku = $sku;
     }
-	
-	public static function getEmptyBaseInfo()
-	{
-		$objBase = new BaseInfo(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-		$objBase->set_get_custom_code_mode(NULL);
-		$objBase->set_use_custom_code(NULL);
-		$objBase->set_bind_openid(NULL);
-		$objBase->set_can_share(NULL);
-		$objBase->set_can_give_friend(NULL);
-		return $objBase;
-	}
-    public function set_sub_merchant_info(SubMerchantInfo $subMerchantInfo){
-        $this->sub_merchant_info=$subMerchantInfo;
+
+    public static function getEmptyBaseInfo()
+    {
+        $objBase = new BaseInfo(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        $objBase->set_get_custom_code_mode(NULL);
+        $objBase->set_use_custom_code(NULL);
+        $objBase->set_bind_openid(NULL);
+        $objBase->set_can_share(NULL);
+        $objBase->set_can_give_friend(NULL);
+        return $objBase;
     }
+
+    public function set_sub_merchant_info(SubMerchantInfo $subMerchantInfo)
+    {
+        $this->sub_merchant_info = $subMerchantInfo;
+    }
+
     public function set_sub_title($sub_title)
     {
         $this->sub_title = $sub_title;
@@ -334,9 +370,12 @@ class BaseInfo
     {
         $this->location_id_list = $location_id_list;
     }
-    public function set_use_all_locations($b){
-        $this->use_all_locations=$b;
+
+    public function set_use_all_locations($b)
+    {
+        $this->use_all_locations = $b;
     }
+
     public function set_use_custom_code($use_custom_code)
     {
         $this->use_custom_code = $use_custom_code;
@@ -468,6 +507,27 @@ class BaseInfo
     {
         $this->promotion_url_name_type = $promotion_url_name_type;
     }
+    
+    // -----以下字段礼品卡所用--------------
+    public function set_max_give_friend_times($max_give_friend_times)
+    {
+        $this->max_give_friend_times = $max_give_friend_times;
+    }
+
+    public function set_giftcard_info($giftcard_info)
+    {
+        $this->giftcard_info = $giftcard_info;
+    }
+
+    public function set_use_dynamic_code($use_dynamic_code)
+    {
+        $this->use_dynamic_code = $use_dynamic_code;
+    }
+
+    public function set_need_push_on_view($need_push_on_view)
+    {
+        $this->need_push_on_view = $need_push_on_view;
+    }
 
     public function getParams()
     {
@@ -586,11 +646,19 @@ class BaseInfo
         if ($this->isNotNull($this->promotion_url_name_type)) {
             $params['promotion_url_name_type'] = $this->promotion_url_name_type;
         }
+        // -----以下字段在礼品卡所用--------------
+        if ($this->isNotNull($this->max_give_friend_times)) {
+            $params['max_give_friend_times'] = $this->max_give_friend_times;
+        }
+        if ($this->isNotNull($this->giftcard_info)) {
+            $params['giftcard_info'] = $this->giftcard_info->getParams();
+        }
+        if ($this->isNotNull($this->use_dynamic_code)) {
+            $params['use_dynamic_code'] = $this->use_dynamic_code;
+        }
+        if ($this->isNotNull($this->need_push_on_view)) {
+            $params['need_push_on_view'] = $this->need_push_on_view;
+        }
         return $params;
-    }
-
-    protected function isNotNull($var)
-    {
-        return ! is_null($var);
     }
 }

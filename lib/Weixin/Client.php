@@ -27,6 +27,7 @@ use Weixin\Manager\Poi;
 use Weixin\Manager\Material;
 use Weixin\Manager\Tags;
 use Weixin\Manager\Giftcard;
+use Weixin\Manager\Comment;
 
 class Client
 {
@@ -299,13 +300,23 @@ class Client
     }
 
     /**
-     * 素材管理器
+     * 获取素材-永久素材管理器
      *
      * @return \Weixin\Manager\Material
      */
     public function getMaterialManager()
     {
         return new Material($this);
+    }
+
+    /**
+     * 评论数据管理器
+     *
+     * @return \Weixin\Manager\Comment
+     */
+    public function getCommentManager()
+    {
+        return new Comment($this);
     }
 
     /**

@@ -57,7 +57,9 @@ class Material
      * "digest": DIGEST,
      * "show_cover_pic": SHOW_COVER_PIC(0 / 1),
      * "content": CONTENT,
-     * "content_source_url": CONTENT_SOURCE_URL
+     * "content_source_url": CONTENT_SOURCE_URL,
+     * "need_open_comment" : NEED_OPEN_COMMENT（0/1）,
+     * "only_fans_can_comment" : ONLY_FANS_CAN_COMMENT（0/1）
      * },
      * //若新增的是多图文素材，则此处应还有几段articles结构
      * ]
@@ -72,6 +74,9 @@ class Material
      * show_cover_pic 是 是否显示封面，0为false，即不显示，1为true，即显示
      * content 是 图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS
      * content_source_url 是 图文消息的原文地址，即点击“阅读原文”后的URL
+     * need_open_comment（新增字段） 否 Uint32 是否打开评论，0不打开，1打开
+     * only_fans_can_comment（新增字段） 否 Uint32 是否粉丝才可评论，0所有人可评论，1粉丝才可评论
+     *
      * 返回说明
      *
      * {
@@ -111,7 +116,9 @@ class Material
      * "digest": DIGEST,
      * "show_cover_pic": SHOW_COVER_PIC(0 / 1),
      * "content": CONTENT,
-     * "content_source_url": CONTENT_SOURCE_URL
+     * "content_source_url": CONTENT_SOURCE_URL,
+     * "need_open_comment" : NEED_OPEN_COMMENT（0/1）,
+     * "only_fans_can_comment" : ONLY_FANS_CAN_COMMENT（0/1）
      * }
      * }
      * 参数说明
@@ -126,6 +133,8 @@ class Material
      * show_cover_pic 是 是否显示封面，0为false，即不显示，1为true，即显示
      * content 是 图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS
      * content_source_url 是 图文消息的原文地址，即点击“阅读原文”后的URL
+     * need_open_comment（新增字段） 否 Uint32 是否打开评论，0不打开，1打开
+     * only_fans_can_comment（新增字段） 否 Uint32 是否粉丝才可评论，0所有人可评论，1粉丝才可评论
      * 返回说明
      *
      * {

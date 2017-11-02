@@ -61,16 +61,17 @@ class Mass
         $ret['text']['description'] = $description;
         return $this->sendAll($ret);
     }
+
     /**
      * 根据标签发送文本消息
      *
-     * @param string $group_id
-     * @param string $content
-     * @param string $title
-     * @param string $description
+     * @param string $group_id            
+     * @param string $content            
+     * @param string $title            
+     * @param string $description            
      * @return array
      */
-    public function sendTextByTag($tag_id, $content,$is_to_all=false)
+    public function sendTextByTag($tag_id, $content, $is_to_all = false)
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
@@ -79,6 +80,7 @@ class Mass
         $ret['text']['content'] = $content;
         return $this->sendAll($ret);
     }
+
     /**
      * 发送图片消息
      *
@@ -101,16 +103,17 @@ class Mass
         $ret['image']['description'] = $description;
         return $this->sendAll($ret);
     }
+
     /**
      * 根据标签发送图片消息
      *
-     * @param string $group_id
-     * @param string $media_id
-     * @param string $title
-     * @param string $description
+     * @param string $group_id            
+     * @param string $media_id            
+     * @param string $title            
+     * @param string $description            
      * @return array
      */
-    public function sendImageByTag($tag_id, $media_id,$is_to_all=false)
+    public function sendImageByTag($tag_id, $media_id, $is_to_all = false)
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
@@ -119,6 +122,7 @@ class Mass
         $ret['image']['media_id'] = $media_id;
         return $this->sendAll($ret);
     }
+
     /**
      * 发送语音消息
      *
@@ -141,16 +145,17 @@ class Mass
         $ret['voice']['description'] = $description;
         return $this->sendAll($ret);
     }
+
     /**
      * 根据标签发送语音消息
      *
-     * @param string $group_id
-     * @param string $media_id
-     * @param string $title
-     * @param string $description
+     * @param string $group_id            
+     * @param string $media_id            
+     * @param string $title            
+     * @param string $description            
      * @return array
      */
-    public function sendVoiceByTag($tag_id, $media_id, $is_to_all=false)
+    public function sendVoiceByTag($tag_id, $media_id, $is_to_all = false)
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
@@ -159,6 +164,7 @@ class Mass
         $ret['voice']['media_id'] = $media_id;
         return $this->sendAll($ret);
     }
+
     /**
      * 发送视频消息
      *
@@ -181,16 +187,17 @@ class Mass
         $ret['mpvideo']['description'] = $description;
         return $this->sendAll($ret);
     }
+
     /**
      * 发送视频消息
      *
-     * @param string $group_id
-     * @param string $media_id
-     * @param string $title
-     * @param string $description
+     * @param string $group_id            
+     * @param string $media_id            
+     * @param string $title            
+     * @param string $description            
      * @return array
      */
-    public function sendVideoByTag($tag_id, $media_id,$is_to_all=false)
+    public function sendVideoByTag($tag_id, $media_id, $is_to_all = false)
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
@@ -199,6 +206,7 @@ class Mass
         $ret['mpvideo']['media_id'] = $media_id;
         return $this->sendAll($ret);
     }
+
     /**
      * 发送图文消息
      *
@@ -221,16 +229,17 @@ class Mass
         $ret['mpnews']['description'] = $description;
         return $this->sendAll($ret);
     }
+
     /**
      * 发送图文消息
      *
-     * @param string $group_id
-     * @param string $media_id
-     * @param string $title
-     * @param string $description
+     * @param string $group_id            
+     * @param string $media_id            
+     * @param string $title            
+     * @param string $description            
      * @return array
      */
-    public function sendGraphTextByTag($tag_id, $media_id,$is_to_all=false,$send_ignore_reprint=1 )
+    public function sendGraphTextByTag($tag_id, $media_id, $is_to_all = false, $send_ignore_reprint = 1)
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
@@ -238,9 +247,10 @@ class Mass
         $ret['msgtype'] = 'mpnews';
         $ret['mpnews']['media_id'] = $media_id;
         $ret['send_ignore_reprint'] = $send_ignore_reprint;
-
+        
         return $this->sendAll($ret);
     }
+
     /**
      * 发送卡券消息
      *
@@ -258,31 +268,33 @@ class Mass
         }
         $ret['msgtype'] = 'wxcard';
         $ret['wxcard']['card_id'] = $card_id;
-        if(!empty($card_ext)){
-			$ret['wxcard']['card_ext'] = json_encode($card_ext);
-		}
+        if (! empty($card_ext)) {
+            $ret['wxcard']['card_ext'] = json_encode($card_ext);
+        }
         return $this->sendAll($ret);
     }
+
     /**
      * 根据标签发送卡券消息
      *
-     * @param string $group_id
-     * @param string $card_id
-     * @param array $card_ext
+     * @param string $group_id            
+     * @param string $card_id            
+     * @param array $card_ext            
      * @return array
      */
-    public function sendWxcardByTag($tag_id, $card_id, array $card_ext = array(),$is_to_all=false)
+    public function sendWxcardByTag($tag_id, $card_id, array $card_ext = array(), $is_to_all = false)
     {
         $ret = array();
         $ret['filter']['group_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
         $ret['msgtype'] = 'wxcard';
         $ret['wxcard']['card_id'] = $card_id;
-        if(!empty($card_ext)){
+        if (! empty($card_ext)) {
             $ret['wxcard']['card_ext'] = json_encode($card_ext);
         }
         return $this->sendAll($ret);
     }
+
     /**
      * 根据OpenID列表群发
      *
@@ -385,7 +397,7 @@ class Mass
      * @param string $description            
      * @return array
      */
-    public function sendGraphTextByOpenid(array $toUsers, $media_id, $title = "", $description = "",$send_ignore_reprint=1)
+    public function sendGraphTextByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 1)
     {
         $ret = array();
         $ret['touser'] = $toUsers;
@@ -411,9 +423,9 @@ class Mass
         $ret['touser'] = $toUsers;
         $ret['msgtype'] = 'wxcard';
         $ret['wxcard']['card_id'] = $card_id;
-        if(!empty($card_ext)){
-			$ret['wxcard']['card_ext'] = json_encode($card_ext);
-		} 
+        if (! empty($card_ext)) {
+            $ret['wxcard']['card_ext'] = json_encode($card_ext);
+        }
         return $this->send($ret);
     }
 
@@ -443,16 +455,17 @@ class Mass
         $rst = $this->_request->post($this->_url . "message/mass/preview", $params);
         return $this->_client->rst($rst);
     }
+
     /**
      * 查询群发消息发送状态【订阅号与服务号认证后均可用】
      *
-     * @param array $params
+     * @param array $params            
      * @return array
      */
     public function get($msg_id)
     {
-        $params=[
-            "msg_id"=> $msg_id
+        $params = [
+            "msg_id" => $msg_id
         ];
         $rst = $this->_request->post($this->_url . "message/mass/get", $params);
         return $this->_client->rst($rst);

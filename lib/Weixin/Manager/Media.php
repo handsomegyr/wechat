@@ -115,6 +115,40 @@ class Media
     }
 
     /**
+     * 高清语音素材获取接口
+     * 公众号可以使用本接口获取从JSSDK的uploadVoice接口上传的临时语音素材，格式为speex，16K采样率。该音频比上文的临时素材获取接口（格式为amr，8K采样率）更加清晰，适合用作语音识别等对音质要求较高的业务。
+     * 接口调用请求说明
+     * http请求方式: GET,https调用
+     * https://api.weixin.qq.com/cgi-bin/media/get/jssdk?access_token=ACCESS_TOKEN&media_id=MEDIA_ID
+     * 请求示例（示例为通过curl命令获取多媒体文件）
+     * curl -I -G "https://api.weixin.qq.com/cgi-bin/media/get/jssdk?access_token=ACCESS_TOKEN&media_id=MEDIA_ID"
+     * 参数说明
+     * 参数 是否必须 说明
+     * access_token 是 调用接口凭证
+     * media_id 是 媒体文件ID，即uploadVoice接口返回的serverID
+     * 返回说明
+     * 正确情况下的返回HTTP头如下：
+     * HTTP/1.1 200 OK
+     * Connection: close
+     * Content-Type: voice/speex
+     * Content-disposition: attachment; filename="MEDIA_ID.speex"
+     * Date: Sun, 06 Jan 2016 10:20:18 GMT
+     * Cache-Control: no-cache, must-revalidate
+     * Content-Length: 339721
+     * curl -G "https://api.weixin.qq.com/cgi-bin/media/get/jssdk?access_token=ACCESS_TOKEN&media_id=MEDIA_ID"
+     * 错误情况下的返回JSON数据包示例如下（示例为无效媒体ID错误）：
+     * {"errcode":40007,"errmsg":"invalid media_id"}
+     * 如果speex音频格式不符合业务需求，开发者可在获取后，再自行于本地对该语音素材进行转码。
+     * 转码请使用speex的官方解码库 http://speex.org/downloads/ ，并结合微信的解码库（含示例代码：下载地址）。
+     */
+    public function download4Jssdk($mediaId)
+    {
+        $accessToken = $this->_client->getAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/media/get/jssdk?access_token=' . $accessToken . '&media_id=' . $mediaId;
+        return $this->_request->getFileByUrl($url);
+    }
+
+    /**
      * 上传图文消息素材（用于群发图文消息）
      *
      * 上传图文消息素材【订阅号与服务号认证后均可用】

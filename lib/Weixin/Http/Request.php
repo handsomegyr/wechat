@@ -259,8 +259,9 @@ class Request
 
     protected function getJson($response)
     {
+        $body = $response->getBody();
+        $contents = $response->getBody()->getContents();
         try {
-            $body = $response->getBody();
             if ($this->_json) {
                 $json = json_decode($body, true);
                 if (JSON_ERROR_NONE !== json_last_error()) {
@@ -268,20 +269,10 @@ class Request
                 }
                 return $json;
             } else {
-                return $body;
+                return $contents;
             }
         } catch (\Exception $e) {
-            $body = $response->getBody();
-            if ($this->_json) {
-                $body = substr(str_replace('\"', '"', json_encode($body, JSON_UNESCAPED_SLASHES)), 1, - 1);
-                $json = json_decode($body, true);
-                if (JSON_ERROR_NONE !== json_last_error()) {
-                    throw new \InvalidArgumentException('Unable to parse JSON data: ');
-                }
-                return $json;
-            } else {
-                return $body;
-            }
+            return $contents;
         }
     }
 

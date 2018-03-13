@@ -8,6 +8,56 @@ use Weixin\Client;
  *
  * @author guoyongrong <handsomegyr@126.com>
  *        
+ *         二、群发接口新增 send_ignore_reprint 参数
+ *        
+ *         群发接口新增 send_ignore_reprint 参数，开发者可以对群发接口的 send_ignore_reprint 参数进行设置，指定待群发的文章被判定为转载时，是否继续群发。
+ *        
+ *         当 send_ignore_reprint 参数设置为1时，文章被判定为转载时，且原创文允许转载时，将继续进行群发操作。
+ *        
+ *         当 send_ignore_reprint 参数设置为0时，文章被判定为转载时，将停止群发操作。
+ *        
+ *         send_ignore_reprint 默认为0。
+ *        
+ *         群发操作的相关返回码，可以参考全局返回码说明文档。
+ *        
+ *         使用 clientmsgid 参数，避免重复推送
+ *         一、群发接口新增 clientmsgid 参数，开发者调用群发接口时可以主动设置 clientmsgid 参数，避免重复推送。
+ *        
+ *         群发时，微信后台将对 24 小时内的群发记录进行检查，如果该 clientmsgid 已经存在一条群发记录，则会拒绝本次群发请求，返回已存在的群发msgid，开发者可以调用“查询群发消息发送状态”接口查看该条群发的状态。
+ *        
+ *         二、新增返回码
+ *        
+ *         返回码 结果
+ *         45065 相同 clientmsgid 已存在群发记录，返回数据中带有已存在的群发任务的 msgid
+ *         45066 相同 clientmsgid 重试速度过快，请间隔1分钟重试
+ *         45067 clientmsgid 长度超过限制
+ *         三、接口示例及参数描述
+ *        
+ *         {
+ *         "filter":{
+ *         "is_to_all":false,
+ *         "tag_id":2
+ *         },
+ *         "mpnews":{
+ *         "media_id":"123dsdajkasd231jhksad"
+ *         },
+ *         "msgtype":"mpnews",
+ *         "send_ignore_reprint":0,
+ *         "clientmsgid":"send_tag_2"
+ *         }
+ *         参数说明
+ *        
+ *         参数 是否必须 说明
+ *         clientmsgid 否 开发者侧群发msgid，长度限制64字节，如不填，则后台默认以群发范围和群发内容的摘要值做为clientmsgid
+ *         返回说明
+ *        
+ *         clientmsgid 冲突时的返回示例： {
+ *         "errcode":45065,
+ *         "errmsg":"clientmsgid exist",
+ *         "msg_id":123456
+ *         }
+ *        
+ *        
  */
 class Mass
 {
@@ -233,13 +283,14 @@ class Mass
     /**
      * 发送图文消息
      *
-     * @param string $group_id            
+     * @param string $tag_id            
      * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
+     * @param boolean $is_to_all            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendGraphTextByTag($tag_id, $media_id, $is_to_all = false, $send_ignore_reprint = 1)
+    public function sendGraphTextByTag($tag_id, $media_id, $is_to_all = false, $send_ignore_reprint = 1, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
@@ -247,6 +298,7 @@ class Mass
         $ret['msgtype'] = 'mpnews';
         $ret['mpnews']['media_id'] = $media_id;
         $ret['send_ignore_reprint'] = $send_ignore_reprint;
+        $ret['clientmsgid'] = $clientmsgid;
         
         return $this->sendAll($ret);
     }
@@ -395,9 +447,11 @@ class Mass
      * @param string $media_id            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendGraphTextByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 1)
+    public function sendGraphTextByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 1, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
@@ -406,6 +460,7 @@ class Mass
         $ret['mpnews']['title'] = $title;
         $ret['mpnews']['description'] = $description;
         $ret['send_ignore_reprint'] = $send_ignore_reprint;
+        $ret['clientmsgid'] = $clientmsgid;
         return $this->send($ret);
     }
 
@@ -468,6 +523,76 @@ class Mass
             "msg_id" => $msg_id
         ];
         $rst = $this->_request->post($this->_url . "message/mass/get", $params);
+        return $this->_client->rst($rst);
+    }
+
+    /**
+     * 控制群发速度
+     * 开发者可以使用限速接口来控制群发速度。
+     *
+     * 获取群发速度
+     *
+     * 接口调用请求说明
+     *
+     * http请求方式: POST
+     * https://api.weixin.qq.com/cgi-bin/message/mass/speed/get?access_token=ACCESS_TOKEN
+     * 返回说明 正常情况下的返回结果为：
+     *
+     * {
+     * "speed":3,
+     * "realspeed":15
+     * }
+     * 参数说明
+     *
+     * 参数 是否必须 说明
+     * speed 是 群发速度的级别
+     * realspeed 是 群发速度的真实值 单位：万/分钟
+     */
+    public function speedGet()
+    {
+        $params = array();
+        $rst = $this->_request->post($this->_url . "message/mass/speed/get", $params);
+        return $this->_client->rst($rst);
+    }
+
+    /**
+     * 设置群发速度
+     *
+     * 接口调用请求说明
+     *
+     * http请求方式: POST
+     * https://api.weixin.qq.com/cgi-bin/message/mass/speed/set?access_token=ACCESS_TOKEN
+     * 请求示例
+     *
+     * {
+     * "speed":1
+     * }
+     * 参数说明
+     *
+     * 参数 是否必须 说明
+     * speed 是 群发速度的级别
+     * 群发速度的级别，是一个0到4的整数，数字越大表示群发速度越慢。
+     *
+     * speed 与 realspeed 的关系如下：
+     *
+     * speed realspeed
+     * 0 80w/分钟
+     * 1 60w/分钟
+     * 2 45w/分钟
+     * 3 30w/分钟
+     * 4 10w/分钟
+     * 返回码说明
+     *
+     * 返回码 说明
+     * 45083 设置的 speed 参数不在0到4的范围内
+     * 45084 没有设置 speed 参数
+     */
+    public function speedSet($speed)
+    {
+        $params = array(
+            'speed' => $speed
+        );
+        $rst = $this->_request->post($this->_url . "message/mass/speed/set", $params);
         return $this->_client->rst($rst);
     }
 }

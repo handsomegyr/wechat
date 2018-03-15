@@ -69,7 +69,7 @@ class Request
      */
     public function get($url, $params = array(), $options = array())
     {
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client($options);
         $query = $this->getQueryParam4AccessToken();
         $params = array_merge($params, $query);
         $response = $client->get($url, array(
@@ -91,7 +91,7 @@ class Request
      */
     public function post($url, $params = array(), $options = array(), $body = '')
     {
-        $client = new \GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client($options);
         $query = $this->getQueryParam4AccessToken();
         $response = $client->post($url, array(
             'query' => $query,

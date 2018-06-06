@@ -40,7 +40,11 @@ class Sns
                 'method' => "GET",
                 'header' => "Connection: close\r\n",
                 'user_agent' => 'iCatholic R&D'
-            )
+            ),
+			"ssl"=>array(
+				"verify_peer"=>false,
+				"verify_peer_name"=>false,
+			)
         );
         $this->_context = stream_context_create($opts);
     }

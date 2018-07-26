@@ -7,6 +7,7 @@ namespace Weixin\Model;
 class MemberCard extends CardBase
 {
 
+    
     /**
      * supply_bonus
      * 是否支持积分，填写true 或false，如填写true，积分相关字段均为必填。填写false，积分字段无需填写。储值字段处理方式相同。
@@ -98,6 +99,17 @@ class MemberCard extends CardBase
     public $custom_cell2 = NULL;
 
     /**
+     * 高级自定义字段
+     */
+    public $advanced_info = NULL;
+
+    /**
+     * *
+     * 商家自定义会员卡背景图
+     */
+    public $background_pic_url = NULL;
+
+    /**
      * activate_url
      * 激活会员卡的url，与“bind_old_card_url”字段二选一必填。
      * 否
@@ -137,23 +149,6 @@ class MemberCard extends CardBase
      * 设置跳转外链查看余额详情。仅适用于余额无法通过激活接口同步的情况下使用该字段。
      */
     public $balance_url = NULL;
-
-    /**
-     * name_type
-     * 否
-     * string(24)
-     * FIELD_NAME_TYPE_LEVEL 会员信息类目名称。FIELD_NAME_TYPE_LEVEL等级；FIELD_NAME_TYPE_COUPON优惠券；FIELD_NAME_TYPE_STAMP印花；FIELD_NAME_TYPE_DISCOUNT折扣；FIELD_NAME_TYPE_ACHIEVEMEN成就；FIELD_NAME_TYPE_MILEAGE里程。
-     */
-    public $name_type = NULL;
-
-    /**
-     * url
-     * 否
-     * string（128）
-     * xxx.com
-     * 点击类目跳转外链url
-     */
-    public $url = NULL;
 
     /**
      * bonus_rule
@@ -235,6 +230,46 @@ class MemberCard extends CardBase
         $this->custom_cell2 = $custom_cell2;
     }
 
+    /**
+     * 创建优惠券特有的高级字段
+     *
+     * @param string $accept_category            
+     * @param string $reject_category            
+     * @param string $can_use_with_other_discount            
+     */
+    public function set_advanced_info($accept_category = '', $reject_category = '', $can_use_with_other_discount = true)
+    {
+        if (! empty($accept_category)) {
+            $this->advanced_info['use_condition']['accept_category'] = $accept_category;
+        }
+        if (! empty($reject_category)) {
+            $this->advanced_info['use_condition']['reject_category'] = $reject_category;
+        }
+        if (! empty($accept_category) || ! empty($reject_category)) {
+            $this->advanced_info['use_condition']['can_use_with_other_discount'] = $can_use_with_other_discount;
+        }
+    }
+
+    /**
+     * 卡面设计请遵循微信会员卡自定义背景设计规范 ,像素大小控制在1000像素*600像素以下
+     *
+     * @param string $background_pic_url            
+     */
+    public function set_background_pic_url($background_pic_url)
+    {
+        $this->background_pic_url = $background_pic_url;
+    }
+
+    public function set_activate_app_brand_user_name($activate_app_brand_user_name)
+    {
+        $this->activate_app_brand_user_name = $activate_app_brand_user_name;
+    }
+
+    public function set_activate_app_brand_pass($activate_app_brand_pass)
+    {
+        $this->activate_app_brand_pass = $activate_app_brand_pass;
+    }
+
     public function set_auto_activate($auto_activate)
     {
         $this->auto_activate = $auto_activate;
@@ -253,16 +288,6 @@ class MemberCard extends CardBase
     public function set_balance_url($balance_url)
     {
         $this->balance_url = $balance_url;
-    }
-
-    public function set_name_type($name_type)
-    {
-        $this->name_type = $name_type;
-    }
-
-    public function set_url($url)
-    {
-        $this->url = $url;
     }
 
     public function set_bonus_rule(BonusRule $bonus_rule)
@@ -321,6 +346,21 @@ class MemberCard extends CardBase
             $params['custom_cell2'] = $this->custom_cell2->getParams();
         }
         
+        if ($this->isNotNull($this->advanced_info)) {
+            $params['advanced_info'] = $this->advanced_info;
+        }
+        if ($this->isNotNull($this->background_pic_url)) {
+            $params['background_pic_url'] = $this->background_pic_url;
+        }
+        
+        if ($this->isNotNull($this->activate_app_brand_user_name)) {
+            $params['activate_app_brand_user_name'] = $this->activate_app_brand_user_name;
+        }
+        
+        if ($this->isNotNull($this->activate_app_brand_pass)) {
+            $params['activate_app_brand_pass'] = $this->activate_app_brand_pass;
+        }
+        
         if ($this->isNotNull($this->auto_activate)) {
             $params['auto_activate'] = $this->auto_activate;
         }
@@ -335,14 +375,6 @@ class MemberCard extends CardBase
         
         if ($this->isNotNull($this->balance_url)) {
             $params['balance_url'] = $this->balance_url;
-        }
-        
-        if ($this->isNotNull($this->name_type)) {
-            $params['name_type'] = $this->name_type;
-        }
-        
-        if ($this->isNotNull($this->url)) {
-            $params['url'] = $this->url;
         }
         
         if ($this->isNotNull($this->bonus_rule)) {

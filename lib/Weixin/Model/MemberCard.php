@@ -7,7 +7,6 @@ namespace Weixin\Model;
 class MemberCard extends CardBase
 {
 
-    
     /**
      * supply_bonus
      * 是否支持积分，填写true 或false，如填写true，积分相关字段均为必填。填写false，积分字段无需填写。储值字段处理方式相同。
@@ -233,21 +232,11 @@ class MemberCard extends CardBase
     /**
      * 创建优惠券特有的高级字段
      *
-     * @param string $accept_category            
-     * @param string $reject_category            
-     * @param string $can_use_with_other_discount            
+     * @param array $advanced_info            
      */
-    public function set_advanced_info($accept_category = '', $reject_category = '', $can_use_with_other_discount = true)
+    public function set_advanced_info($advanced_info)
     {
-        if (! empty($accept_category)) {
-            $this->advanced_info['use_condition']['accept_category'] = $accept_category;
-        }
-        if (! empty($reject_category)) {
-            $this->advanced_info['use_condition']['reject_category'] = $reject_category;
-        }
-        if (! empty($accept_category) || ! empty($reject_category)) {
-            $this->advanced_info['use_condition']['can_use_with_other_discount'] = $can_use_with_other_discount;
-        }
+        $this->advanced_info = $advanced_info;
     }
 
     /**

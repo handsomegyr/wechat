@@ -109,8 +109,8 @@ class Request
      *
      * @param string $uri            
      * @param string $media
-     *            url或者filepath            
-     * @param array $options
+     *            url或者filepath
+     * @param array $options            
      * @param array $otherQuery            
      * @throws Exception
      * @return mixed

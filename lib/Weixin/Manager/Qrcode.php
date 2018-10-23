@@ -101,7 +101,16 @@ class Qrcode
         $rst = $this->_request->post($this->_url . 'qrcode/create', $params);
         return $this->_client->rst($rst);
     }
-
+	
+	public function create2($scene_str)
+    {
+        $params = array();
+		$params['action_name'] = "QR_LIMIT_STR_SCENE";
+        $params['action_info']['scene']['scene_str'] = $scene_str;
+        $rst = $this->_request->post($this->_url . 'qrcode/create', $params);
+        return $this->_client->rst($rst);
+    }
+	
     /**
      * 通过ticket换取二维码
      * 获取二维码ticket后，开发者可用ticket换取二维码图片。请注意，本接口无须登录态即可调用

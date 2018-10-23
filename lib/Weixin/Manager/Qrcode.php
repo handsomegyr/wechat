@@ -81,7 +81,7 @@ class Qrcode
         $params = array();
         if ($isTemporary) {
             $params['expire_seconds'] = min($expire_seconds, 2592000);
-            if (is_numeric($scene_id)) {
+            if (is_numeric($scene_id) && $scene_id >0) {
                 $params['action_name'] = "QR_SCENE";
                 $params['action_info']['scene']['scene_id'] = $scene_id;
             } else {
@@ -90,7 +90,7 @@ class Qrcode
             }
 
         } else {
-            if (is_numeric($scene_id)) {
+            if (is_numeric($scene_id) && $scene_id >= 1 && $scene_id <= 100000 ) {
                 $params['action_name'] = "QR_LIMIT_SCENE";
                 $params['action_info']['scene']['scene_id'] = min($scene_id, 100000);
             } else {

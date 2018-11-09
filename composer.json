@@ -3,7 +3,9 @@
   "description" : "A simple PHP client library for weixin",
   "require" : {
     "php" : ">=5.5",
-    "guzzlehttp/guzzle": "^6.2"
+    "guzzlehttp/guzzle": "^6.2",
+    "phpunit/phpunit": "^7.4",
+    "jakub-onderka/php-parallel-lint": "^1.0"
   },
   "authors" : [ {
     "name" : "郭永荣",
@@ -18,5 +20,11 @@
   },
   "license" : "MIT",
   "type" : "library",
-  "homepage" : "http://github.com/handsomegyr/wechat"
+  "homepage" : "http://github.com/handsomegyr/wechat",
+	"scripts": {
+		"test": [
+			"parallel-lint . --exclude vendor",
+			"phpunit"
+		]
+	}
 }

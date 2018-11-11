@@ -2,7 +2,7 @@
 class SampleTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers testAssertEquals
+     * @covers \SampleTest::testAssertEquals()
      */
     public function testAssertEquals()
     {
@@ -10,7 +10,7 @@ class SampleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers testAssertSame
+     * @covers \SampleTest::testAssertSame()
      */
     public function testAssertSame()
     {
@@ -18,7 +18,7 @@ class SampleTest extends \PHPUnit\Framework\TestCase
     }
 	
     /**
-     * @covers testAssertTrue
+     * @covers \SampleTest::testAssertTrue()
      */
     public function testAssertTrue()
     {
@@ -26,7 +26,7 @@ class SampleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers testAssertFalse
+     * @covers \SampleTest::testAssertFalse()
      */
     public function testAssertFalse()
     {

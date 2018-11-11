@@ -24,7 +24,7 @@ install:
   - travis_retry composer update $DEFAULT_COMPOSER_FLAGS
 
 script:
-    - vendor/bin/phpunit --coverage-clover=coverage.xml
+    - vendor/bin/phpunit -c phpunit-simple.xml.dist --coverage-clover=coverage.xml
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

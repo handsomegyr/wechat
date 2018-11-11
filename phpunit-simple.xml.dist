@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="Wechat Test Suite">
+            <directory suffix="Test.php">tests/Wechat/</directory>
+        </testsuite>
+    </testsuites>	
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">lib/</directory>
+            <directory suffix=".php">bin/</directory>
+			<exclude>
+                <file>vendor/autoload.php</file>
+				<file>bin/create-phar.php</file>
+				<file>bin/create-single-file.php</file>
+				<file>tests/bootstrap.php</file>
+				<file>tests/s1.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <php>
+        <ini name="date.timezone" value="UTC"/>
+    </php>
+</phpunit>

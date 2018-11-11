@@ -3,3 +3,9 @@ composer.phar
 vendor/
 .buildpath
 .project
+.php_cs
+.php_cs.cache
+/build/
+/phpspec.yml
+/phpunit.xml
+doc/_build/

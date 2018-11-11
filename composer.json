@@ -5,7 +5,15 @@
     "php" : ">=5.5",
     "guzzlehttp/guzzle": "^6.2",
     "phpunit/phpunit": "^7.4",
-    "jakub-onderka/php-parallel-lint": "^1.0"
+    "jakub-onderka/php-parallel-lint": "^1.0",
+    "phpspec/phpspec": "^5.1",
+    "squizlabs/php_codesniffer": "^3.3",
+    "phpmd/phpmd": "^2.6",
+    "phpab/phpab": "^0.1.0",
+    "phploc/phploc": "^4.0",
+    "pdepend/pdepend": "^2.5",
+    "sebastian/phpcpd": "^4.1",
+    "friendsofphp/php-cs-fixer": "^2.13"
   },
   "authors" : [ {
     "name" : "郭永荣",
@@ -21,10 +29,26 @@
   "license" : "MIT",
   "type" : "library",
   "homepage" : "http://github.com/handsomegyr/wechat",
-	"scripts": {
-		"test": [
-			"parallel-lint . --exclude vendor",
-			"phpunit"
-		]
-	}
+  "scripts": {
+	"clean": "rm -rf build/ vendor/",
+	"test": [
+		"vendor/bin/parallel-lint . --exclude vendor",
+		"vendor/bin/phploc --count-tests --log-csv build/phploc.csv --log-xml build/phploc.xml lib/Weixin tests/Wechat",
+		
+		"vendor/bin/phpcpd --log-pmd build/pmd-cpd.xml lib/Weixin tests/Wechat",
+		
+		"vendor/bin/pdepend --jdepend-xml=build/jdepend.xml --jdepend-chart=build/dependencies.svg --overview-pyramid=build/overview-pyramid.svg lib/Weixin",
+		"vendor/bin/phpmd tests/Wechat xml phpmd.xml --reportfile build/pmd.xml",	
+
+		"vendor/bin/phpcs --report=checkstyle --standard=PSR2 --extensions=php --ignore=autoload.php --report-file=build/checkstyle.xml lib/Weixin tests/Wechat",
+		"vendor/bin/phpcbf lib/Weixin --standard=PSR2",		
+		"vendor/bin/php-cs-fixer fix",
+		"vendor/bin/phpspec run",
+		"vendor/bin/phpunit"
+	],
+	"test-coverage": [
+		"vendor/bin/phpspec run -c phpspec.ci.yml",
+		"vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
+	]
+  }
 }

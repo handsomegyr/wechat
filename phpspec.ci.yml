@@ -1,0 +1,6 @@
+suites:
+    wechat_suite:
+        namespace: Weixin
+        psr4_prefix: Weixin
+formatter.name: pretty
+

@@ -1,16 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="vendor/autoload.php" colors="true">
+<phpunit bootstrap="vendor/autoload.php" colors="true"
+		 backupGlobals="false"
+         backupStaticAttributes="false"
+         beStrictAboutCoversAnnotation="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         forceCoversAnnotation="true"
+         verbose="true"
+>
     <testsuites>
         <testsuite name="Wechat Test Suite">
-            <directory>tests/Wechat/</directory>
+            <directory suffix="Test.php">tests/Wechat/</directory>
         </testsuite>
     </testsuites>
 
+	<logging>
+        <log type="coverage-html" target="build/coverage"/>
+        <log type="coverage-clover" target="build/clover.xml"/>
+        <log type="coverage-crap4j" target="build/crap4j.xml"/>
+        <log type="coverage-xml" target="build/coverage"/>
+        <log type="junit" target="build/junit.xml"/>
+        <log type="testdox-html" target="build/index.html"/>
+    </logging>
+	
     <filter>
-        <whitelist>
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">lib/</directory>
             <directory suffix=".php">bin/</directory>
+			<exclude>
+                <file>vendor/autoload.php</file>
+				<file>bin/create-phar.php</file>
+				<file>bin/create-single-file.php</file>
+				<file>tests/bootstrap.php</file>
+				<file>tests/s1.php</file>
+            </exclude>
         </whitelist>
     </filter>
 

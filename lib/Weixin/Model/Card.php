@@ -2,7 +2,7 @@
 namespace Weixin\Model;
 
 // ------------------------set base_info-----------------------------
-$base_info = new BaseInfo("http://www.supadmin.cn/uploads/allimg/120216/1_120216214725_1.jpg", "海底捞", 0, "132元双人火锅套餐", "Color010", "使用时向服务员出示此券", "020-88888888", "不可与其他优惠同享\n 如需团购券发票，请在消费时向商户提出\n 店内均可使用，仅限堂食\n 餐前不可打包，餐后未吃完，可打包\n 本团购券不限人数，建议2人使用，超过建议人数须另收酱料费5元/位\n 本单谢绝自带酒水饮料", new DateInfo(1, 1397577600, 1399910400), new Sku(50000000));
+$base_info = new BaseInfo("http://www.supadmin.cn/uploads/allimg/120216/1_120216214725_1.jpg", "海底捞", 0, "132元双人火锅套餐", "Color010", "使用时向服务员出示此券", "不可与其他优惠同享\n 如需团购券发票，请在消费时向商户提出\n 店内均可使用，仅限堂食\n 餐前不可打包，餐后未吃完，可打包\n 本团购券不限人数，建议2人使用，超过建议人数须另收酱料费5元/位\n 本单谢绝自带酒水饮料", new DateInfo(1, 1397577600, 1399910400, NULL, NULL), new Sku(50000000));
 $base_info->set_sub_title("");
 $base_info->set_use_limit(1);
 $base_info->set_get_limit(3);

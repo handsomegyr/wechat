@@ -31,18 +31,18 @@
   "homepage" : "http://github.com/handsomegyr/wechat",
   "scripts": {
 	"clean": "rm -rf build/ vendor/",
-	"test": [
+	"check": [
 		"vendor/bin/parallel-lint . --exclude vendor",
-		"vendor/bin/phploc --count-tests --log-csv build/phploc.csv --log-xml build/phploc.xml lib/Weixin tests/Wechat",
-		
-		"vendor/bin/phpcpd --log-pmd build/pmd-cpd.xml lib/Weixin tests/Wechat",
-		
+		"vendor/bin/phploc --count-tests --log-csv build/phploc.csv --log-xml build/phploc.xml lib/Weixin tests/Wechat",		
+		"vendor/bin/phpcpd --log-pmd build/pmd-cpd.xml lib/Weixin tests/Wechat",		
 		"vendor/bin/pdepend --jdepend-xml=build/jdepend.xml --jdepend-chart=build/dependencies.svg --overview-pyramid=build/overview-pyramid.svg lib/Weixin",
-		"vendor/bin/phpmd tests/Wechat xml phpmd.xml --reportfile build/pmd.xml",	
-
+		"vendor/bin/phpmd tests/Wechat xml phpmd.xml --reportfile build/pmd.xml",
 		"vendor/bin/phpcs --report=checkstyle --standard=PSR2 --extensions=php --ignore=autoload.php --report-file=build/checkstyle.xml lib/Weixin tests/Wechat",
-		"vendor/bin/phpcbf lib/Weixin --standard=PSR2",		
-		"vendor/bin/php-cs-fixer fix",
+		"vendor/bin/phpcbf lib/Weixin --standard=PSR2",
+		"vendor/bin/php-cs-fixer fix"
+	],
+	"test": [
+		"vendor/bin/parallel-lint . --exclude vendor",		
 		"vendor/bin/phpspec run",
 		"vendor/bin/phpunit"
 	],

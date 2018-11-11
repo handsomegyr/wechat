@@ -3,7 +3,9 @@
   "description" : "A simple PHP client library for weixin",
   "require" : {
     "php" : ">=5.5",
-    "guzzlehttp/guzzle": "^6.2",
+    "guzzlehttp/guzzle": "^6.2"
+  },
+  "require-dev" : {
     "phpunit/phpunit": "^7.4",
     "jakub-onderka/php-parallel-lint": "^1.0",
     "phpspec/phpspec": "^5.1",

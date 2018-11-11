@@ -13,8 +13,6 @@ matrix:
   fast_finish: true
 
 env:
-  matrix:
-    - DEPENDENCIES="high"
   global:
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest --no-dev"
 
@@ -23,12 +21,10 @@ before_install:
   - composer clear-cache
 
 install:
-  - if [[ "$DEPENDENCIES" = 'high' ]]; then travis_retry composer update $DEFAULT_COMPOSER_FLAGS; fi
-  - if [[ "$DEPENDENCIES" = 'low' ]]; then travis_retry composer update $DEFAULT_COMPOSER_FLAGS --prefer-lowest; fi
+  - travis_retry composer update $DEFAULT_COMPOSER_FLAGS
 
 script:
-  - if [[ "$DRIVER" = 'phpdbg' ]]; then phpdbg -qrr vendor/bin/phpunit --coverage-clover=coverage.xml; fi
-  - if [[ "$DRIVER" = 'xdebug' ]]; then vendor/bin/phpunit --coverage-clover=coverage.xml; fi
+    - vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

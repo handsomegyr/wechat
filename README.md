@@ -3,7 +3,7 @@
 [![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/handsomegyr/wechat/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/handsomegyr/wechat.svg?branch=master)](https://travis-ci.org/handsomegyr/wechat)
 [![Coverage](https://img.shields.io/codecov/c/github/handsomegyr/wechat/master.svg)](https://codecov.io/gh/handsomegyr/wechat)
-[![Packagist](https://img.shields.io/packagist/v/symfony/symfony.svg)](https://packagist.org/packages/handsomegyr/wechat)
+[![Packagist](https://img.shields.io/packagist/v/handsomegyr/wechat.svg)](https://packagist.org/packages/handsomegyr/wechat)
 
 ## Requirement
 

@@ -1,6 +1,5 @@
-<p align="center">
+#微信公众平台开发模式通用接口API新版
 
-<p align="center">微信公众平台开发模式通用接口API新版</p>
 [![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/handsomegyr/wechat/blob/master/LICENSE)
 [![Build Status](https://travis-ci.org/handsomegyr/wechat.svg?branch=master)](https://travis-ci.org/handsomegyr/wechat)
 [![Coverage](https://img.shields.io/codecov/c/github/handsomegyr/wechat/master.svg)](https://codecov.io/gh/handsomegyr/wechat)

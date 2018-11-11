@@ -35,6 +35,8 @@
 				<file>bin/create-single-file.php</file>
 				<file>tests/bootstrap.php</file>
 				<file>tests/s1.php</file>
+				<file>lib/Weixin/ThirdParty/AesCrypt/demo.php</file>
+				<file>lib/Weixin/ThirdParty/MsgCrypt/demo.php</file>
             </exclude>
         </whitelist>
     </filter>

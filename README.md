@@ -4,10 +4,6 @@
 
 <p align="center">
 [![Build Status](https://www.travis-ci.org/handsomegyr/wechat.svg?branch=master)](https://www.travis-ci.org/handsomegyr/wechat)
-<a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/downloads" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/license" alt="License"></a>
-<a href="#backers"><img src="https://opencollective.com/wechat/backers/badge.svg" alt="Backers on Open Collective"></a>
-<a href="#sponsors"><img src="https://opencollective.com/wechat/sponsors/badge.svg" alt="Sponsors on Open Collective"></a>
 </p>
 
 </div>

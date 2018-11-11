@@ -1,12 +1,8 @@
 <p align="center">
 
 <p align="center">微信公众平台开发模式通用接口API新版</p>
-
-<p align="center">
 [![Build Status](https://www.travis-ci.org/handsomegyr/wechat.svg?branch=master)](https://www.travis-ci.org/handsomegyr/wechat)
-</p>
 
-</div>
 
 ## Requirement
 
@@ -35,12 +31,6 @@ print_r($ret);
 ```
 
 ## Documentation
-
-
-## Contributors
-
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://github.com/handsomegyr/wechat/graphs/contributors"></a>
 
 
 

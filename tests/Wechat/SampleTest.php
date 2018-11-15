@@ -16,7 +16,7 @@ class SampleTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertSame('first', 'first');
     }
-	
+    
     /**
      * @covers \SampleTest::testAssertTrue()
      */
@@ -32,5 +32,4 @@ class SampleTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertFalse(false);
     }
-
 }

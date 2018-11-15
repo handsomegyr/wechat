@@ -32,7 +32,7 @@
   "type" : "library",
   "homepage" : "http://github.com/handsomegyr/wechat",
   "scripts": {
-	"clean": "rm -rf build/ vendor/",
+	"clean": "rm -rf build/ vendor/ && mkdir build",
 	"check": [
 		"vendor/bin/parallel-lint . --exclude vendor",
 		"vendor/bin/phploc --count-tests --log-csv build/phploc.csv --log-xml build/phploc.xml lib/Weixin tests/Wechat",		

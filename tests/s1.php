@@ -4,12 +4,12 @@ require_once '../vendor/autoload.php';
 try {
     // 集资购
     $openid = 'o4ELSvz-B4_DThF0Vpfrverk3IpY';
-	
-	
-								$appid = "wxbf9165206b992f39"; // appID
-	
-	
-	
+    
+    
+                                $appid = "wxbf9165206b992f39"; // appID
+    
+    
+    
                             $secret = "08f81abfab87863a1de2cf13af417a55"; // appsecret
                                                   
     // 获得access_token

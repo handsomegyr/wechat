@@ -4,9 +4,14 @@ require_once '../vendor/autoload.php';
 try {
     // 集资购
     $openid = 'o4ELSvz-B4_DThF0Vpfrverk3IpY';
-	
-	
     
+    
+    
+    
+    
+   
+
+ 
     
                                 $appid = "wxbf9165206b992f39"; // appID
     

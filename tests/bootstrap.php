@@ -1,33 +1,33 @@
 // <?php
-require __DIR__.'/../autoload.php';
-$appid = 'wx31b06d5a578863c1'; // appID
+require __DIR__ . '/../autoload.php';
+$appid  = 'wx31b06d5a578863c1'; // appID
 $secret = '36920522135088ff042256ca567ff752'; // appsecret
                                               // token的获取
-$objToken = new \Weixin\Token\Server($appid, $secret);
+$objToken       = new \Weixin\Token\Server($appid, $secret);
 $arrAccessToken = $objToken->getAccessToken();
 $strAccessToken = $arrAccessToken['access_token'];
 // 微信client对象
 $client = new Weixin\Client();
 $client->setAccessToken($strAccessToken);
 
-$articles = [];
+$articles   = [];
 $articles[] = [
-    'thumb_media_id' => 'o9S42TG72uC480YMC99_YKLNtaxi7FtzlWIBx2vnL1pw6zJhS5Abtv880YUzoMOl',
-    'author' => 'ben',
-    'title' => '扑刺客打刺客',
+    'thumb_media_id'     => 'o9S42TG72uC480YMC99_YKLNtaxi7FtzlWIBx2vnL1pw6zJhS5Abtv880YUzoMOl',
+    'author'             => 'ben',
+    'title'              => '扑刺客打刺客',
     'content_source_url' => 'http://www.baidu.com/',
-    'content' => '扑刺客打刺客',
-    'digest' => '扑刺客打刺客',
-    'show_cover_pic' => '1',
+    'content'            => '扑刺客打刺客',
+    'digest'             => '扑刺客打刺客',
+    'show_cover_pic'     => '1',
 ];
 $articles[] = [
-    'thumb_media_id' => 'o9S42TG72uC480YMC99_YKLNtaxi7FtzlWIBx2vnL1pw6zJhS5Abtv880YUzoMOl',
-    'author' => 'ben',
-    'title' => '扑刺客打刺客',
+    'thumb_media_id'     => 'o9S42TG72uC480YMC99_YKLNtaxi7FtzlWIBx2vnL1pw6zJhS5Abtv880YUzoMOl',
+    'author'             => 'ben',
+    'title'              => '扑刺客打刺客',
     'content_source_url' => 'http://www.baidu.com/',
-    'content' => '扑刺客打刺客',
-    'digest' => '扑刺客打刺客',
-    'show_cover_pic' => '1',
+    'content'            => '扑刺客打刺客',
+    'digest'             => '扑刺客打刺客',
+    'show_cover_pic'     => '1',
 ];
 $rst = $client->getMediaManager()->uploadNews($articles);
 

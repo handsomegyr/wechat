@@ -10,15 +10,10 @@ require_once '../vendor/autoload.php';
 try {
     // 集资购
     $openid = 'o4ELSvz-B4_DThF0Vpfrverk3IpY';
+    // appid
+    $appid = 'wxbf9165206b992f39'; // appID
 
-
-
-
-
-
-			    $appid = 'wxbf9165206b992f39'; // appID
-
-    				$secret = '08f81abfab87863a1de2cf13af417a55'; // appsecret
+    $secret = '08f81abfab87863a1de2cf13af417a55'; // appsecret
 
     // 获得access_token
 
@@ -79,7 +74,7 @@ try {
 
     die('<br/>OK');
 } catch (Exception $e) {
-    die('<br/>ERROR:'.$e->getMessage());
+    die('<br/>ERROR:' . $e->getMessage());
 }
 
 function doGetAccessTokenTest($appid, $secret): void
@@ -110,7 +105,7 @@ function doIpTest($client): void
 
 function doGroupTest($client): void
 {
-    $openid = 'o4ELSvz-B4_DThF0Vpfrverk3IpY';
+    $openid     = 'o4ELSvz-B4_DThF0Vpfrverk3IpY';
     $to_groupid = 100;
 
     // echo "<br/>获取创建分组接口<br/>";
@@ -189,7 +184,7 @@ function doMsgTest($client): void
 
     // echo "<br/>发送客服消息接口<br/>";
     $content = '<a href="http://wwww.baidu.com/">我是郭永荣</a>';
-    $ret = $client->getMsgManager()
+    $ret     = $client->getMsgManager()
         ->getCustomSender()
         ->sendText($toUser, $content);
     \print_r($ret);

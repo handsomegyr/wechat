@@ -1,7 +1,7 @@
 // <?php
-require __DIR__ . '/../autoload.php';
-$appid = "wx31b06d5a578863c1"; // appID
-$secret = "36920522135088ff042256ca567ff752"; // appsecret
+require __DIR__.'/../autoload.php';
+$appid = 'wx31b06d5a578863c1'; // appID
+$secret = '36920522135088ff042256ca567ff752'; // appsecret
                                               // token的获取
 $objToken = new \Weixin\Token\Server($appid, $secret);
 $arrAccessToken = $objToken->getAccessToken();
@@ -10,28 +10,28 @@ $strAccessToken = $arrAccessToken['access_token'];
 $client = new Weixin\Client();
 $client->setAccessToken($strAccessToken);
 
-$articles = array();
-$articles[] = array(
-    "thumb_media_id" => "o9S42TG72uC480YMC99_YKLNtaxi7FtzlWIBx2vnL1pw6zJhS5Abtv880YUzoMOl",
-    "author" => "ben",
-    "title" => "扑刺客打刺客",
-    "content_source_url" => "http://www.baidu.com/",
-    "content" => "扑刺客打刺客",
-    "digest" => "扑刺客打刺客",
-    "show_cover_pic" => "1"
-);
-$articles[] = array(
-    "thumb_media_id" => "o9S42TG72uC480YMC99_YKLNtaxi7FtzlWIBx2vnL1pw6zJhS5Abtv880YUzoMOl",
-    "author" => "ben",
-    "title" => "扑刺客打刺客",
-    "content_source_url" => "http://www.baidu.com/",
-    "content" => "扑刺客打刺客",
-    "digest" => "扑刺客打刺客",
-    "show_cover_pic" => "1"
-);
+$articles = [];
+$articles[] = [
+    'thumb_media_id' => 'o9S42TG72uC480YMC99_YKLNtaxi7FtzlWIBx2vnL1pw6zJhS5Abtv880YUzoMOl',
+    'author' => 'ben',
+    'title' => '扑刺客打刺客',
+    'content_source_url' => 'http://www.baidu.com/',
+    'content' => '扑刺客打刺客',
+    'digest' => '扑刺客打刺客',
+    'show_cover_pic' => '1',
+];
+$articles[] = [
+    'thumb_media_id' => 'o9S42TG72uC480YMC99_YKLNtaxi7FtzlWIBx2vnL1pw6zJhS5Abtv880YUzoMOl',
+    'author' => 'ben',
+    'title' => '扑刺客打刺客',
+    'content_source_url' => 'http://www.baidu.com/',
+    'content' => '扑刺客打刺客',
+    'digest' => '扑刺客打刺客',
+    'show_cover_pic' => '1',
+];
 $rst = $client->getMediaManager()->uploadNews($articles);
 
-$rst = $client->getMediaManager()->uploadVideo("D3uOxo1WNW52dVi4wZE1jwvqySduzVzCApTOmR7pL2hguFECCk2fq82cOxyewF3X", "TITLE", "Description");
+$rst = $client->getMediaManager()->uploadVideo('D3uOxo1WNW52dVi4wZE1jwvqySduzVzCApTOmR7pL2hguFECCk2fq82cOxyewF3X', 'TITLE', 'Description');
 
 $group_id = '0';
 // 发送文本
@@ -55,10 +55,10 @@ $rst = $client->getMsgManager()
     ->getMassSender()
     ->sendGraphTextByGroup($group_id, 'xjZXFr1U7x8b4MZ3CpkF3UGNddGmpHag6La84uak-bKym27gC-D1N0jmQaGzx9bR');
 
-$toUsers = array(
-    "oq_9ut1KV35fk7PDFyrfZl3LvVuk",
-    "oq_9ut0Jca_pZA02CFDyuLE0UJCQ"
-);
+$toUsers = [
+    'oq_9ut1KV35fk7PDFyrfZl3LvVuk',
+    'oq_9ut0Jca_pZA02CFDyuLE0UJCQ',
+];
 // 发送文本
 $rst = $client->getMsgManager()
     ->getMassSender()

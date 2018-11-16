@@ -181,6 +181,6 @@ return PhpCsFixer\Config::create()
     )
     ->setFinder(
         PhpCsFixer\Finder::create()
-        ->files()
-        ->in(__DIR__ . '/lib/Weixin')
+	->exclude('tests')
+        ->in(__DIR__)
     );

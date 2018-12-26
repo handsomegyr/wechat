@@ -82,7 +82,7 @@ class User
             $params['mch_id'] = $mch_id;
             $params['out_trade_no'] = $out_trade_no;
         }
-        $rst = $this->_request->post($this->_url . 'wxa/getpaidunionid', $params);
+        $rst = $this->_request->get($this->_url . 'wxa/getpaidunionid', $params);
         return $this->_client->rst($rst);
     }
 }

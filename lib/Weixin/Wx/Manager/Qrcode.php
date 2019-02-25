@@ -57,7 +57,9 @@ class Qrcode
         if (! empty($is_hyaline)) {
             $params['is_hyaline'] = $is_hyaline;
         }
+        $this->_request->setJson(false);
         $rst = $this->_request->post($this->_url . 'wxa/getwxacode', $params);
+        $rst = $this->getBody($rst);
         return $this->_client->rst($rst);
     }
 
@@ -102,7 +104,9 @@ class Qrcode
         if (! empty($is_hyaline)) {
             $params['is_hyaline'] = $is_hyaline;
         }
+        $this->_request->setJson(false);
         $rst = $this->_request->post($this->_url . 'wxa/getwxacodeunlimit', $params);
+        $rst = $this->getBody($rst);
         return $this->_client->rst($rst);
     }
 
@@ -134,5 +138,28 @@ class Qrcode
         $params['width'] = $width;
         $rst = $this->_request->post($this->_url2 . 'wxaapp/createwxaqrcode', $params);
         return $this->_client->rst($rst);
+    }
+
+    private function getBody($body)
+    {
+        $ret = array(
+            'errcode' => 0,
+            'errmsg' => '',
+            'wxacode' => ''
+        );
+        
+        // 如果为空值就是错误
+        if (empty($body)) {
+            $ret['errcode'] = 99999;
+            $ret['errmsg'] = "生成失败";
+            return $ret;
+        }
+        $result = json_decode($body, true);
+        if (empty($result)) {
+            $ret['wxacode'] = $body;
+            return $ret;
+        } else {
+            return $result;
+        }
     }
 }

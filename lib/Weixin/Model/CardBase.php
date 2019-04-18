@@ -46,6 +46,11 @@ abstract class CardBase extends Base
         $this->card_id = $base_info->card_id;
     }
 
+    public function set_advanced_info(AdvancedInfo $advanced_info)
+    {
+        $this->advanced_info = $advanced_info;
+    }
+
     public function getParams()
     {
         $params = array();

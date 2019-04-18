@@ -28,6 +28,12 @@ abstract class CardBase extends Base
      */
     public $base_info = NULL;
 
+    /**
+     *
+     * @var AdvancedInfo
+     */
+    public $advanced_info = NULL;
+
     public $card_type = NULL;
 
     public $create_key = NULL;
@@ -51,6 +57,9 @@ abstract class CardBase extends Base
         $params = array();
         $params['card_type'] = $this->card_type;
         $params[$this->create_key]['base_info'] = $this->base_info->getParams();
+        if ($this->isNotNull($this->advanced_info)) {
+            $params[$this->create_key]['advanced_info'] = $this->advanced_info->getParams();
+        }
         
         $selfParams = $this->getParams();
         foreach ($selfParams as $key => $value) {
@@ -64,6 +73,9 @@ abstract class CardBase extends Base
         $params = array();
         $params['card_id'] = $this->card_id;
         $params[$this->create_key]['base_info'] = $this->base_info->getParams();
+        if ($this->isNotNull($this->advanced_info)) {
+            $params[$this->create_key]['advanced_info'] = $this->advanced_info->getParams();
+        }
         $selfParams = $this->getParams();
         foreach ($selfParams as $key => $value) {
             $params[$this->create_key][$key] = $value;

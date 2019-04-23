@@ -71,7 +71,8 @@ class Component
      */
     public function setAccessToken($accessToken)
     {
-        $this->_accessToken = $accessToken;
+        $this->_accessToken = $accessToken;		
+        $this->_request->setAccessToken($this->_accessToken);
         $this->_request->setAccessTokenName('component_access_token');
         return $this;
     }

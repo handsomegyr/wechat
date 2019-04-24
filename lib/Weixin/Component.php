@@ -553,7 +553,7 @@ class Component
             throw new Exception('$redirect_uri无效');
         }
         $redirect_uri = urlencode($redirect_uri);
-        $url = "https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&component_appid={$this->_appid}&pre_auth_code={$pre_auth_code}&redirect_uri={$redirect_uri}";
+        $url = "https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&no_scan=1&component_appid={$this->_appid}&pre_auth_code={$pre_auth_code}&redirect_uri={$redirect_uri}";
         if (! empty($auth_type)) {
             $url .= "&auth_type={$auth_type}";
         }

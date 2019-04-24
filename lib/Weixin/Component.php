@@ -2,6 +2,7 @@
 /**
  * 获取微信服务端使用的accessToken
  * @author guoyongrong <handsomegyr@126.com>
+ * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1453779503&token=&lang=zh_CN
  *
  */
 namespace Weixin;
@@ -31,7 +32,7 @@ class Component
         $this->_request = new Request();
     }
 
-	/**
+    /**
      * 获取请求对象
      *
      * @return \Weixin\Http\Request
@@ -43,7 +44,7 @@ class Component
         }
         return $this->_request;
     }
-	
+
     public function __construct($component_appid, $component_appsecret)
     {
         $this->_appid = $component_appid;
@@ -71,7 +72,7 @@ class Component
      */
     public function setAccessToken($accessToken)
     {
-        $this->_accessToken = $accessToken;		
+        $this->_accessToken = $accessToken;
         $this->_request->setAccessToken($this->_accessToken);
         $this->_request->setAccessTokenName('component_access_token');
         return $this;
@@ -90,10 +91,10 @@ class Component
      * "component_verify_ticket": "ticket_value"
      * }
      * 请求参数说明
-     * 参数	说明
-     * component_appid	第三方平台appid
-     * component_appsecret	第三方平台appsecret
-     * component_verify_ticket	微信后台推送的ticket，此ticket会定时推送，具体请见本页的推送说明
+     * 参数 说明
+     * component_appid 第三方平台appid
+     * component_appsecret 第三方平台appsecret
+     * component_verify_ticket 微信后台推送的ticket，此ticket会定时推送，具体请见本页的推送说明
      * 返回结果示例
      * {
      * "component_access_token":"61W3mEpU66027wgNZ_MhGHNQDHnFATkDa9-2llqrMBjUwxRSNPbVsMmyD-yq8wZETSoE5NQgecigDrSHkPtIYA",
@@ -101,9 +102,9 @@ class Component
      * }
      *
      * 结果参数说明
-     * 参数	说明
-     * component_access_token	第三方平台access_token
-     * expires_in	有效期
+     * 参数 说明
+     * component_access_token 第三方平台access_token
+     * expires_in 有效期
      *
      * @return mixed
      */
@@ -134,17 +135,17 @@ class Component
      * "component_appid":"appid_value"
      * }
      * 请求参数说明
-     * 参数	说明
-     * component_appid	第三方平台方appid
+     * 参数 说明
+     * component_appid 第三方平台方appid
      * 返回结果示例
      * {
      * "pre_auth_code":"Cx_Dk6qiBE0Dmx4EmlT3oRfArPvwSQ-oa3NL_fwHM7VI08r52wazoZX2Rhpz1dEw",
      * "expires_in":600
      * }
      * 结果参数说明
-     * 参数	说明
-     * pre_auth_code	预授权码
-     * expires_in	有效期，为20分钟
+     * 参数 说明
+     * pre_auth_code 预授权码
+     * expires_in 有效期，为20分钟
      */
     public function apiCreatePreauthcode()
     {
@@ -173,9 +174,9 @@ class Component
      * }
      *
      * 请求参数说明
-     * 参数	说明
-     * component_appid	第三方平台appid
-     * authorization_code	授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
+     * 参数 说明
+     * component_appid 第三方平台appid
+     * authorization_code 授权code,会在授权成功时返回给第三方平台，详见第三方平台授权流程说明
      * 返回结果示例
      * {
      * "authorization_info": {
@@ -203,13 +204,13 @@ class Component
      * }
      *
      * 结果参数说明
-     * 参数	说明
-     * authorization_info	授权信息
-     * authorizer_appid	授权方appid
-     * authorizer_access_token	授权方接口调用凭据（在授权的公众号具备API权限时，才有此返回值），也简称为令牌
-     * expires_in	有效期（在授权的公众号具备API权限时，才有此返回值）
-     * authorizer_refresh_token	接口调用凭据刷新令牌（在授权的公众号具备API权限时，才有此返回值），刷新令牌主要用于公众号第三方平台获取和刷新已授权用户的access_token，只会在授权时刻提供，请妥善保存。 一旦丢失，只能让用户重新授权，才能再次拿到新的刷新令牌
-     * func_info	公众号授权给开发者的权限集列表，ID为1到15时分别代表：
+     * 参数 说明
+     * authorization_info 授权信息
+     * authorizer_appid 授权方appid
+     * authorizer_access_token 授权方接口调用凭据（在授权的公众号具备API权限时，才有此返回值），也简称为令牌
+     * expires_in 有效期（在授权的公众号具备API权限时，才有此返回值）
+     * authorizer_refresh_token 接口调用凭据刷新令牌（在授权的公众号具备API权限时，才有此返回值），刷新令牌主要用于公众号第三方平台获取和刷新已授权用户的access_token，只会在授权时刻提供，请妥善保存。 一旦丢失，只能让用户重新授权，才能再次拿到新的刷新令牌
+     * func_info 公众号授权给开发者的权限集列表，ID为1到15时分别代表：
      * 消息管理权限
      * 用户管理权限
      * 帐号服务权限
@@ -261,10 +262,10 @@ class Component
      * }
      *
      * 请求参数说明
-     * 参数	说明
-     * component_appid	第三方平台appid
-     * authorizer_appid	授权方appid
-     * authorizer_refresh_token	授权方的刷新令牌，刷新令牌主要用于公众号第三方平台获取和刷新已授权用户的access_token，只会在授权时刻提供，请妥善保存。一旦丢失，只能让用户重新授权，才能再次拿到新的刷新令牌
+     * 参数 说明
+     * component_appid 第三方平台appid
+     * authorizer_appid 授权方appid
+     * authorizer_refresh_token 授权方的刷新令牌，刷新令牌主要用于公众号第三方平台获取和刷新已授权用户的access_token，只会在授权时刻提供，请妥善保存。一旦丢失，只能让用户重新授权，才能再次拿到新的刷新令牌
      * 返回结果示例
      * {
      * "authorizer_access_token": "aaUl5s6kAByLwgV0BhXNuIFFUqfrR8vTATsoSHukcIGqJgrc4KmMJ-JlKoC_-NKCLBvuU1cWPv4vDcLN8Z0pn5I45mpATruU0b51hzeT1f8",
@@ -273,10 +274,10 @@ class Component
      * }
      *
      * 结果参数说明
-     * 参数	说明
-     * authorizer_access_token	授权方令牌
-     * expires_in	有效期，为2小时
-     * authorizer_refresh_token	刷新令牌
+     * 参数 说明
+     * authorizer_access_token 授权方令牌
+     * expires_in 有效期，为2小时
+     * authorizer_refresh_token 刷新令牌
      */
     public function apiAuthorizerToken($authorizer_appid, $authorizer_refresh_token)
     {
@@ -308,9 +309,9 @@ class Component
      * }
      *
      * 请求参数说明
-     * 参数	说明
-     * component_appid	服务appid
-     * authorizer_appid	授权方appid
+     * 参数 说明
+     * component_appid 服务appid
+     * authorizer_appid 授权方appid
      * 返回结果示例
      *
      *
@@ -336,13 +337,13 @@ class Component
      * }
      *
      * 结果参数说明
-     * 参数	说明
-     * nick_name	授权方昵称
-     * head_img	授权方头像
-     * service_type_info	授权方公众号类型，0代表订阅号，1代表由历史老帐号升级后的订阅号，2代表服务号
-     * verify_type_info	授权方认证类型，-1代表未认证，0代表微信认证，1代表新浪微博认证，2代表腾讯微博认证，3代表已资质认证通过但还未通过名称认证，4代表已资质认证通过、还未通过名称认证，但通过了新浪微博认证，5代表已资质认证通过、还未通过名称认证，但通过了腾讯微博认证
-     * user_name	授权方公众号的原始ID
-     * alias	授权方公众号所设置的微信号，可能为空
+     * 参数 说明
+     * nick_name 授权方昵称
+     * head_img 授权方头像
+     * service_type_info 授权方公众号类型，0代表订阅号，1代表由历史老帐号升级后的订阅号，2代表服务号
+     * verify_type_info 授权方认证类型，-1代表未认证，0代表微信认证，1代表新浪微博认证，2代表腾讯微博认证，3代表已资质认证通过但还未通过名称认证，4代表已资质认证通过、还未通过名称认证，但通过了新浪微博认证，5代表已资质认证通过、还未通过名称认证，但通过了腾讯微博认证
+     * user_name 授权方公众号的原始ID
+     * alias 授权方公众号所设置的微信号，可能为空
      * business_info
      * 用以了解以下功能的开通状况（0代表未开通，1代表已开通）：
      * open_store:是否开通微信门店功能
@@ -351,9 +352,9 @@ class Component
      * open_card:是否开通微信卡券功能
      * open_shake:是否开通微信摇一摇功能
      * qrcode_url 二维码图片的URL，开发者最好自行也进行保存
-     * authorization_info	授权信息
-     * appid	授权方appid
-     * func_info	公众号授权给开发者的权限集列表，ID为1到15时分别代表：
+     * authorization_info 授权信息
+     * appid 授权方appid
+     * func_info 公众号授权给开发者的权限集列表，ID为1到15时分别代表：
      * 消息管理权限
      * 用户管理权限
      * 帐号服务权限
@@ -401,10 +402,10 @@ class Component
      * }
      *
      * 请求参数说明
-     * 参数	说明
-     * component_appid	第三方平台appid
-     * authorizer_appid	授权公众号appid
-     * option_name	选项名称
+     * 参数 说明
+     * component_appid 第三方平台appid
+     * authorizer_appid 授权公众号appid
+     * option_name 选项名称
      * 返回结果示例
      * {
      * "authorizer_appid":"wx7bc5ba58cabd00f4",
@@ -413,10 +414,10 @@ class Component
      * }
      *
      * 结果参数说明
-     * 参数	说明
-     * authorizer_appid	授权公众号appid
-     * option_name	选项名称
-     * option_value	选项值
+     * 参数 说明
+     * authorizer_appid 授权公众号appid
+     * option_name 选项名称
+     * option_value 选项值
      */
     public function apiGetAuthorizerOption($authorizer_appid, $option_name)
     {
@@ -448,11 +449,11 @@ class Component
      * }
      *
      * 请求参数说明
-     * 参数	说明
-     * component_appid	第三方平台appid
-     * authorizer_appid	授权公众号appid
-     * option_name	选项名称
-     * option_value	设置的选项值
+     * 参数 说明
+     * component_appid 第三方平台appid
+     * authorizer_appid 授权公众号appid
+     * option_name 选项名称
+     * option_value 设置的选项值
      * 返回结果示例
      * {
      * "errcode":0,
@@ -460,18 +461,18 @@ class Component
      * }
      *
      * 结果参数说明
-     * 参数	说明
-     * errcode	错误码
-     * errmsg	错误信息
+     * 参数 说明
+     * errcode 错误码
+     * errmsg 错误信息
      * 选项名和选项值表
-     * option_name	option_value	选项值说明
-     * location_report(地理位置上报选项)	0	无上报
-     * 1	进入会话时上报
-     * 2	每5s上报
-     * voice_recognize（语音识别开关选项）	0	关闭语音识别
-     * 1	开启语音识别
-     * customer_service（多客服开关选项）	0	关闭多客服
-     * 1	开启多客服
+     * option_name option_value 选项值说明
+     * location_report(地理位置上报选项) 0 无上报
+     * 1 进入会话时上报
+     * 2 每5s上报
+     * voice_recognize（语音识别开关选项） 0 关闭语音识别
+     * 1 开启语音识别
+     * customer_service（多客服开关选项） 0 关闭多客服
+     * 1 开启多客服
      *
      * @throws Exception
      * @return unknown
@@ -493,10 +494,21 @@ class Component
         }
     }
 
-	/**
+    /**
      * 获取授权页的URL
+     * 方式一：授权注册页面扫码授权
+     *
+     * 授权页网址为：
+     *
+     * https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=xxxx&pre_auth_code=xxxxx&redirect_uri=xxxx&auth_type=xxx。
+     * 参数 是否必填 参数说明
+     * component_appid 是 第三方平台方appid
+     * pre_auth_code 是 预授权码
+     * redirect_uri 是 回调URI
+     * auth_type 否 要授权的帐号类型， 1则商户扫码后，手机端仅展示公众号、2表示仅展示小程序，3表示公众号和小程序都展示。如果为未制定，则默认小程序和公众号都展示。第三方平台开发者可以使用本字段来控制授权的帐号类型。
+     * biz_appid 否 指定授权唯一的小程序或公众号
      */
-    public function getComponentLoginPage($pre_auth_code, $redirect_uri, $is_redirect = true)
+    public function getComponentLoginPage($pre_auth_code, $redirect_uri, $auth_type = "", $biz_appid = "", $is_redirect = true)
     {
         $redirect_uri = trim($redirect_uri);
         if (filter_var($redirect_uri, FILTER_VALIDATE_URL) === false) {
@@ -504,6 +516,12 @@ class Component
         }
         $redirect_uri = urlencode($redirect_uri);
         $url = "https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid={$this->_appid}&pre_auth_code={$pre_auth_code}&redirect_uri={$redirect_uri}";
+        if (! empty($auth_type)) {
+            $url .= "&auth_type={$auth_type}";
+        }
+        if (! empty($biz_appid)) {
+            $url .= "&biz_appid={$biz_appid}";
+        }
         if (! empty($is_redirect)) {
             header("location:{$url}");
             exit();
@@ -511,6 +529,47 @@ class Component
             return $url;
         }
     }
+
+    /**
+     * 方式二：点击移动端链接快速授权
+     * 第三方平台方可以生成授权链接，将链接通过移动端直接发给授权管理员，管理员确认后即授权成功。
+     *
+     *
+     * 授权链接为：
+     *
+     * https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&auth_type=3&no_scan=1&component_appid=xxxx&pre_auth_code=xxxxx&redirect_uri=xxxx&auth_type=xxx&biz_appid=xxxx#wechat_redirect
+     * 参数 是否必填 参数说明
+     * component_appid 是 第三方平台方appid
+     * pre_auth_code 是 预授权码
+     * redirect_uri 是 回调URI
+     * auth_type 是 要授权的帐号类型：1则商户点击链接后，手机端仅展示公众号、2表示仅展示小程序，3表示公众号和小程序都展示。如果为未指定，则默认小程序和公众号都展示。第三方平台开发者可以使用本字段来控制授权的帐号类型。
+     * biz_appid 否 指定授权唯一的小程序或公众号
+     * 注：auth_type、biz_appid两个字段互斥。
+     */
+    public function getBindcomponentUrl($pre_auth_code, $redirect_uri, $auth_type = "", $biz_appid = "", $is_redirect = true)
+    {
+        $redirect_uri = trim($redirect_uri);
+        if (filter_var($redirect_uri, FILTER_VALIDATE_URL) === false) {
+            throw new Exception('$redirect_uri无效');
+        }
+        $redirect_uri = urlencode($redirect_uri);
+        $url = "https://mp.weixin.qq.com/safe/bindcomponent?action=bindcomponent&component_appid={$this->_appid}&pre_auth_code={$pre_auth_code}&redirect_uri={$redirect_uri}";
+        if (! empty($auth_type)) {
+            $url .= "&auth_type={$auth_type}";
+        }
+        if (! empty($biz_appid)) {
+            $url .= "&biz_appid={$biz_appid}";
+        }
+        $url .= "#wechat_redirect";
+        
+        if (! empty($is_redirect)) {
+            header("location:{$url}");
+            exit();
+        } else {
+            return $url;
+        }
+    }
+
     public function __destruct()
     {}
 }

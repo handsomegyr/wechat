@@ -236,7 +236,12 @@ class Request
         );
         $context = stream_context_create($opts);
         $fileBytes = file_get_contents($url, false, $context);
-        $filename = uniqid() . '.jpg';
+        
+        $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+        if (empty($ext)) {
+            $ext = "jpg";
+        }
+        $filename = uniqid() . ".{$ext}";
         return array(
             'name' => $filename,
             'bytes' => $fileBytes

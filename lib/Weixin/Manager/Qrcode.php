@@ -111,6 +111,25 @@ class Qrcode
         return $this->_client->rst($rst);
     }
 	
+	public function create3($action_name, $scene, $expire_seconds = 0)
+    {
+        $expire_seconds = min($expire_seconds, 2592000);
+        $params = array();
+        if ($action_name == "QR_SCENE") {
+            $params['expire_seconds'] = $expire_seconds;
+            $params['action_info']['scene']['scene_id'] = $scene;
+        } elseif ($action_name == "QR_STR_SCENE") {
+            $params['expire_seconds'] = $expire_seconds;
+            $params['action_info']['scene']['scene_str'] = $scene;
+        } elseif ($action_name == "QR_LIMIT_SCENE") {
+            $params['action_info']['scene']['scene_id'] = $scene;
+        } elseif ($action_name == "QR_LIMIT_STR_SCENE") {
+            $params['action_info']['scene']['scene_str'] = $scene;
+        }
+        $rst = $this->_request->post($this->_url . 'qrcode/create', $params);
+        return $this->_client->rst($rst);
+    }
+	
     /**
      * 通过ticket换取二维码
      * 获取二维码ticket后，开发者可用ticket换取二维码图片。请注意，本接口无须登录态即可调用

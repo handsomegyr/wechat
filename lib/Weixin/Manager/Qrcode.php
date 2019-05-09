@@ -110,11 +110,12 @@ class Qrcode
         $rst = $this->_request->post($this->_url . 'qrcode/create', $params);
         return $this->_client->rst($rst);
     }
-	
-	public function create3($action_name, $scene, $expire_seconds = 0)
+		
+    public function create3($action_name, $scene, $expire_seconds = 0)
     {
         $expire_seconds = min($expire_seconds, 2592000);
         $params = array();
+        $params['action_name'] = $action_name;
         if ($action_name == "QR_SCENE") {
             $params['expire_seconds'] = $expire_seconds;
             $params['action_info']['scene']['scene_id'] = $scene;

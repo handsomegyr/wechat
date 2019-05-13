@@ -222,7 +222,7 @@ class Request
      * @throws Exception
      * @return array
      */
-    public function getFileByUrl($url = '')
+    public function getFileByUrl($url = '', $file_ext = "")
     {
         $opts = array(
             'http' => array(
@@ -237,9 +237,13 @@ class Request
         $context = stream_context_create($opts);
         $fileBytes = file_get_contents($url, false, $context);
         
-        $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-        if (empty($ext)) {
-            $ext = "jpg";
+		if (empty($file_ext)) {
+            $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            if (empty($ext)) {
+                $ext = "jpg";
+            }
+        } else {
+            $ext = $file_ext;
         }
         $filename = uniqid() . ".{$ext}";
         return array(

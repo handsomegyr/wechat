@@ -107,11 +107,11 @@ class Media
      *
      * @param string $mediaId            
      */
-    public function download($mediaId)
+    public function download($mediaId, $file_ext = "")
     {
         $accessToken = $this->_client->getAccessToken();
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token=' . $accessToken . '&media_id=' . $mediaId;
-        return $this->_request->getFileByUrl($url);
+        return $this->_request->getFileByUrl($url, file_ext);
     }
 
     /**
@@ -141,11 +141,11 @@ class Media
      * 如果speex音频格式不符合业务需求，开发者可在获取后，再自行于本地对该语音素材进行转码。
      * 转码请使用speex的官方解码库 http://speex.org/downloads/ ，并结合微信的解码库（含示例代码：下载地址）。
      */
-    public function download4Jssdk($mediaId)
+    public function download4Jssdk($mediaId, $file_ext = "")
     {
         $accessToken = $this->_client->getAccessToken();
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get/jssdk?access_token=' . $accessToken . '&media_id=' . $mediaId;
-        return $this->_request->getFileByUrl($url);
+        return $this->_request->getFileByUrl($url, file_ext);
     }
 
     /**

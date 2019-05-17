@@ -154,11 +154,12 @@ class Request
      *
      * @param string $uri            
      * @param array $fileParams            
-     * @param array $extraParams            
+     * @param array $extraParams             
+     * @param array $description          
      * @throws Exception
      * @return mixed
      */
-    public function uploadFiles($uri, array $fileParams, array $extraParams = array())
+    public function uploadFiles($uri, array $fileParams, array $extraParams = array(), array $description = array())
     {
         $client = new \GuzzleHttp\Client();
         
@@ -187,6 +188,13 @@ class Request
         // 如果需要额外的提交参数的话
         if (! empty($extraParams)) {
             $body = json_encode($extraParams, JSON_UNESCAPED_UNICODE);
+        }
+        
+        if (! empty($description)) {
+            $multipart[] = array(
+                'name' => 'description',
+                'contents' => json_encode($description, JSON_UNESCAPED_UNICODE)
+            );
         }
         
         $response = $client->post($uri, array(

@@ -210,10 +210,9 @@ class Material
             'media' => $media
         );
         $extraParams = array(
-            'type' => $type,
-            'description' => json_encode($description, JSON_UNESCAPED_UNICODE)
+            'type' => $type
         );
-        return $this->_request->uploadFiles('https://api.weixin.qq.com/cgi-bin/material/add_material', $fileParams, $extraParams);
+        return $this->_request->uploadFiles('https://api.weixin.qq.com/cgi-bin/material/add_material', $fileParams, $extraParams, $description);
     }
 
     /**

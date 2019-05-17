@@ -227,7 +227,8 @@ class Media
         $video["media_id"] = $media_id;
         $video["title"] = $title;
         $video["description"] = $description;
-        return $this->_request->post('https://file.api.weixin.qq.com/cgi-bin/media/uploadvideo', $video);
+        // return $this->_request->post('https://file.api.weixin.qq.com/cgi-bin/media/uploadvideo', $video);
+        return $this->_request->post('https://api.weixin.qq.com/cgi-bin/media/uploadvideo', $video);
     }
 
     public function uploadImg($img)

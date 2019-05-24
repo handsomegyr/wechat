@@ -47,7 +47,7 @@ class Custom
     /**
      * 设定图文消息的最大显示文字长度，超过省略
      *
-     * @return number
+     * @return \Weixin\Manager\Msg\Custom
      */
     public function setLength($len)
     {
@@ -58,7 +58,7 @@ class Custom
     /**
      * 设定客服帐号
      *
-     * @return string
+     * @return \Weixin\Manager\Msg\Custom
      */
     public function setKfAccount($kf_account)
     {
@@ -171,7 +171,7 @@ class Custom
         $hqmusicurl = $hqmusicurl == '' ? $musicurl : $hqmusicurl;
         $ret = array();
         $ret['touser'] = $toUser;
-        $ret['msgtype'] = 'video';
+        $ret['msgtype'] = 'music';
         $ret['music']['title'] = $title;
         $ret['music']['description'] = $description;
         $ret['music']['musicurl'] = $musicurl;

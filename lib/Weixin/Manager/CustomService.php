@@ -67,10 +67,12 @@ class CustomService
         $rst = $this->_request->post($this->_url2 . 'customservice/msgrecord/getrecord', $params);
         return $this->_client->rst($rst);
     }
-     /**
+
+    /**
      * 获取客服聊天记录接口(新版)
-     * */
-    public function getMsgList($starttime,$endtime,$msgid=1,$number=10000){
+     */
+    public function getMsgList($starttime, $endtime, $msgid = 1, $number = 10000)
+    {
         $params = array();
         $params['starttime'] = $starttime;
         $params['endtime'] = $endtime;
@@ -78,8 +80,8 @@ class CustomService
         $params['number'] = $number;
         $rst = $this->_request->post($this->_url2 . 'customservice/msgrecord/getmsglist', $params);
         return $this->_client->rst($rst);
-
     }
+
     /**
      * 获取客服基本信息
      *
@@ -346,7 +348,7 @@ class CustomService
         $options = array(
             'fieldName' => 'media'
         );
-        $rst = $this->_request->uploadFile('https://api.weixin.qq.com/customservice/kfacount/uploadheadimg', $media, $options, $query);
+        $rst = $this->_request->uploadFile($this->_url2 . 'customservice/kfaccount/uploadheadimg', $media, $options, $query);
         
         return $this->_client->rst($rst);
     }

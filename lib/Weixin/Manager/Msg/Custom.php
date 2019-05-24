@@ -49,9 +49,10 @@ class Custom
      *
      * @return number
      */
-    public function setLength()
+    public function setLength($len)
     {
-        return $this->_length;
+        $this->_length = $len;
+        return $this;
     }
 
     /**
@@ -61,7 +62,8 @@ class Custom
      */
     public function setKfAccount($kf_account)
     {
-        return $this->_kf_account;
+        $this->_kf_account = $kf_account;
+        return $this;
     }
 
     /**

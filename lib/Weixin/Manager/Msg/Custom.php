@@ -213,6 +213,67 @@ class Custom
     }
 
     /**
+     * 发送图文消息（点击跳转到图文消息页面） 图文消息条数限制在1条以内，注意，如果图文数超过1，则将会返回错误码45008。
+     *
+     * {
+     * "touser":"OPENID",
+     * "msgtype":"mpnews",
+     * "mpnews":
+     * {
+     * "media_id":"MEDIA_ID"
+     * }
+     * }
+     */
+    public function sendMpNews($toUser, $media_id)
+    {
+        $ret = array();
+        $ret['touser'] = $toUser;
+        $ret['msgtype'] = 'mpnews';
+        $ret['mpnews']['media_id'] = $media_id;
+        return $this->send($ret);
+    }
+
+    /**
+     * 发送菜单消息
+     *
+     * {
+     * "touser": "OPENID"
+     * "msgtype": "msgmenu",
+     * "msgmenu": {
+     * "head_content": "您对本次服务是否满意呢? "
+     * "list": [
+     * {
+     * "id": "101",
+     * "content": "满意"
+     * },
+     * {
+     * "id": "102",
+     * "content": "不满意"
+     * }
+     * ],
+     * "tail_content": "欢迎再次光临"
+     * }
+     * }
+     * 按照上述例子，用户会看到这样的菜单消息：
+     *
+     * “您对本次服务是否满意呢？
+     *
+     * 满意
+     *
+     * 不满意”
+     *
+     * 其中，“满意”和“不满意”是可点击的，当用户点击后，微信会发送一条XML消息到开发者服务器
+     */
+    public function sendMsgMenu($toUser, $msgmenu)
+    {
+        $ret = array();
+        $ret['touser'] = $toUser;
+        $ret['msgtype'] = 'msgmenu';
+        $ret['msgmenu'] = $msgmenu;
+        return $this->send($ret);
+    }
+
+    /**
      * 发送卡券消息
      * 特别注意客服消息接口投放卡券仅支持非自定义Code码的卡券。
      *

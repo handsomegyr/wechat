@@ -383,4 +383,208 @@ class CustomService
         $rst = $this->_request->get($this->_url2 . 'customservice/kfaccount/del', $params);
         return $this->_client->rst($rst);
     }
+
+    /**
+     * 创建会话
+     *
+     * 此接口在客服和用户之间创建一个会话，如果该客服和用户会话已存在，则直接返回0。指定的客服帐号必须已经绑定微信号且在线。
+     *
+     * 调用说明
+     *
+     * http请求方式: POST
+     * https://api.weixin.qq.com/customservice/kfsession/create?access_token=ACCESS_TOKEN
+     * POST数据示例如下：
+     * {
+     * "kf_account" : "test1@test",
+     * "openid" : "OPENID"
+     * }
+     * 参数说明
+     *
+     * 参数 说明
+     * kf_account 完整客服帐号，格式为：帐号前缀@公众号微信号
+     * openid 粉丝的openid
+     * 返回说明
+     *
+     * 返回数据示例（正确时的JSON返回结果）：
+     * {
+     * "errcode" : 0,
+     * "errmsg" : "ok"
+     * }
+     */
+    public function kfsessionCreate($kf_account, $openid)
+    {
+        $params = array();
+        $params['kf_account'] = $kf_account;
+        $params['openid'] = $openid;
+        
+        $rst = $this->_request->post($this->_url2 . 'customservice/kfsession/create', $params);
+        return $this->_client->rst($rst);
+    }
+
+    /**
+     * 关闭会话
+     *
+     * 调用说明
+     *
+     * http请求方式: POST
+     * https: //api.weixin.qq.com/customservice/kfsession/close?access_token=ACCESS_TOKEN
+     * POST数据示例如下：
+     * {
+     * "kf_account":"test1@test" ,
+     * "openid": "OPENID"
+     * }
+     * 参数说明
+     *
+     * 参数 说明
+     * kf_account 完整客服帐号，格式为：帐号前缀@公众号微信号
+     * openid 粉丝的openid
+     * 返回说明
+     *
+     * 返回数据示例（正确时的JSON返回结果）：
+     * {
+     * "errcode"
+     * : 0,
+     * "errmsg"
+     * :
+     * "ok"
+     * }
+     * 主要返回码
+     *
+     * 返回码 说明
+     * 0 成功
+     * 65400 API不可用，即没有开通/升级到新版客服功能
+     * 65401 无效的客服帐号
+     * 65402 帐号尚未绑定微信号，不能投入使用
+     * 65413 不存在对应用户的会话信息
+     * 65414 客户正在被其他客服接待
+     * 40003 非法的openid
+     */
+    public function kfsessionClose($kf_account, $openid)
+    {
+        $params = array();
+        $params['kf_account'] = $kf_account;
+        $params['openid'] = $openid;
+        
+        $rst = $this->_request->post($this->_url2 . 'customservice/kfsession/close', $params);
+        return $this->_client->rst($rst);
+    }
+
+    /**
+     * 获取客户会话状态
+     *
+     * 此接口获取一个客户的会话，如果不存在，则kf_account为空。
+     *
+     * 调用说明
+     *
+     * http请求方式: GET https://api.weixin.qq.com/customservice/kfsession/getsession?access_token=ACCESS_TOKEN&openid=OPENID
+     * 参数说明
+     *
+     * 参数 说明
+     * openid 粉丝的openid
+     * 返回说明
+     *
+     * 返回数据示例（正确时的JSON返回结果）：
+     * {
+     * "createtime": 123456789,
+     * "kf_account": "test1@test"
+     * }
+     *
+     * 参数说明
+     *
+     * 参数 说明
+     * kf_account 正在接待的客服，为空表示没有人在接待
+     * createtime 会话接入的时间
+     */
+    public function kfsessionGetSession($openid)
+    {
+        $params = array();
+        $params['openid'] = $openid;
+        
+        $rst = $this->_request->get($this->_url2 . 'customservice/kfsession/getsession', $params);
+        return $this->_client->rst($rst);
+    }
+
+    /**
+     * 获取客服会话列表
+     *
+     * 调用说明
+     *
+     * http请求方式: GET https://api.weixin.qq.com/customservice/kfsession/getsessionlist?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT |
+     * 参数说明
+     *
+     * 参数 说明
+     * kf_account 完整客服帐号，格式为：帐号前缀@公众号微信号
+     * 返回说明
+     *
+     * 返回数据示例（正确时的JSON返回结果）：
+     * {
+     * "sessionlist" : [
+     * {
+     * "createtime" : 123456789,
+     * "openid" : "OPENID"
+     * },
+     * {
+     * "createtime" : 123456789,
+     * "openid" : "OPENID"
+     * }
+     * ]
+     * }
+     */
+    public function kfsessionGetSessionList($kf_account)
+    {
+        $params = array();
+        $params['kf_account'] = $kf_account;
+        
+        $rst = $this->_request->get($this->_url2 . 'customservice/kfsession/getsessionlist', $params);
+        return $this->_client->rst($rst);
+    }
+
+    /**
+     * 获取未接入会话列表
+     *
+     * 调用说明
+     *
+     * http请求方式: GET https://api.weixin.qq.com/customservice/kfsession/getwaitcase?access_token=ACCESS_TOKEN
+     * 返回说明
+     *
+     * 返回数据示例（正确时的JSON返回结果）：
+     * {
+     * "count" : 150,
+     * "waitcaselist" : [
+     * {
+     * "latest_time" : 123456789,
+     * "openid" : "OPENID"
+     * },
+     * {
+     * "latest_time" : 123456789,
+     * "openid" : "OPENID"
+     * }
+     * ]
+     * }
+     * 参数说明
+     *
+     * 参数 说明
+     * count 未接入会话数量
+     * waitcaselist 未接入会话列表，最多返回100条数据，按照来访顺序
+     * openid 粉丝的openid
+     * latest_time 粉丝的最后一条消息的时间
+     * 返回码说明
+     *
+     * 返回码 说明
+     * 0 成功
+     * 65400 API不可用，即没有开通或升级到新版客服功能
+     * 65401 无效客服帐号
+     * 65402 客服帐号尚未绑定微信号，不能投入使用
+     * 65413 不存在对应用户的会话信息
+     * 65414 粉丝正在被其他客服接待
+     * 65415 指定的客服不在线
+     * 40003 非法的openid
+     */
+    public function kfsessionGetWaitCase()
+    {
+        $params = array();
+        
+        $rst = $this->_request->get($this->_url2 . 'customservice/kfsession/getwaitcase', $params);
+        return $this->_client->rst($rst);
+    }
 }

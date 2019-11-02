@@ -1,9 +1,11 @@
 <?php
+
 /**
  * 消息控制器
  * @author guoyongrong
  *
  */
+
 namespace Weixin\Wx\Manager;
 
 use Weixin\Client;
@@ -36,6 +38,16 @@ class Msg
      * @return \Weixin\Manager\Msg\Updatablemsg
      */
     public function getUpdatablemsgSender()
+    {
+        return new Updatablemsg($this->_client);
+    }
+
+    /**
+     * 获取小程序订阅消息管理器
+     *
+     * @return \Weixin\Manager\Msg\SubscribeMessage
+     */
+    public function getSubscribeMessageSender()
     {
         return new Updatablemsg($this->_client);
     }

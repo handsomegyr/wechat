@@ -129,7 +129,7 @@ class SubscribeMessage
         $params['template_id'] = $template_id;
         $params['data'] = $data;
         if (!empty($page)) {
-            $params['page'] = $$page;
+            $params['page'] = $page;
         }
         $rst = $this->_request->post($this->_url . 'message/subscribe/send', $params);
         return $this->_client->rst($rst);

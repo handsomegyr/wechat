@@ -11,6 +11,7 @@ namespace Weixin\Wx\Manager;
 use Weixin\Client;
 use Weixin\Wx\Manager\Msg\Template;
 use Weixin\Wx\Manager\Msg\Updatablemsg;
+use Weixin\Wx\Manager\Msg\SubscribeMessage;
 
 class Msg
 {
@@ -49,6 +50,6 @@ class Msg
      */
     public function getSubscribeMessageSender()
     {
-        return new Updatablemsg($this->_client);
+        return new SubscribeMessage($this->_client);
     }
 }

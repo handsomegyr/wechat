@@ -64,8 +64,6 @@ class Mass
     // 接口地址
     private $_url = 'https://api.weixin.qq.com/cgi-bin/';
 
-    public $is_to_all = false;
-
     private $_client;
 
     private $_request;
@@ -94,21 +92,20 @@ class Mass
      *
      * @param string $group_id            
      * @param string $content            
+     * @param boolean $is_to_all            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendTextByGroup($group_id, $content, $title = "", $description = "")
+    public function sendTextByGroup($group_id, $content, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
-        if (! empty($this->is_to_all)) {
-            $ret['filter']['is_to_all'] = $this->is_to_all;
-        }
-        $ret['msgtype'] = 'text';
-        $ret['text']['content'] = $content;
-        $ret['text']['title'] = $title;
-        $ret['text']['description'] = $description;
+        $ret['filter']['is_to_all'] = $is_to_all;
+        $params = $this->buildParamsByMsgType('text', $content, "", "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
         return $this->sendAll($ret);
     }
 
@@ -117,17 +114,21 @@ class Mass
      *
      * @param string $group_id            
      * @param string $content            
+     * @param boolean $is_to_all            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendTextByTag($tag_id, $content, $is_to_all = false)
+    public function sendTextByTag($tag_id, $content, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        $ret['msgtype'] = 'text';
-        $ret['text']['content'] = $content;
+        
+        $params = $this->buildParamsByMsgType('text', $content, "", "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
         return $this->sendAll($ret);
     }
 
@@ -136,21 +137,21 @@ class Mass
      *
      * @param string $group_id            
      * @param string $media_id            
+     * @param boolean $is_to_all            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendImageByGroup($group_id, $media_id, $title = "", $description = "")
+    public function sendImageByGroup($group_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
-        if (! empty($this->is_to_all)) {
-            $ret['filter']['is_to_all'] = $this->is_to_all;
-        }
-        $ret['msgtype'] = 'image';
-        $ret['image']['media_id'] = $media_id;
-        $ret['image']['title'] = $title;
-        $ret['image']['description'] = $description;
+        $ret['filter']['is_to_all'] = $is_to_all;
+        $params = $this->buildParamsByMsgType('image', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->sendAll($ret);
     }
 
@@ -159,17 +160,22 @@ class Mass
      *
      * @param string $group_id            
      * @param string $media_id            
+     * @param boolean $is_to_all            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendImageByTag($tag_id, $media_id, $is_to_all = false)
+    public function sendImageByTag($tag_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        $ret['msgtype'] = 'image';
-        $ret['image']['media_id'] = $media_id;
+        
+        $params = $this->buildParamsByMsgType('image', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->sendAll($ret);
     }
 
@@ -178,21 +184,22 @@ class Mass
      *
      * @param string $group_id            
      * @param string $media_id            
+     * @param boolean $is_to_all            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendVoiceByGroup($group_id, $media_id, $title = "", $description = "")
+    public function sendVoiceByGroup($group_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
-        if (! empty($this->is_to_all)) {
-            $ret['filter']['is_to_all'] = $this->is_to_all;
-        }
-        $ret['msgtype'] = 'voice';
-        $ret['voice']['media_id'] = $media_id;
-        $ret['voice']['title'] = $title;
-        $ret['voice']['description'] = $description;
+        $ret['filter']['is_to_all'] = $is_to_all;
+        
+        $params = $this->buildParamsByMsgType('voice', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->sendAll($ret);
     }
 
@@ -201,17 +208,22 @@ class Mass
      *
      * @param string $group_id            
      * @param string $media_id            
+     * @param boolean $is_to_all            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendVoiceByTag($tag_id, $media_id, $is_to_all = false)
+    public function sendVoiceByTag($tag_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        $ret['msgtype'] = 'voice';
-        $ret['voice']['media_id'] = $media_id;
+        
+        $params = $this->buildParamsByMsgType('voice', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->sendAll($ret);
     }
 
@@ -220,21 +232,22 @@ class Mass
      *
      * @param string $group_id            
      * @param string $media_id            
+     * @param boolean $is_to_all            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendVideoByGroup($group_id, $media_id, $title = "", $description = "")
+    public function sendVideoByGroup($group_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
-        if (! empty($this->is_to_all)) {
-            $ret['filter']['is_to_all'] = $this->is_to_all;
-        }
-        $ret['msgtype'] = 'mpvideo';
-        $ret['mpvideo']['media_id'] = $media_id;
-        $ret['mpvideo']['title'] = $title;
-        $ret['mpvideo']['description'] = $description;
+        $ret['filter']['is_to_all'] = $is_to_all;
+        
+        $params = $this->buildParamsByMsgType('mpvideo', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->sendAll($ret);
     }
 
@@ -243,17 +256,22 @@ class Mass
      *
      * @param string $group_id            
      * @param string $media_id            
+     * @param boolean $is_to_all            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendVideoByTag($tag_id, $media_id, $is_to_all = false)
+    public function sendVideoByTag($tag_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        $ret['msgtype'] = 'mpvideo';
-        $ret['mpvideo']['media_id'] = $media_id;
+        
+        $params = $this->buildParamsByMsgType('mpvideo', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->sendAll($ret);
     }
 
@@ -262,21 +280,22 @@ class Mass
      *
      * @param string $group_id            
      * @param string $media_id            
+     * @param boolean $is_to_all            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendGraphTextByGroup($group_id, $media_id, $title = "", $description = "")
+    public function sendGraphTextByGroup($group_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
-        if (! empty($this->is_to_all)) {
-            $ret['filter']['is_to_all'] = $this->is_to_all;
-        }
-        $ret['msgtype'] = 'mpnews';
-        $ret['mpnews']['media_id'] = $media_id;
-        $ret['mpnews']['title'] = $title;
-        $ret['mpnews']['description'] = $description;
+        $ret['filter']['is_to_all'] = $is_to_all;
+        
+        $params = $this->buildParamsByMsgType('mpnews', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->sendAll($ret);
     }
 
@@ -286,19 +305,20 @@ class Mass
      * @param string $tag_id            
      * @param string $media_id            
      * @param boolean $is_to_all            
+     * @param string $title            
+     * @param string $description            
      * @param number $send_ignore_reprint            
      * @param string $clientmsgid            
      * @return array
      */
-    public function sendGraphTextByTag($tag_id, $media_id, $is_to_all = false, $send_ignore_reprint = 1, $clientmsgid = '')
+    public function sendGraphTextByTag($tag_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        $ret['msgtype'] = 'mpnews';
-        $ret['mpnews']['media_id'] = $media_id;
-        $ret['send_ignore_reprint'] = $send_ignore_reprint;
-        $ret['clientmsgid'] = $clientmsgid;
+        
+        $params = $this->buildParamsByMsgType('mpnews', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
         
         return $this->sendAll($ret);
     }
@@ -309,20 +329,22 @@ class Mass
      * @param string $group_id            
      * @param string $card_id            
      * @param array $card_ext            
+     * @param boolean $is_to_all            
+     * @param string $title            
+     * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendWxcardByGroup($group_id, $card_id, array $card_ext = array())
+    public function sendWxcardByGroup($group_id, $card_id, array $card_ext = array(), $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
-        if (! empty($this->is_to_all)) {
-            $ret['filter']['is_to_all'] = $this->is_to_all;
-        }
-        $ret['msgtype'] = 'wxcard';
-        $ret['wxcard']['card_id'] = $card_id;
-        if (! empty($card_ext)) {
-            $ret['wxcard']['card_ext'] = json_encode($card_ext);
-        }
+        $ret['filter']['is_to_all'] = $is_to_all;
+        
+        $params = $this->buildParamsByMsgType('wxcard', "", "", $card_id, $card_ext, $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->sendAll($ret);
     }
 
@@ -332,18 +354,22 @@ class Mass
      * @param string $group_id            
      * @param string $card_id            
      * @param array $card_ext            
+     * @param boolean $is_to_all            
+     * @param string $title            
+     * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendWxcardByTag($tag_id, $card_id, array $card_ext = array(), $is_to_all = false)
+    public function sendWxcardByTag($tag_id, $card_id, array $card_ext = array(), $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['filter']['group_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        $ret['msgtype'] = 'wxcard';
-        $ret['wxcard']['card_id'] = $card_id;
-        if (! empty($card_ext)) {
-            $ret['wxcard']['card_ext'] = json_encode($card_ext);
-        }
+        
+        $params = $this->buildParamsByMsgType('wxcard', "", "", $card_id, $card_ext, $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->sendAll($ret);
     }
 
@@ -367,16 +393,17 @@ class Mass
      * @param string $content            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendTextByOpenid(array $toUsers, $content, $title = "", $description = "")
+    public function sendTextByOpenid(array $toUsers, $content, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        $ret['msgtype'] = 'text';
-        $ret['text']['content'] = $content;
-        $ret['text']['title'] = $title;
-        $ret['text']['description'] = $description;
+        
+        $params = $this->buildParamsByMsgType('text', $content, "", "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
         return $this->send($ret);
     }
 
@@ -387,16 +414,17 @@ class Mass
      * @param string $media_id            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendImageByOpenid(array $toUsers, $media_id, $title = "", $description = "")
+    public function sendImageByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        $ret['msgtype'] = 'image';
-        $ret['image']['media_id'] = $media_id;
-        $ret['image']['title'] = $title;
-        $ret['image']['description'] = $description;
+        $params = $this->buildParamsByMsgType('image', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->send($ret);
     }
 
@@ -407,16 +435,18 @@ class Mass
      * @param string $media_id            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendVoiceByOpenid(array $toUsers, $media_id, $title = "", $description = "")
+    public function sendVoiceByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        $ret['msgtype'] = 'voice';
-        $ret['voice']['media_id'] = $media_id;
-        $ret['voice']['title'] = $title;
-        $ret['voice']['description'] = $description;
+        
+        $params = $this->buildParamsByMsgType('voice', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->send($ret);
     }
 
@@ -427,16 +457,18 @@ class Mass
      * @param string $media_id            
      * @param string $title            
      * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendVideoByOpenid(array $toUsers, $media_id, $title = "", $description = "")
+    public function sendVideoByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        $ret['msgtype'] = 'mpvideo';
-        $ret['mpvideo']['media_id'] = $media_id;
-        $ret['mpvideo']['title'] = $title;
-        $ret['mpvideo']['description'] = $description;
+        
+        $params = $this->buildParamsByMsgType('mpvideo', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->send($ret);
     }
 
@@ -451,16 +483,12 @@ class Mass
      * @param string $clientmsgid            
      * @return array
      */
-    public function sendGraphTextByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 1, $clientmsgid = '')
+    public function sendGraphTextByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        $ret['msgtype'] = 'mpnews';
-        $ret['mpnews']['media_id'] = $media_id;
-        $ret['mpnews']['title'] = $title;
-        $ret['mpnews']['description'] = $description;
-        $ret['send_ignore_reprint'] = $send_ignore_reprint;
-        $ret['clientmsgid'] = $clientmsgid;
+        $params = $this->buildParamsByMsgType('mpnews', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
         return $this->send($ret);
     }
 
@@ -470,17 +498,20 @@ class Mass
      * @param array $toUsers            
      * @param string $card_id            
      * @param array $card_ext            
+     * @param string $title            
+     * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
      * @return array
      */
-    public function sendWxcardByOpenid(array $toUsers, $card_id, array $card_ext = array())
+    public function sendWxcardByOpenid(array $toUsers, $card_id, array $card_ext = array(), $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        $ret['msgtype'] = 'wxcard';
-        $ret['wxcard']['card_id'] = $card_id;
-        if (! empty($card_ext)) {
-            $ret['wxcard']['card_ext'] = json_encode($card_ext);
-        }
+        
+        $params = $this->buildParamsByMsgType('wxcard', "", "", $card_id, $card_ext, $title, $description, $send_ignore_reprint, $clientmsgid);
+        $ret = array_merge($ret, $params);
+        
         return $this->send($ret);
     }
 
@@ -496,6 +527,123 @@ class Mass
         $ret['msgid'] = $msgid;
         $rst = $this->_request->post($this->_url . "message/mass/delete", $ret);
         return $this->_client->rst($rst);
+    }
+
+    /**
+     * 预览文本消息
+     *
+     * @param string $touser            
+     * @param string $content            
+     * @param string $title            
+     * @param string $description            
+     * @return array
+     */
+    public function previewText($touser, $content, $title = "", $description = "")
+    {
+        $ret = array();
+        $ret['touser'] = $touser;
+        
+        $params = $this->buildParamsByMsgType('text', $content, "", "", array(), $title, $description);
+        $ret = array_merge($ret, $params);
+        return $this->preview($ret);
+    }
+
+    /**
+     * 预览图片消息
+     *
+     * @param string $touser            
+     * @param string $media_id            
+     * @param string $title            
+     * @param string $description            
+     * @return array
+     */
+    public function previewImage($touser, $media_id, $title = "", $description = "")
+    {
+        $ret = array();
+        $ret['touser'] = $touser;
+        $params = $this->buildParamsByMsgType('image', "", $media_id, "", array(), $title, $description);
+        $ret = array_merge($ret, $params);
+        
+        return $this->preview($ret);
+    }
+
+    /**
+     * 预览语音消息
+     *
+     * @param string $touser            
+     * @param string $media_id            
+     * @param string $title            
+     * @param string $description            
+     * @return array
+     */
+    public function previewVoice($touser, $media_id, $title = "", $description = "")
+    {
+        $ret = array();
+        $ret['touser'] = $touser;
+        
+        $params = $this->buildParamsByMsgType('voice', "", $media_id, "", array(), $title, $description);
+        $ret = array_merge($ret, $params);
+        
+        return $this->preview($ret);
+    }
+
+    /**
+     * 预览视频消息
+     *
+     * @param string $touser            
+     * @param string $media_id            
+     * @param string $title            
+     * @param string $description            
+     * @return array
+     */
+    public function previewVideo($touser, $media_id, $title = "", $description = "")
+    {
+        $ret = array();
+        $ret['touser'] = $touser;
+        
+        $params = $this->buildParamsByMsgType('mpvideo', "", $media_id, "", array(), $title, $description);
+        $ret = array_merge($ret, $params);
+        
+        return $this->preview($ret);
+    }
+
+    /**
+     * 预览图文消息
+     *
+     * @param string $touser            
+     * @param string $media_id            
+     * @param string $title            
+     * @param string $description            
+     * @param number $send_ignore_reprint            
+     * @param string $clientmsgid            
+     * @return array
+     */
+    public function previewGraphText($touser, $media_id, $title = "", $description = "")
+    {
+        $ret = array();
+        $ret['touser'] = $touser;
+        $params = $this->buildParamsByMsgType('mpnews', "", $media_id, "", array(), $title, $description);
+        $ret = array_merge($ret, $params);
+        return $this->preview($ret);
+    }
+
+    /**
+     * 预览卡券消息
+     *
+     * @param string $touser            
+     * @param string $card_id            
+     * @param array $card_ext            
+     * @return array
+     */
+    public function previewWxcard($touser, $card_id, array $card_ext = array(), $title = "", $description = "")
+    {
+        $ret = array();
+        $ret['touser'] = $touser;
+        
+        $params = $this->buildParamsByMsgType('wxcard', "", "", $card_id, $card_ext, $title, $description);
+        $ret = array_merge($ret, $params);
+        
+        return $this->preview($ret);
     }
 
     /**
@@ -594,5 +742,58 @@ class Mass
         );
         $rst = $this->_request->post($this->_url . "message/mass/speed/set", $params);
         return $this->_client->rst($rst);
+    }
+
+    protected function buildParamsByMsgType($msgtype, $content, $media_id, $card_id, array $card_ext = array(), $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = "")
+    {
+        $params = array();
+        $params['msgtype'] = $msgtype;
+        // 文本
+        if ($msgtype == 'text') {
+            $params[$msgtype]['content'] = $content;
+        }        
+
+        // 图片
+        elseif ($msgtype == 'image') {
+            $params[$msgtype]['media_id'] = $media_id;
+        }        
+
+        // 语音/音频
+        elseif ($msgtype == 'voice') {
+            $params[$msgtype]['media_id'] = $media_id;
+        }        
+
+        // 视频
+        elseif ($msgtype == 'mpvideo') {
+            $params[$msgtype]['media_id'] = $media_id;
+        }        
+
+        // 图文
+        elseif ($msgtype == 'mpnews') {
+            $params[$msgtype]['media_id'] = $media_id;
+        }        
+
+        // 卡券
+        elseif ($msgtype == 'wxcard') {
+            $params[$msgtype]['card_id'] = $card_id;
+            if (! empty($card_ext)) {
+                $params[$msgtype]['card_ext'] = json_encode($card_ext);
+            }
+        }
+        
+        if (! empty($title)) {
+            $params[$msgtype]['title'] = $title;
+        }
+        if (! empty($description)) {
+            $params[$msgtype]['description'] = $description;
+        }
+        if (empty($send_ignore_reprint)) {
+            $ret['send_ignore_reprint'] = $send_ignore_reprint;
+        }
+        if (! empty($clientmsgid)) {
+            $ret['clientmsgid'] = $clientmsgid;
+        }
+        
+        return $params;
     }
 }

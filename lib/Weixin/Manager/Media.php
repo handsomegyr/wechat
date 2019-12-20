@@ -111,7 +111,7 @@ class Media
     {
         $accessToken = $this->_client->getAccessToken();
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token=' . $accessToken . '&media_id=' . $mediaId;
-        return $this->_request->getFileByUrl($url, file_ext);
+        return $this->_request->getFileByUrl($url, $file_ext);
     }
 
     /**
@@ -145,7 +145,7 @@ class Media
     {
         $accessToken = $this->_client->getAccessToken();
         $url = 'https://api.weixin.qq.com/cgi-bin/media/get/jssdk?access_token=' . $accessToken . '&media_id=' . $mediaId;
-        return $this->_request->getFileByUrl($url, file_ext);
+        return $this->_request->getFileByUrl($url, $file_ext);
     }
 
     /**

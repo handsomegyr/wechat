@@ -181,7 +181,7 @@ class Custom
     }
 
     /**
-     * 发送图文消息
+     * 发送图文消息（点击跳转到外链） 图文消息条数限制在1条以内，注意，如果图文数超过1，则将会返回错误码45008。
      *
      * @param string $toUser            
      * @param string $articles            
@@ -192,7 +192,7 @@ class Custom
         if (! is_array($articles) || count($articles) == 0)
             return '';
         $items = array();
-        $articles = array_slice($articles, 0, 10); // 图文消息条数限制在10条以内。
+        $articles = array_slice($articles, 0, 1); // 图文消息条数限制在1条以内。
         $articleCount = count($articles);
         foreach ($articles as $article) {
             if (mb_strlen($article['description'], 'utf-8') > $this->_length) {

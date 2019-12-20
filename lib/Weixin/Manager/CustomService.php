@@ -319,10 +319,10 @@ class CustomService
      * 接口调用请求说明
      *
      * http请求方式: POST/FORM
-     * http://api.weixin.qq.com/customservice/kfacount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT
+     * http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT
      *
      * 调用示例（使用curl命令，用FORM表单方式上传一个多媒体文件）：
-     * curl -F media=@test.jpg "https://api.weixin.qq.com/customservice/kfacount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT"
+     * curl -F media=@test.jpg "https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT"
      * 参数说明
      *
      * 参数 是否必须 说明

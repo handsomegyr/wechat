@@ -1,4 +1,5 @@
 <?php
+
 namespace Weixin\Wx\Manager;
 
 use Weixin\Client;
@@ -45,7 +46,7 @@ class Qrcode
      * is_hyaline boolean false 否 是否需要透明底色，为 true 时，生成透明底色的小程序码
      * 注意：通过该接口生成的小程序码，永久有效，数量限制见文末说明，请谨慎使用。用户扫描该码进入小程序后，将直接进入 path 对应的页面。
      */
-    public function getwxacode($path, $width, $auto_color = false, $line_color = array("r"=>"0","g"=>"0","b"=>"0"), $is_hyaline = false)
+    public function getwxacode($path, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false)
     {
         $params = array();
         $params['path'] = $path;
@@ -54,7 +55,24 @@ class Qrcode
         if (empty($auto_color)) {
             $params['line_color'] = $line_color;
         }
-        if (! empty($is_hyaline)) {
+        if (!empty($is_hyaline)) {
+            $params['is_hyaline'] = $is_hyaline;
+        }
+        $rst = $this->_request->post($this->_url . 'wxa/getwxacode', $params);
+        return $this->_client->rst($rst);
+    }
+
+    public function getwxacode2($path, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false)
+    {
+        // 完善返回值的结构
+        $params = array();
+        $params['path'] = $path;
+        $params['width'] = $width;
+        $params['auto_color'] = $auto_color;
+        if (empty($auto_color)) {
+            $params['line_color'] = $line_color;
+        }
+        if (!empty($is_hyaline)) {
             $params['is_hyaline'] = $is_hyaline;
         }
         $this->_request->setJson(false);
@@ -91,7 +109,7 @@ class Qrcode
      * }
      * })
      */
-    public function getwxacodeunlimit($scene, $page, $width, $auto_color = false, $line_color = array("r"=>"0","g"=>"0","b"=>"0"), $is_hyaline = false)
+    public function getwxacodeunlimit($scene, $page, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false)
     {
         $params = array();
         $params['scene'] = $scene;
@@ -101,7 +119,25 @@ class Qrcode
         if (empty($auto_color)) {
             $params['line_color'] = $line_color;
         }
-        if (! empty($is_hyaline)) {
+        if (!empty($is_hyaline)) {
+            $params['is_hyaline'] = $is_hyaline;
+        }
+        $rst = $this->_request->post($this->_url . 'wxa/getwxacodeunlimit', $params);
+        return $this->_client->rst($rst);
+    }
+
+    public function getwxacodeunlimit2($scene, $page, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false)
+    {
+        // 完善返回值的结构
+        $params = array();
+        $params['scene'] = $scene;
+        $params['page'] = $page;
+        $params['width'] = $width;
+        $params['auto_color'] = $auto_color;
+        if (empty($auto_color)) {
+            $params['line_color'] = $line_color;
+        }
+        if (!empty($is_hyaline)) {
             $params['is_hyaline'] = $is_hyaline;
         }
         $this->_request->setJson(false);
@@ -147,7 +183,7 @@ class Qrcode
             'errmsg' => '',
             'wxacode' => ''
         );
-        
+
         // 如果为空值就是错误
         if (empty($body)) {
             $ret['errcode'] = 99999;

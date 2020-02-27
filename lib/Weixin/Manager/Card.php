@@ -2198,7 +2198,7 @@ class Card
      *
      * @return \Weixin\Manager\Card\Invoice
      */
-    public function getInvoice()
+    public function getInvoiceManager()
     {
         return new Invoice($this->_client);
     }

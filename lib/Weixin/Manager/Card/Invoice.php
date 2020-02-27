@@ -941,7 +941,7 @@ class Invoice
      *
      * @return \Weixin\Manager\Card\Invoice\Reimburse
      */
-    public function getReimburse()
+    public function getReimburseManager()
     {
         return new Reimburse($this->_client);
     }

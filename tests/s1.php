@@ -11,9 +11,9 @@ try {
     // 集资购
     $openid = 'o4ELSvz-B4_DThF0Vpfrverk3IpY';
     // appid
-    $appid = 'wxbf9165206b992f39'; // appID
+    $appid = 'xxxxxxxxxxxxxxxxx'; // appID
     // secret
-    $secret = '08f81abfab87863a1de2cf13af417a55'; // appsecret
+    $secret = 'xxxxxxxxxxxxxxxxx'; // appsecret
 
     // 获得access_token
 

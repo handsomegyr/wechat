@@ -1,7 +1,7 @@
 // <?php
 require __DIR__ . '/../autoload.php';
-$appid  = 'wx31b06d5a578863c1'; // appID
-$secret = '36920522135088ff042256ca567ff752'; // appsecret
+$appid  = 'xxxxxxxxxxxxx'; // appID
+$secret = 'xxxxxxxxxxxxxx'; // appsecret
                                               // token的获取
 $objToken       = new \Weixin\Token\Server($appid, $secret);
 $arrAccessToken = $objToken->getAccessToken();

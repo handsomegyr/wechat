@@ -179,7 +179,7 @@ class ExternalContact
      * errmsg 对返回码的文本描述内容
      * config_id 新增联系方式的配置id
      */
-    public function addContactWay($contactWay)
+    public function addContactWay(\Weixin\Qy\Model\ExternalContact\ContactWay $contactWay)
     {
         $params = $contactWay->getParams();
         $rst = $this->_request->post($this->_url . 'add_contact_way', $params);
@@ -355,7 +355,7 @@ class ExternalContact
      * errcode 返回码
      * errmsg 对返回码的文本描述内容
      */
-    public function updateContactWay($contactWay)
+    public function updateContactWay(\Weixin\Qy\Model\ExternalContact\ContactWay $contactWay)
     {
         $params = $contactWay->getParams();
         $rst = $this->_request->post($this->_url . 'update_contact_way', $params);
@@ -716,7 +716,7 @@ class ExternalContact
      * errcode 返回码
      * errmsg 对返回码的文本描述内容
      */
-    public function remark($remark)
+    public function remark(\Weixin\Qy\Model\ExternalContact\Remark $remark)
     {
         $params = $remark->getParams();
         $rst = $this->_request->post($this->_url . 'remark', $params);
@@ -878,7 +878,7 @@ class ExternalContact
      * tag_group.tag.create_time 标签创建时间
      * tag_group.tag.order 标签次序值。order值大的排序靠前。有效的值范围是[0, 2^32)
      */
-    public function addCorpTag($corpTag)
+    public function addCorpTag(\Weixin\Qy\Model\ExternalContact\CorpTag $corpTag)
     {
         $params = $corpTag->getParams();
         $rst = $this->_request->post($this->_url . 'add_corp_tag', $params);
@@ -922,7 +922,7 @@ class ExternalContact
      * errcode 返回码
      * errmsg 对返回码的文本描述内容
      */
-    public function editCorpTag($corpTag)
+    public function editCorpTag(\Weixin\Qy\Model\ExternalContact\CorpTag $corpTag)
     {
         $params = $corpTag->getParams();
         $rst = $this->_request->post($this->_url . 'edit_corp_tag', $params);
@@ -974,6 +974,9 @@ class ExternalContact
     public function deleteCorpTag($tag_id, $group_id)
     {
         $params = array();
+        if (empty($tag_id) && empty($group_id)) {
+            throw new \Exception('tag_id和group_id不可同时为空');
+        }
         if (!empty($tag_id)) {
             $params['tag_id'] = $tag_id;
         }
@@ -1028,9 +1031,20 @@ class ExternalContact
      * errcode 返回码
      * errmsg 对返回码的文本描述内容
      */
-    public function markTag($corpTag)
+    public function markTag($userid, $external_userid, $add_tag, $remove_tag)
     {
-        $params = $corpTag->getParams();
+        $params = array();
+        $params['userid'] = $userid;
+        $params['external_userid'] = $external_userid;
+        if (empty($add_tag) && empty($remove_tag)) {
+            throw new \Exception('add_tag和remove_tag不可同时为空');
+        }
+        if (!empty($add_tag)) {
+            $params['add_tag'] = $add_tag;
+        }
+        if (!empty($remove_tag)) {
+            $params['remove_tag'] = $remove_tag;
+        }
         $rst = $this->_request->post($this->_url . 'mark_tag', $params);
         return $this->_client->rst($rst);
     }
@@ -1104,7 +1118,7 @@ class ExternalContact
      * 当只提供sender参数时，相当于选取了这个成员所有的客户。
      * 注意：2019-8-1之后，取消了 “无法向未回复消息的客户发送企业群发消息” 的限制。
      */
-    public function addMsgTemplate($msgTemplate)
+    public function addMsgTemplate(\Weixin\Qy\Model\ExternalContact\MsgTemplate $msgTemplate)
     {
         $params = $msgTemplate->getParams();
         $rst = $this->_request->post($this->_url . 'add_msg_template', $params);
@@ -1239,9 +1253,9 @@ class ExternalContact
      * errcode 返回码
      * errmsg 对返回码的文本描述内容
      */
-    public function sendWelcomeMsg($msgTemplate)
+    public function sendWelcomeMsg(\Weixin\Qy\Model\ExternalContact\WelcomeMsg $welcomeMsg)
     {
-        $params = $msgTemplate->getParams();
+        $params = $welcomeMsg->getParams();
         $rst = $this->_request->post($this->_url . 'send_welcome_msg', $params);
         return $this->_client->rst($rst);
     }

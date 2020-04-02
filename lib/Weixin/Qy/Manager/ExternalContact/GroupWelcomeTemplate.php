@@ -93,7 +93,7 @@ class GroupWelcomeTemplate
      * errmsg 对返回码的文本描述内容
      * template_id 欢迎语素材id
      */
-    public function add($groupWelcomeTemplate)
+    public function add(\Weixin\Qy\Model\ExternalContact\GroupWelcomeTemplate $groupWelcomeTemplate)
     {
         $params = $groupWelcomeTemplate->getParams();
         $rst = $this->_request->post($this->_url . 'add', $params);
@@ -165,7 +165,7 @@ class GroupWelcomeTemplate
      * errcode 返回码
      * errmsg 对返回码的文本描述内容
      */
-    public function edit($groupWelcomeTemplate)
+    public function edit(\Weixin\Qy\Model\ExternalContact\GroupWelcomeTemplate $groupWelcomeTemplate)
     {
         $params = $groupWelcomeTemplate->getParams();
         $rst = $this->_request->post($this->_url . 'edit', $params);

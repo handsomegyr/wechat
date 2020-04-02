@@ -1,10 +1,12 @@
 <?php
+
 /**
  * 处理HTTP请求
  * 
  * 使用Guzzle http client库做为请求发起者，以便日后采用异步请求等方式加快代码执行速度
  *
  */
+
 namespace Weixin\Http;
 
 use Weixin\Exception;
@@ -89,10 +91,13 @@ class Request
      * @param array $params            
      * @return mixed
      */
-    public function post($url, $params = array(), $options = array(), $body = '')
+    public function post($url, $params = array(), $options = array(), $body = '', array $queryParams = array())
     {
         $client = new \GuzzleHttp\Client($options);
         $query = $this->getQueryParam4AccessToken();
+        if (!empty($queryParams)) {
+            $query = array_merge($query, $queryParams);
+        }
         $response = $client->post($url, array(
             'query' => $query,
             'body' => empty($body) ? json_encode($params, JSON_UNESCAPED_UNICODE) : $body
@@ -115,11 +120,11 @@ class Request
      * @throws Exception
      * @return mixed
      */
-    public function uploadFile($url, $media, array $options = array('fieldName'=>'media'), array $otherQuery = array())
+    public function uploadFile($url, $media, array $options = array('fieldName' => 'media'), array $otherQuery = array())
     {
         $client = new \GuzzleHttp\Client();
         $query = $this->getQueryParam4AccessToken();
-        if (! empty($otherQuery)) {
+        if (!empty($otherQuery)) {
             $query = array_merge($query, $otherQuery);
         }
         if (filter_var($media, FILTER_VALIDATE_URL) !== false) {
@@ -131,7 +136,7 @@ class Request
         } else {
             throw new Exception("无效的上传文件");
         }
-        
+
         $response = $client->post($url, array(
             'query' => $query,
             'multipart' => array(
@@ -141,7 +146,7 @@ class Request
                 )
             )
         ));
-        
+
         if ($this->isSuccessful($response)) {
             return $this->getJson($response); // $response->json();
         } else {
@@ -162,7 +167,7 @@ class Request
     public function uploadFiles($uri, array $fileParams, array $extraParams = array(), array $description = array())
     {
         $client = new \GuzzleHttp\Client();
-        
+
         $files = array();
         foreach ($fileParams as $fileName => $media) {
             if (filter_var($media, FILTER_VALIDATE_URL) !== false) {
@@ -177,7 +182,7 @@ class Request
             $files[$fileName] = $media;
         }
         $multipart = array();
-        if (! empty($files)) {
+        if (!empty($files)) {
             foreach ($files as $field => $value) {
                 $multipart[] = array(
                     'name' => $field,
@@ -186,17 +191,17 @@ class Request
             }
         }
         // 如果需要额外的提交参数的话
-        if (! empty($extraParams)) {
+        if (!empty($extraParams)) {
             $body = json_encode($extraParams, JSON_UNESCAPED_UNICODE);
         }
-        
-        if (! empty($description)) {
+
+        if (!empty($description)) {
             $multipart[] = array(
                 'name' => 'description',
                 'contents' => json_encode($description, JSON_UNESCAPED_UNICODE)
             );
         }
-        
+
         $response = $client->post($uri, array(
             'query' => array(
                 'access_token' => $this->_accessToken
@@ -204,7 +209,7 @@ class Request
             'multipart' => $multipart,
             'body' => $body
         ));
-        
+
         if ($this->isSuccessful($response)) {
             return $this->getJson($response); // $response->json();
         } else {
@@ -239,13 +244,13 @@ class Request
                 'timeout' => 10,
                 'method' => "GET",
                 'header' => "Connection: close\r\n",
-                'user_agent' => 'iCatholic R&D'
+                'user_agent' => 'R&D'
             )
         );
         $context = stream_context_create($opts);
         $fileBytes = file_get_contents($url, false, $context);
-        
-		if (empty($file_ext)) {
+
+        if (empty($file_ext)) {
             $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
             if (empty($ext)) {
                 $ext = "jpg";
@@ -296,7 +301,7 @@ class Request
     protected function getQueryParam4AccessToken()
     {
         $params = array();
-        if (! empty($this->_accessTokenName) && ! empty($this->_accessToken)) {
+        if (!empty($this->_accessTokenName) && !empty($this->_accessToken)) {
             $params[$this->_accessTokenName] = $this->_accessToken;
         }
         return $params;
@@ -304,7 +309,7 @@ class Request
 
     public function __destruct()
     {
-        if (! empty($this->_tmp)) {
+        if (!empty($this->_tmp)) {
             unlink($this->_tmp);
         }
     }

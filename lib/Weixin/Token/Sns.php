@@ -39,7 +39,7 @@ class Sns
                 'timeout' => 10,
                 'method' => "GET",
                 'header' => "Connection: close\r\n",
-                'user_agent' => 'iCatholic R&D'
+                'user_agent' => 'R&D'
             ),
 			"ssl"=>array(
 				"verify_peer"=>false,

@@ -52,7 +52,7 @@ class Component
                 'timeout' => 10,
                 'method' => "GET",
                 'header' => "Connection: close\r\n",
-                'user_agent' => 'iCatholic R&D'
+                'user_agent' => 'R&D'
             )
         );
         $this->_context = stream_context_create($opts);

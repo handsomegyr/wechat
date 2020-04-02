@@ -7,7 +7,6 @@ use Weixin\Client;
  * 小程序卡券
  *
  * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
  */
 class Card
 {

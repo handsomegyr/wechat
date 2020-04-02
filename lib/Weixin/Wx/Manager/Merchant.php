@@ -18,7 +18,6 @@ use Weixin\Client;
  * 备注：原门店管理权限可通过升级为门店小程序使用相关权限。
  *
  * @author guoyongrong <handsomegyr@gmail.com>
- * @author young <youngyang@icatholic.net.cn>
  */
 class Merchant
 {

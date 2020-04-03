@@ -1,4 +1,5 @@
 <?php
+
 namespace Weixin\Manager;
 
 use Weixin\Client;
@@ -518,6 +519,17 @@ class Datacube
         return $this->_client->rst($rst);
     }
 
+    public function getUpstreamMsgDistHour($begin_date, $end_date)
+    {
+        throw new \Exception('微信平台还未提供相关接口');
+        $params = array(
+            "begin_date" => $begin_date,
+            "end_date" => $end_date
+        );
+        $rst = $this->_request->post($this->_url . 'datacube/getupstreammsgdistweek', $params);
+        return $this->_client->rst($rst);
+    }
+
     public function getUpstreamMsgDistWeek($begin_date, $end_date)
     {
         $params = array(
@@ -791,7 +803,7 @@ class Datacube
             "end_date" => $end_date,
             "cond_source" => $cond_source
         );
-        if (! empty($card_id)) {
+        if (!empty($card_id)) {
             $params['card_id'] = $card_id;
         }
         $rst = $this->_request->post($this->_url . 'datacube/getcardcardinfo', $params);

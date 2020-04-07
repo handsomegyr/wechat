@@ -44,5 +44,3 @@ class ErrorCode
 
     public static $GenReturnXmlError = - 40011;
 }
-
-?>

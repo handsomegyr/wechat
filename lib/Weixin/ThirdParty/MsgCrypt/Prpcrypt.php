@@ -133,5 +133,3 @@ class Prpcrypt
         return $str;
     }
 }
-
-?>

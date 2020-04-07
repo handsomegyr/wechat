@@ -2,7 +2,7 @@
 
 namespace Weixin\Qy\ThirdParty\MsgCrypt;
 
-use Weixin\ThirdParty\MsgCrypt\ErrorCode;
+use Weixin\Qy\ThirdParty\MsgCrypt\ErrorCode;
 
 // include_once "errorCode.php";
 /**
@@ -59,7 +59,7 @@ class Prpcrypt
         } catch (\Exception $e) {
             print $e;
             return array(
-                MyErrorCode::$EncryptAESError,
+                ErrorCode::$EncryptAESError,
                 null
             );
         }

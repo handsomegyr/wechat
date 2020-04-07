@@ -1,4 +1,5 @@
 <?php
+
 namespace Weixin\ThirdParty\AesCrypt;
 
 use Weixin\ThirdParty\AesCrypt\ErrorCode;

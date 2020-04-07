@@ -1,7 +1,9 @@
 <?php
+
 namespace Weixin\ThirdParty\AesCrypt;
 
 use Weixin\ThirdParty\AesCrypt\WXBizMsgCrypt;
+
 $appid = 'wx4f4bc4dec97d474b';
 $sessionKey = 'tiihtNczf5v6AKRyjwEUhQ==';
 

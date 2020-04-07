@@ -1,4 +1,5 @@
 <?php
+
 namespace Weixin\ThirdParty\AesCrypt;
 
 use Weixin\ThirdParty\AesCrypt\ErrorCode;
@@ -26,12 +27,12 @@ class PKCS7Encoder
         // 计算需要填充的位数
         $amount_to_pad = self::$block_size - ($text_length % self::$block_size);
         if ($amount_to_pad == 0) {
-            $amount_to_pad = self::block_size;
+            $amount_to_pad = self::$block_size;
         }
         // 获得补位所用的字符
         $pad_chr = chr($amount_to_pad);
         $tmp = "";
-        for ($index = 0; $index < $amount_to_pad; $index ++) {
+        for ($index = 0; $index < $amount_to_pad; $index++) {
             $tmp .= $pad_chr;
         }
         return $text . $tmp;
@@ -46,7 +47,7 @@ class PKCS7Encoder
      */
     function decode($text)
     {
-        $pad = ord(substr($text, - 1));
+        $pad = ord(substr($text, -1));
         if ($pad < 1 || $pad > 32) {
             $pad = 0;
         }

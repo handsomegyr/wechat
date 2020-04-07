@@ -66,5 +66,3 @@ class XMLParse
         return sprintf($format, $encrypt, $signature, $timestamp, $nonce);
     }
 }
-
-?>

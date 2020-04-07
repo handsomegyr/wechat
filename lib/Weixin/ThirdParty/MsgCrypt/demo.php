@@ -1,4 +1,5 @@
 <?php
+
 namespace Weixin\ThirdParty\MsgCrypt;
 
 use Weixin\ThirdParty\MsgCrypt\WXBizMsgCrypt;

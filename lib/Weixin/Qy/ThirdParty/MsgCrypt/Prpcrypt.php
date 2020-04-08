@@ -57,7 +57,7 @@ class Prpcrypt
                 $encrypted
             );
         } catch (\Exception $e) {
-            print $e;
+            // print $e;
             return array(
                 ErrorCode::$EncryptAESError,
                 null
@@ -103,7 +103,7 @@ class Prpcrypt
             $xml_content = substr($content, 4, $xml_len);
             $from_receiveId = substr($content, $xml_len + 4);
         } catch (\Exception $e) {
-            print $e;
+            // print $e;
             return array(
                 ErrorCode::$IllegalBuffer,
                 null

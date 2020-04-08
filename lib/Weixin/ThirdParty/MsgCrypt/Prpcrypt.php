@@ -1,4 +1,5 @@
 <?php
+
 namespace Weixin\ThirdParty\MsgCrypt;
 
 use Weixin\ThirdParty\MsgCrypt\ErrorCode;
@@ -13,43 +14,46 @@ class Prpcrypt
 {
 
     public $key;
+    public $iv = null;
 
-    function __construct($k)
+    /**
+     * Prpcrypt constructor.
+     * 
+     * @param
+     *            $k
+     */
+    public function __construct($k)
     {
-        $this->key = base64_decode($k . "=");
+        $this->key = base64_decode($k . '=');
+        $this->iv = substr($this->key, 0, 16);
     }
 
     /**
-     * 对明文进行加密
+     * 加密
      *
-     * @param string $text
-     *            需要加密的明文
-     * @return string 加密后的密文
+     * @param
+     *            $text
+     * @param
+     *            $receiveId
+     * @return array
      */
-    public function encrypt($text, $appid)
+    public function encrypt($text, $receiveId)
     {
         try {
-            // 获得16位随机字符串，填充到明文之前
-            $random = $this->getRandomStr();
-            $text = $random . pack("N", strlen($text)) . $text . $appid;
-            // 网络字节序
-            $size = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv = substr($this->key, 0, 16);
-            // 使用自定义的填充方式对明文进行补位填充
+            // 拼接
+            $text = $this->getRandomStr() . pack('N', strlen($text)) . $text . $receiveId;
+            // 添加PKCS#7填充
             $pkc_encoder = new PKCS7Encoder();
             $text = $pkc_encoder->encode($text);
-            mcrypt_generic_init($module, $this->key, $iv);
             // 加密
-            $encrypted = mcrypt_generic($module, $text);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
-            
-            // print(base64_encode($encrypted));
-            // 使用BASE64对加密后的字符串进行编码
+            if (function_exists('openssl_encrypt')) {
+                $encrypted = \openssl_encrypt($text, 'AES-256-CBC', $this->key, OPENSSL_ZERO_PADDING, $this->iv);
+            } else {
+                $encrypted = \mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $this->key, base64_decode($text), MCRYPT_MODE_CBC, $this->iv);
+            }
             return array(
                 ErrorCode::$OK,
-                base64_encode($encrypted)
+                $encrypted
             );
         } catch (\Exception $e) {
             // print $e;
@@ -61,44 +65,42 @@ class Prpcrypt
     }
 
     /**
-     * 对密文进行解密
+     * 解密
      *
-     * @param string $encrypted
-     *            需要解密的密文
-     * @return string 解密得到的明文
+     * @param
+     *            $encrypted
+     * @param
+     *            $receiveId
+     * @return array
      */
-    public function decrypt($encrypted, $appid)
+    public function decrypt($encrypted, $receiveId)
     {
         try {
-            // 使用BASE64对需要解密的字符串进行解码
-            $ciphertext_dec = base64_decode($encrypted);
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv = substr($this->key, 0, 16);
-            mcrypt_generic_init($module, $this->key, $iv);
-            
             // 解密
-            $decrypted = mdecrypt_generic($module, $ciphertext_dec);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
+            if (function_exists('openssl_decrypt')) {
+                $decrypted = \openssl_decrypt($encrypted, 'AES-256-CBC', $this->key, OPENSSL_ZERO_PADDING, $this->iv);
+            } else {
+                $decrypted = \mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $this->key, base64_decode($encrypted), MCRYPT_MODE_CBC, $this->iv);
+            }
         } catch (\Exception $e) {
             return array(
                 ErrorCode::$DecryptAESError,
                 null
             );
         }
-        
         try {
-            // 去除补位字符
+            // 删除PKCS#7填充
             $pkc_encoder = new PKCS7Encoder();
             $result = $pkc_encoder->decode($decrypted);
-            // 去除16位随机字符串,网络字节序和AppId
-            if (strlen($result) < 16)
-                return "";
+            if (strlen($result) < 16) {
+                return array();
+            }
+            // 拆分
             $content = substr($result, 16, strlen($result));
-            $len_list = unpack("N", substr($content, 0, 4));
+            $len_list = unpack('N', substr($content, 0, 4));
             $xml_len = $len_list[1];
             $xml_content = substr($content, 4, $xml_len);
-            $from_appid = substr($content, $xml_len + 4);
+            $from_receiveId = substr($content, $xml_len + 4);
         } catch (\Exception $e) {
             // print $e;
             return array(
@@ -106,11 +108,12 @@ class Prpcrypt
                 null
             );
         }
-        if ($from_appid != $appid)
+        if ($from_receiveId != $receiveId) {
             return array(
                 ErrorCode::$ValidateAppidError,
                 null
             );
+        }
         return array(
             0,
             $xml_content
@@ -127,7 +130,7 @@ class Prpcrypt
         $str = "";
         $str_pol = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         $max = strlen($str_pol) - 1;
-        for ($i = 0; $i < 16; $i ++) {
+        for ($i = 0; $i < 16; $i++) {
             $str .= $str_pol[mt_rand(0, $max)];
         }
         return $str;

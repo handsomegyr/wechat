@@ -265,7 +265,7 @@ class Client
      *
      * @return \Weixin\Qy\Manager\Message
      */
-    public function getMessageSender()
+    public function getMessageManager()
     {
         return new Message($this->_client);
     }

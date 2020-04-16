@@ -43,22 +43,10 @@ class MiniprogramNotice extends \Weixin\Qy\Model\LinkedcorpMsg\Base
      */
     public $content_item = NULL;
 
-    /**
-     * key 是 长度10个汉字以内
-     */
-    public $key = NULL;
-
-    /**
-     * value 是 长度30个汉字以内（支持id转译）
-     */
-    public $value = NULL;
-
-    public function __construct($appid, $title, $key, $value)
+    public function __construct($appid, $title)
     {
         $this->title = $title;
         $this->appid = $appid;
-        $this->key = $key;
-        $this->value = $value;
     }
 
     public function getParams()
@@ -82,12 +70,6 @@ class MiniprogramNotice extends \Weixin\Qy\Model\LinkedcorpMsg\Base
         }
         if ($this->isNotNull($this->content_item)) {
             $params[$this->msgtype]['content_item'] = $this->content_item;
-        }
-        if ($this->isNotNull($this->key)) {
-            $params[$this->msgtype]['key'] = $this->key;
-        }
-        if ($this->isNotNull($this->value)) {
-            $params[$this->msgtype]['value'] = $this->value;
         }
 
         return $params;

@@ -326,14 +326,14 @@ class Client
         $echostr = isset($_GET['echostr']) ? trim($_GET['echostr']) : '';
 
         // 需要返回的明文
-        $sReplyEchoStr = "";
+        $sEcsReplyEchoStrhoStr = "";
         $wxcpt = new \Weixin\Qy\ThirdParty\MsgCrypt\WXBizMsgCrypt($token, $encodingAesKey, $this->getCorpId());
         $errCode = $wxcpt->VerifyURL($signature, $timestamp, $nonce, $echostr, $sEcsReplyEchoStrhoStr);
 
         if ($errCode == 0) {
             // 验证URL成功，将sEchoStr返回
             return array(
-                'replyEchoStr' => $sReplyEchoStr
+                'replyEchoStr' => $sEcsReplyEchoStrhoStr
             );
         } else {
             return false;

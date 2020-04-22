@@ -143,7 +143,7 @@ class Client
      */
     public function getAgentManager()
     {
-        return new Agent($this->_client);
+        return new Agent($this);
     }
 
     /**
@@ -153,7 +153,7 @@ class Client
      */
     public function getAppchatManager()
     {
-        return new Appchat($this->_client);
+        return new Appchat($this);
     }
 
     /**
@@ -163,7 +163,7 @@ class Client
      */
     public function getBatchManager()
     {
-        return new Batch($this->_client);
+        return new Batch($this);
     }
 
     /**
@@ -173,7 +173,7 @@ class Client
      */
     public function getCardManager()
     {
-        return new Card($this->_client);
+        return new Card($this);
     }
 
     /**
@@ -183,7 +183,7 @@ class Client
      */
     public function getCheckinManager()
     {
-        return new Checkin($this->_client);
+        return new Checkin($this);
     }
 
 
@@ -194,7 +194,7 @@ class Client
      */
     public function getDepartmentManager()
     {
-        return new Department($this->_client);
+        return new Department($this);
     }
 
 
@@ -205,7 +205,7 @@ class Client
      */
     public function getDialManager()
     {
-        return new Dial($this->_client);
+        return new Dial($this);
     }
 
 
@@ -216,7 +216,7 @@ class Client
      */
     public function getExternalContactManager()
     {
-        return new ExternalContact($this->_client);
+        return new ExternalContact($this);
     }
 
 
@@ -237,7 +237,7 @@ class Client
      */
     public function getLinkedcorpMessageManager()
     {
-        return new LinkedcorpMessage($this->_client);
+        return new LinkedcorpMessage($this);
     }
 
     /**
@@ -247,7 +247,7 @@ class Client
      */
     public function getMediaManager()
     {
-        return new Media($this->_client);
+        return new Media($this);
     }
 
     /**
@@ -257,7 +257,7 @@ class Client
      */
     public function getMenuManager()
     {
-        return new Menu($this->_client);
+        return new Menu($this);
     }
 
     /**
@@ -267,7 +267,7 @@ class Client
      */
     public function getMessageManager()
     {
-        return new Message($this->_client);
+        return new Message($this);
     }
 
     /**
@@ -287,7 +287,7 @@ class Client
      */
     public function getReplyManager()
     {
-        return new Reply($this->_client);
+        return new Reply($this);
     }
 
     /**

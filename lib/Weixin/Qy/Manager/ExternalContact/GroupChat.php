@@ -88,17 +88,18 @@ class GroupChat
      * 2 - 离职继承中
      * 3 - 离职继承完成
      */
-    public function list($status_filter, $owner_filter, $offset = 0, $limit = 1000)
+    public function list($status_filter = 0, $owner_filter = array(), $offset = 0, $limit = 1000)
     {
         $params = array();
         $params['status_filter'] = $status_filter;
-        $params['owner_filter'] = $owner_filter;
+        if (!empty($owner_filter)) {
+            $params['owner_filter'] = $owner_filter;
+        }
         $params['offset'] = $offset;
         $params['limit'] = $limit;
         $rst = $this->_request->post($this->_url . 'list', $params);
         return $this->_client->rst($rst);
     }
-
     /**
      * 获取客户群详情
      * 调试工具

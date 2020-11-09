@@ -26,7 +26,7 @@ class Msg
     /**
      * 获取小程序模板消息管理器
      *
-     * @return \Weixin\Manager\Msg\Template
+     * @return \Weixin\Wx\Manager\Msg\Template
      */
     public function getTemplateSender()
     {
@@ -36,7 +36,7 @@ class Msg
     /**
      * 获取小程序模板消息管理器
      *
-     * @return \Weixin\Manager\Msg\Updatablemsg
+     * @return \Weixin\Wx\Manager\Msg\Updatablemsg
      */
     public function getUpdatablemsgSender()
     {
@@ -46,7 +46,7 @@ class Msg
     /**
      * 获取小程序订阅消息管理器
      *
-     * @return \Weixin\Manager\Msg\SubscribeMessage
+     * @return \Weixin\Wx\Manager\Msg\SubscribeMessage
      */
     public function getSubscribeMessageSender()
     {

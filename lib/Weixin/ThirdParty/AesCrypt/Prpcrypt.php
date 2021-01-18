@@ -30,15 +30,18 @@ class Prpcrypt
     public function decrypt($aesCipher, $aesIV)
     {
         try {
+            if (function_exists('openssl_decrypt')) {
+                $decrypted = \openssl_decrypt($aesCipher, "aes-128-cbc", $this->key, OPENSSL_RAW_DATA, $aesIV);
+            } else {
+                $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
 
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
+                mcrypt_generic_init($module, $this->key, $aesIV);
 
-            mcrypt_generic_init($module, $this->key, $aesIV);
-
-            // 解密
-            $decrypted = mdecrypt_generic($module, $aesCipher);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
+                // 解密
+                $decrypted = mdecrypt_generic($module, $aesCipher);
+                mcrypt_generic_deinit($module);
+                mcrypt_module_close($module);
+            }
         } catch (\Exception $e) {
             return array(
                 ErrorCode::$IllegalBuffer,

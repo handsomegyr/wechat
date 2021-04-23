@@ -1,10 +1,12 @@
 <?php
+
 /**
  * 微信客户端总调度器
  * 
  * @author guoyongrong <handsomegyr@126.com>
  *
  */
+
 namespace Weixin;
 
 use Weixin\Exception;
@@ -28,6 +30,8 @@ use Weixin\Manager\Material;
 use Weixin\Manager\Tags;
 use Weixin\Manager\Giftcard;
 use Weixin\Manager\Comment;
+use Weixin\Manager\Marketing;
+use Weixin\Manager\MarketingV3;
 
 class Client
 {
@@ -47,7 +51,8 @@ class Client
     private $_verifyToken = null;
 
     public function __construct()
-    {}
+    {
+    }
 
     /**
      * 获取服务端的accessToken
@@ -320,6 +325,26 @@ class Client
     }
 
     /**
+     * H5/小程序广告转化行为数据接入管理器
+     *
+     * @return \Weixin\Manager\Marketing
+     */
+    public function getMarketingManager()
+    {
+        return new Marketing($this);
+    }
+
+    /**
+     * 营销工具管理器
+     *
+     * @return \Weixin\Manager\MarketingV3
+     */
+    public function getMarketingV3Manager()
+    {
+        return new MarketingV3($this);
+    }
+
+    /**
      * 获取小程序总调度器
      *
      * @return \Weixin\Wx\Client
@@ -375,7 +400,7 @@ class Client
     {
         if (empty($verifyCode))
             throw new Exception("请设定校验签名所需的verify_code");
-        
+
         $verifyCode = trim($verifyCode);
         $this->_verifyToken = $verifyCode;
         $signature = isset($_GET['signature']) ? trim($_GET['signature']) : '';
@@ -408,7 +433,7 @@ class Client
     public function verify($verifyCode)
     {
         $echoStr = isset($_GET["echostr"]) ? trim($_GET["echostr"]) : '';
-        if (! empty($echoStr)) {
+        if (!empty($echoStr)) {
             if ($this->checkSignature($verifyCode)) {
                 exit($echoStr);
             }
@@ -424,5 +449,6 @@ class Client
     }
 
     public function __destruct()
-    {}
+    {
+    }
 }

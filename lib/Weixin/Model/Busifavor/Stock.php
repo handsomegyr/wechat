@@ -6,7 +6,8 @@ namespace Weixin\Model\Busifavor;
  * 券
  */
 class Stock extends StockBase
-{
+{    
+    public $stock_id = null;
     /**
      * 商家券批次名称 stock_name string[1,21] 是 body 批次名称，字数上限为21个，一个中文汉字/英文字母/数字均占用一个字数。 示例值：8月1日活动券
      */
@@ -62,6 +63,9 @@ class Stock extends StockBase
     public function getParams()
     {
         $params = array();
+        if ($this->isNotNull($this->stock_id)) {
+            $params['stock_id'] = $this->stock_id;
+        }
         if ($this->isNotNull($this->stock_name)) {
             $params['stock_name'] = $this->stock_name;
         }

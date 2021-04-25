@@ -109,6 +109,33 @@ class Request
         }
     }
 
+
+    /**
+     * 推送消息给到微信服务器
+     *
+     * @param string $url            
+     * @param array $params            
+     * @return mixed
+     */
+    public function patch($url, $params = array(), $options = array(), $body = '', array $queryParams = array())
+    {
+        $client = new \GuzzleHttp\Client($options);
+        $query = $this->getQueryParam4AccessToken();
+        if (!empty($queryParams)) {
+            $query = array_merge($query, $queryParams);
+        }
+        $response = $client->patch($url, array(
+            'query' => $query,
+            'body' => empty($body) ? json_encode($params, JSON_UNESCAPED_UNICODE) : $body
+        ));
+
+        if ($this->isSuccessful($response)) {
+            return true;
+        } else {
+            throw new Exception("微信服务器未有效的响应请求");
+        }
+    }
+
     /**
      * 上传文件
      *

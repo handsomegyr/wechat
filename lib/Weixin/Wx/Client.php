@@ -1,10 +1,12 @@
 <?php
+
 /**
  * 小程序客户端总调度器
  * 
  * @author guoyongrong <handsomegyr@126.com>
  *
  */
+
 namespace Weixin\Wx;
 
 use Weixin\Wx\Manager\Msg;
@@ -13,6 +15,8 @@ use Weixin\Wx\Manager\Merchant;
 use Weixin\Wx\Manager\Card;
 use Weixin\Wx\Manager\Mall;
 use Weixin\Wx\Manager\User;
+use Weixin\Wx\Manager\Urllink;
+use Weixin\Wx\Manager\Urlscheme;
 
 class Client
 {
@@ -82,5 +86,25 @@ class Client
     public function getUserManager()
     {
         return new User($this->_client);
+    }
+
+    /**
+     * 获取Urlscheme管理器
+     *
+     * @return \Weixin\Wx\Manager\Urlscheme
+     */
+    public function getUrlschemeManager()
+    {
+        return new Urlscheme($this->_client);
+    }
+
+    /**
+     * 获取Urllink管理器
+     *
+     * @return \Weixin\Wx\Manager\Urllink
+     */
+    public function getUrllinkManager()
+    {
+        return new Urllink($this->_client);
     }
 }

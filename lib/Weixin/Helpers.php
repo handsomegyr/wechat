@@ -1,4 +1,5 @@
 <?php
+
 namespace Weixin;
 
 /**
@@ -35,7 +36,7 @@ class Helpers
     public static function paraFilter($para)
     {
         $para_filter = array();
-        while (list ($key, $val) = each($para)) {
+        foreach ($para as $key => $val) {
             if (strtolower(trim($key)) === "sign" || trim($val) === "")
                 continue;
             else
@@ -66,7 +67,7 @@ class Helpers
     public static function createLinkstring($para)
     {
         $arg = "";
-        while (list ($key, $val) = each($para)) {
+        foreach ($para as $key => $val) {
             $arg .= $key . "=" . $val . "&";
         }
         // 去掉最后一个&字符
@@ -83,12 +84,12 @@ class Helpers
     public static function createLinkstringUrlencode($para)
     {
         $arg = "";
-        while (list ($key, $val) = each($para)) {
+        foreach ($para as $key => $val) {
             $arg .= $key . "=" . rawurlencode($val) . "&";
         }
         // 去掉最后一个&字符
         $arg = substr($arg, 0, strlen($arg) - 1);
-        
+
         return $arg;
     }
 
@@ -102,7 +103,7 @@ class Helpers
     {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $str = "";
-        for ($i = 0; $i < $length; $i ++) {
+        for ($i = 0; $i < $length; $i++) {
             $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
         }
         return $str;
@@ -129,7 +130,7 @@ class Helpers
      */
     public static function xmlToArray($xml)
     {
-		libxml_disable_entity_loader(true);
+        libxml_disable_entity_loader(true);
         $object = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
         return @json_decode(preg_replace('/{}/', '""', @json_encode($object)), 1);
     }

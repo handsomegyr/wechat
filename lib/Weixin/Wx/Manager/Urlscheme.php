@@ -44,7 +44,9 @@ class Urlscheme
      * access_token string 是 接口调用凭证
      * jump_wxa Object 否 跳转到的目标小程序信息。
      * is_expire boolean false 否 生成的 scheme 码类型，到期失效：true，永久有效：false。
+     * expire_type	number	0 否 到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
      * expire_time number 否 到期失效的 scheme 码的失效时间，为 Unix 时间戳。生成的到期失效 scheme 码在该时间前有效。最长有效期为1年。生成到期失效的scheme时必填。
+     * expire_interval	number	否	到期失效的 scheme 码的失效间隔天数。生成的到期失效 scheme 码在该间隔时间到达前有效。最长间隔天数为365天。is_expire 为 true 且 expire_type 为 1 时必填
      * jump_wxa 的结构
      *
      * 属性 类型 默认值 必填 说明
@@ -96,12 +98,14 @@ class Urlscheme
      * "openlink": Scheme,
      * }
      */
-    public function generate(\Weixin\Wx\Model\JumpWxa $jump_wxa, $is_expire, $expire_time)
+    public function generate(\Weixin\Wx\Model\JumpWxa $jump_wxa, $is_expire, $expire_type, $expire_time, $expire_interval)
     {
         $params = array();
         $params['jump_wxa'] = $jump_wxa->getParams();
         $params['is_expire'] = $is_expire;
+        $params['expire_type'] = $expire_type;
         $params['expire_time'] = $expire_time;
+        $params['expire_interval'] = $expire_interval;
         $rst = $this->_request->post($this->_url . 'wxa/generatescheme', $params);
         return $this->_client->rst($rst);
     }

@@ -18,6 +18,8 @@ use Weixin\Wx\Manager\User;
 use Weixin\Wx\Manager\Urllink;
 use Weixin\Wx\Manager\Urlscheme;
 use Weixin\Wx\Manager\Shortlink;
+use Weixin\Wx\Manager\Soter;
+use Weixin\Wx\Manager\ServiceMarket;
 
 class Client
 {
@@ -117,5 +119,25 @@ class Client
     public function getShortlinkManager()
     {
         return new Shortlink($this->_client);
+    }
+
+    /**
+     * 获取生物认证管理器
+     *
+     * @return \Weixin\Wx\Manager\Soter
+     */
+    public function getSoterManager()
+    {
+        return new Soter($this->_client);
+    }
+
+    /**
+     * 获取服务市场管理器
+     *
+     * @return \Weixin\Wx\Manager\ServiceMarket
+     */
+    public function getServiceMarketManager()
+    {
+        return new ServiceMarket($this->_client);
     }
 }

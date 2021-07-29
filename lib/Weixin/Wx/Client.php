@@ -17,6 +17,7 @@ use Weixin\Wx\Manager\Mall;
 use Weixin\Wx\Manager\User;
 use Weixin\Wx\Manager\Urllink;
 use Weixin\Wx\Manager\Urlscheme;
+use Weixin\Wx\Manager\Shortlink;
 
 class Client
 {
@@ -106,5 +107,15 @@ class Client
     public function getUrllinkManager()
     {
         return new Urllink($this->_client);
+    }
+
+    /**
+     * 获取Shortlink管理器
+     *
+     * @return \Weixin\Wx\Manager\Shortlink
+     */
+    public function getShortlinkManager()
+    {
+        return new Shortlink($this->_client);
     }
 }

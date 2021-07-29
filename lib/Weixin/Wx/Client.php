@@ -10,17 +10,18 @@
 namespace Weixin\Wx;
 
 use Weixin\Wx\Manager\Msg;
-use Weixin\Wx\Manager\Qrcode;
-use Weixin\Wx\Manager\Merchant;
 use Weixin\Wx\Manager\Card;
-use Weixin\Wx\Manager\Internet;
 use Weixin\Wx\Manager\Mall;
-use Weixin\Wx\Manager\RiskControl;
 use Weixin\Wx\Manager\User;
-use Weixin\Wx\Manager\Urllink;
-use Weixin\Wx\Manager\Urlscheme;
-use Weixin\Wx\Manager\Shortlink;
 use Weixin\Wx\Manager\Soter;
+use Weixin\Wx\Manager\Qrcode;
+use Weixin\Wx\Manager\Urllink;
+use Weixin\Wx\Manager\Internet;
+use Weixin\Wx\Manager\Merchant;
+use Weixin\Wx\Manager\Security;
+use Weixin\Wx\Manager\Shortlink;
+use Weixin\Wx\Manager\Urlscheme;
+use Weixin\Wx\Manager\RiskControl;
 use Weixin\Wx\Manager\ServiceMarket;
 
 class Client
@@ -161,5 +162,15 @@ class Client
     public function getInternetManager()
     {
         return new Internet($this->_client);
+    }
+
+    /**
+     * 获取内容安全管理器
+     *
+     * @return \Weixin\Wx\Manager\Security
+     */
+    public function getSecurityManager()
+    {
+        return new Security($this->_client);
     }
 }

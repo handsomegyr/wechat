@@ -70,11 +70,6 @@ class ServiceMarket
 	 * "errmsg": "ok",
 	 * "data": "{\"idcard_res\":{\"type\":0,\"name\":{\"text\":\"abc\",\"pos\"…0312500}}},\"image_width\":480,\"image_height\":304}}"
 	 * }
-	 *
-	 * 云调用
-	 * 云调用是微信云开发提供的在云函数中调用微信开放接口的能力，需要在云函数中通过 wx-server-sdk 使用。
-	 *
-	 * 接口方法
 	 */
 	public function invokeService($service, $api, array $data, $client_msg_id)
 	{

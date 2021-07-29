@@ -13,7 +13,9 @@ use Weixin\Wx\Manager\Msg;
 use Weixin\Wx\Manager\Qrcode;
 use Weixin\Wx\Manager\Merchant;
 use Weixin\Wx\Manager\Card;
+use Weixin\Wx\Manager\Internet;
 use Weixin\Wx\Manager\Mall;
+use Weixin\Wx\Manager\RiskControl;
 use Weixin\Wx\Manager\User;
 use Weixin\Wx\Manager\Urllink;
 use Weixin\Wx\Manager\Urlscheme;
@@ -139,5 +141,25 @@ class Client
     public function getServiceMarketManager()
     {
         return new ServiceMarket($this->_client);
+    }
+
+    /**
+     * 获取安全风控管理器
+     *
+     * @return \Weixin\Wx\Manager\RiskControl
+     */
+    public function getRiskControlManager()
+    {
+        return new RiskControl($this->_client);
+    }
+
+    /**
+     * 获取网络管理器
+     *
+     * @return \Weixin\Wx\Manager\Internet
+     */
+    public function getInternetManager()
+    {
+        return new Internet($this->_client);
     }
 }

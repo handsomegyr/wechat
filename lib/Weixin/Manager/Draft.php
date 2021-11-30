@@ -76,16 +76,25 @@ class Draft
     }
 
     /**
-     * 草稿箱 /新建草稿
-     * 开发者可新增常用的素材到草稿箱中进行使用。上传到草稿箱中的素材被群发或发布后，该素材将从草稿箱中移除。新增草稿可在公众平台官网-草稿箱中查看和管理。
+     * 草稿箱 /获取草稿
+     * 新增草稿后，开发者可以根据草稿指定的字段来下载草稿。
      *
      * 接口请求说明
-     * http 请求方式：POST（请使用https协议）https://api.weixin.qq.com/cgi-bin/draft/add?access_token=ACCESS_TOKEN
+     * http 请求方式：POST（请使用https协议）https://api.weixin.qq.com/cgi-bin/draft/get?access_token=ACCESS_TOKEN
      *
      * 调用示例
      *
      * {
-     * "articles": [
+     * "media_id":MEDIA_ID
+     * }
+     * 请求参数说明
+     *
+     * 参数 是否必须 说明
+     * access_token 是 调用接口凭证
+     * media_id 是 要获取的草稿的media_id
+     * 接口返回说明
+     * {
+     * "news_item": [
      * {
      * "title":TITLE,
      * "author":AUTHOR,
@@ -95,27 +104,28 @@ class Draft
      * "thumb_media_id":THUMB_MEDIA_ID,
      * "show_cover_pic":1,
      * "need_open_comment":0,
-     * "only_fans_can_comment":0
+     * "only_fans_can_comment":0,
+     * "url":URL
      * }
-     * //若新增的是多图文素材，则此处应还有几段articles结构
+     * //多图文消息应有多段 news_item 结构
      * ]
      * }
-     * 请求参数说明
+     * 返回参数说明
      *
-     * 参数 是否必须 说明
-     * title 是 标题
-     * author 否 作者
-     * digest 否 图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空。如果本字段为没有填写，则默认抓取正文前54个字。
-     * content 是 图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS,涉及图片url必须来源 "上传图文消息内的图片获取URL"接口获取。外部图片url将被过滤。
-     * content_source_url 否 图文消息的原文地址，即点击“阅读原文”后的URL
-     * thumb_media_id 是 图文消息的封面图片素材id（必须是永久MediaID）
-     * show_cover_pic 否 是否显示封面，0为false，即不显示，1为true，即显示(默认)
-     * need_open_comment 否 Uint32 是否打开评论，0不打开(默认)，1打开
-     * only_fans_can_comment 否 Uint32 是否粉丝才可评论，0所有人可评论(默认)，1粉丝才可评论
-     * 接口返回说明
-     * {
-     * "media_id":MEDIA_ID
-     * }
+     * 参数 描述
+     * title 标题
+     * author 作者
+     * digest 图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空。
+     * content 图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS。
+     * content_source_url 图文消息的原文地址，即点击“阅读原文”后的URL
+     * thumb_media_id 图文消息的封面图片素材id（一定是永久MediaID）
+     * show_cover_pic 是否显示封面，0为false，即不显示，1为true，即显示(默认)
+     * need_open_comment Uint32 是否打开评论，0不打开(默认)，1打开
+     * only_fans_can_comment Uint32 是否粉丝才可评论，0所有人可评论(默认)，1粉丝才可评论
+     * url 草稿的临时链接
+     * 错误情况下的返回JSON数据包示例如下（示例为无效媒体错误）：
+     *
+     * {"errcode":40007,"errmsg":"invalid media_id"}
      */
     public function get($media_id)
     {
@@ -348,7 +358,7 @@ class Draft
      * errmsg 错误信息
      * is_open 仅 errcode==0 (即调用成功) 时返回，0 表示开关处于关闭，1 表示开启成功（或开关已开启）
      */
-    public function switch($is_checkonly = false)
+    public function draftswitch($is_checkonly = false)
     {
         $params = array();
         // 如果只需检查开关状态

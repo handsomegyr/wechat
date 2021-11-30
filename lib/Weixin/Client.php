@@ -32,6 +32,8 @@ use Weixin\Manager\Giftcard;
 use Weixin\Manager\Comment;
 use Weixin\Manager\Marketing;
 use Weixin\Manager\MarketingV3;
+use Weixin\Manager\Draft;
+use Weixin\Manager\FreePublish;
 
 class Client
 {
@@ -342,6 +344,26 @@ class Client
     public function getMarketingV3Manager()
     {
         return new MarketingV3($this);
+    }
+
+    /**
+     * 草稿箱管理器
+     *
+     * @return \Weixin\Manager\Draft
+     */
+    public function getDraftManager()
+    {
+        return new Draft($this);
+    }
+
+    /**
+     * 发布能力管理器
+     *
+     * @return \Weixin\Manager\FreePublish
+     */
+    public function getFreePublishManager()
+    {
+        return new FreePublish($this);
     }
 
     /**

@@ -99,7 +99,7 @@ class RiskControl
 	 * "unoin_id":123456
 	 * }
 	 */
-	public function getUserRiskRank($appid, $openid, $scene, $mobile_no, $bank_card_no, $cert_no, $client_ip, $email_address, $extended_info)
+	public function getUserRiskRank($appid, $openid, $scene, $mobile_no, $bank_card_no, $cert_no, $client_ip, $email_address, $extended_info, $is_test = false)
 	{
 		$params = array();
 		$params['appid'] = $appid;
@@ -111,6 +111,7 @@ class RiskControl
 		$params['client_ip'] = $client_ip;
 		$params['email_address'] = $email_address;
 		$params['extended_info'] = $extended_info;
+		$params['is_test'] = $is_test;
 		$rst = $this->_request->post($this->_url . 'wxa/getuserriskrank', $params);
 		return $this->_client->rst($rst);
 	}

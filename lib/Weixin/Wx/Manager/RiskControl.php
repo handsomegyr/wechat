@@ -99,7 +99,7 @@ class RiskControl
 	 * "unoin_id":123456
 	 * }
 	 */
-	public function getUserRiskRank($appid, $openid, $scene, $mobile_no, $bank_card_no, $cert_no, $client_ip, $email_address, $extended_info, $is_test = false)
+	public function getUserRiskRank($appid, $openid, $scene, $client_ip, $is_test = false, $mobile_no = "", $bank_card_no = "", $cert_no = "", $email_address = "", $extended_info = "")
 	{
 		$params = array();
 		$params['appid'] = $appid;

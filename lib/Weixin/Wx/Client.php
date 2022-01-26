@@ -9,6 +9,7 @@
 
 namespace Weixin\Wx;
 
+use Weixin\Wx\Manager\Shop;
 use Weixin\Wx\Manager\Msg;
 use Weixin\Wx\Manager\Card;
 use Weixin\Wx\Manager\Mall;
@@ -172,5 +173,15 @@ class Client
     public function getSecurityManager()
     {
         return new Security($this->_client);
+    }
+
+    /**
+     * 获取自定义版交易组件管理器
+     *
+     * @return \Weixin\Wx\Manager\Shop
+     */
+    public function getShopManager()
+    {
+        return new Shop($this->_client);
     }
 }

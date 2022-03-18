@@ -23,6 +23,11 @@ class Spu extends \Weixin\Model\Base
     public $path = NULL;
 
     /**
+     * direct_path	string	否	商品立即购买链接
+     */
+    public $direct_path = NULL;
+
+    /**
      * head_img	string array	是	主图,多张,列表
      */
     public $head_img = NULL;
@@ -116,6 +121,10 @@ class Spu extends \Weixin\Model\Base
 
         if ($this->isNotNull($this->path)) {
             $params['path'] = $this->path;
+        }
+
+        if ($this->isNotNull($this->direct_path)) {
+            $params['direct_path'] = $this->direct_path;
         }
 
         if ($this->isNotNull($this->head_img)) {

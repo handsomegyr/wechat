@@ -67,11 +67,6 @@ class Aftersale extends \Weixin\Model\Base
      */
     public $refund_address = NULL;
 
-    /**
-     * orderamt	number	否	退款金额
-     */
-    public $orderamt = NULL;
-
 
     public function __construct()
     {
@@ -129,10 +124,6 @@ class Aftersale extends \Weixin\Model\Base
 
         if ($this->isNotNull($this->refund_address)) {
             $params['refund_address'] = $this->refund_address;
-        }
-
-        if ($this->isNotNull($this->orderamt)) {
-            $params['orderamt'] = $this->orderamt;
         }
 
         return $params;

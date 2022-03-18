@@ -60,14 +60,16 @@ class Img
      * img_info.media_id string media_id
      * img_info.temp_img_url string 临时链接
      */
-    public function upload($resp_type, $media)
+    public function upload($resp_type, $upload_type, $img_url)
     {
         $query = array(
-            'resp_type' => $resp_type
+            'resp_type' => $resp_type,
+            'upload_type' => $upload_type,
+            'img_url' => $img_url
         );
         $options = array(
             'fieldName' => 'media'
         );
-        return $this->_request->uploadFile('https://api.weixin.qq.com/shop/img/upload', $media, $options, $query);
+        return $this->_request->uploadFile('https://api.weixin.qq.com/shop/img/upload', $img_url, $options, $query);
     }
 }

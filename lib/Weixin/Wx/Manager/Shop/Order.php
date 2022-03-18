@@ -159,6 +159,7 @@ class Order
     public function add(\Weixin\Wx\Model\Shop\Order $order)
     {
         $params = $order->getParams();
+        // die(\myJsonEncode($params));
         $rst = $this->_request->post($this->_url . 'add', $params);
         return $this->_client->rst($rst);
     }
@@ -227,7 +228,7 @@ class Order
         if (!empty($pay_time)) {
             $params['pay_time'] = $pay_time;
         }
-        $rst = $this->_request->post($this->_url . 'finish_access_info', $params);
+        $rst = $this->_request->post($this->_url . 'pay', $params);
         return $this->_client->rst($rst);
     }
 

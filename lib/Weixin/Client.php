@@ -34,6 +34,7 @@ use Weixin\Manager\Marketing;
 use Weixin\Manager\MarketingV3;
 use Weixin\Manager\Draft;
 use Weixin\Manager\FreePublish;
+use Weixin\Manager\Shorten;
 
 class Client
 {
@@ -364,6 +365,16 @@ class Client
     public function getFreePublishManager()
     {
         return new FreePublish($this);
+    }
+
+    /**
+     * 短key托管管理器
+     *
+     * @return \Weixin\Manager\Shorten
+     */
+    public function getShortenManager()
+    {
+        return new Shorten($this);
     }
 
     /**

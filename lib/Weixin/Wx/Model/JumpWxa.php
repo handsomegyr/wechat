@@ -18,6 +18,10 @@ class JumpWxa extends \Weixin\Model\Base
      */
     public $query = NULL;
 
+    /**
+     * env_version	string	"release"	否	要打开的小程序版本。正式版为"release"，体验版为"trial"，开发版为"develop"，仅在微信外打开时生效。
+     */
+    public $env_version = "release";
 
     public function __construct()
     {
@@ -33,6 +37,10 @@ class JumpWxa extends \Weixin\Model\Base
 
         if ($this->isNotNull($this->query)) {
             $params['query'] = $this->query;
+        }
+
+        if ($this->isNotNull($this->env_version)) {
+            $params['env_version'] = $this->env_version;
         }
 
         return $params;

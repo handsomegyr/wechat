@@ -40,13 +40,14 @@ class Qrcode
      *
      * 参数 类型 默认值 说明
      * path String 不能为空，最大长度 128 字节
+     * env_version	string	"release"	否	要打开的小程序版本。正式版为 release，体验版为 trial，开发版为 develop
      * width Int 430 二维码的宽度
      * auto_color Bool false 自动配置线条颜色，如果颜色依然是黑色，则说明不建议配置主色调
      * line_color Object {"r":"0","g":"0","b":"0"} auth_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"}
      * is_hyaline boolean false 否 是否需要透明底色，为 true 时，生成透明底色的小程序码
      * 注意：通过该接口生成的小程序码，永久有效，数量限制见文末说明，请谨慎使用。用户扫描该码进入小程序后，将直接进入 path 对应的页面。
      */
-    public function getwxacode($path, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false)
+    public function getwxacode($path, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false, $env_version = "release")
     {
         $params = array();
         $params['path'] = $path;
@@ -58,11 +59,12 @@ class Qrcode
         if (!empty($is_hyaline)) {
             $params['is_hyaline'] = $is_hyaline;
         }
+        $params['env_version'] = $env_version;
         $rst = $this->_request->post($this->_url . 'wxa/getwxacode', $params);
         return $this->_client->rst($rst);
     }
 
-    public function getwxacode2($path, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false)
+    public function getwxacode2($path, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false, $env_version = "release")
     {
         // 完善返回值的结构
         $params = array();
@@ -75,6 +77,7 @@ class Qrcode
         if (!empty($is_hyaline)) {
             $params['is_hyaline'] = $is_hyaline;
         }
+        $params['env_version'] = $env_version;
         $this->_request->setJson(false);
         $rst = $this->_request->post($this->_url . 'wxa/getwxacode', $params);
         $rst = $this->getBody($rst);
@@ -95,6 +98,8 @@ class Qrcode
      * 参数 类型 默认值 说明
      * scene String 最大32个可见字符，只支持数字，大小写英文以及部分特殊字符：!#$&'()*+,/:;=?@-._~，其它字符请自行编码为合法字符（因不支持%，中文无法使用 urlencode 处理，请使用其他编码方式）
      * page String 必须是已经发布的小程序页面，例如 "pages/index/index" ,根路径前不要填加'/',不能携带参数（参数请放在scene字段里），如果不填写这个字段，默认跳主页面
+     * check_path	boolean	true	否	检查 page 是否存在，为 true 时 page 必须是已经发布的小程序存在的页面（否则报错）；为 false 时允许小程序未发布或者 page 不存在， 但 page 有数量上限（60000个）请勿滥用
+     * env_version	string	"release"	否	要打开的小程序版本。正式版为 release，体验版为 trial，开发版为 develop
      * width Int 430 二维码的宽度
      * auto_color Bool false 自动配置线条颜色，如果颜色依然是黑色，则说明不建议配置主色调
      * line_color Object {"r":"0","g":"0","b":"0"} auto_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"}
@@ -109,7 +114,7 @@ class Qrcode
      * }
      * })
      */
-    public function getwxacodeunlimit($scene, $page, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false)
+    public function getwxacodeunlimit($scene, $page, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false, $check_path = true, $env_version = "release")
     {
         $params = array();
         $params['scene'] = $scene;
@@ -122,11 +127,13 @@ class Qrcode
         if (!empty($is_hyaline)) {
             $params['is_hyaline'] = $is_hyaline;
         }
+        $params['check_path'] = $check_path;
+        $params['env_version'] = $env_version;
         $rst = $this->_request->post($this->_url . 'wxa/getwxacodeunlimit', $params);
         return $this->_client->rst($rst);
     }
 
-    public function getwxacodeunlimit2($scene, $page, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false)
+    public function getwxacodeunlimit2($scene, $page, $width, $auto_color = false, $line_color = array("r" => "0", "g" => "0", "b" => "0"), $is_hyaline = false, $check_path = true, $env_version = "release")
     {
         // 完善返回值的结构
         $params = array();
@@ -140,6 +147,8 @@ class Qrcode
         if (!empty($is_hyaline)) {
             $params['is_hyaline'] = $is_hyaline;
         }
+        $params['check_path'] = $check_path;
+        $params['env_version'] = $env_version;
         $this->_request->setJson(false);
         $rst = $this->_request->post($this->_url . 'wxa/getwxacodeunlimit', $params);
         $rst = $this->getBody($rst);

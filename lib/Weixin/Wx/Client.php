@@ -24,6 +24,7 @@ use Weixin\Wx\Manager\Shortlink;
 use Weixin\Wx\Manager\Urlscheme;
 use Weixin\Wx\Manager\RiskControl;
 use Weixin\Wx\Manager\ServiceMarket;
+use Weixin\Wx\Manager\PhoneNumber;
 
 class Client
 {
@@ -183,5 +184,15 @@ class Client
     public function getShopManager()
     {
         return new Shop($this->_client);
+    }
+
+    /**
+     * 获取手机号管理器
+     *
+     * @return \Weixin\Wx\Manager\PhoneNumber
+     */
+    public function getPhoneNumberManager()
+    {
+        return new PhoneNumber($this->_client);
     }
 }

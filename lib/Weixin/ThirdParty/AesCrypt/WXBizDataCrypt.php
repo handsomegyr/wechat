@@ -69,7 +69,7 @@ class WXBizDataCrypt
         if ($dataObj == NULL) {
             return ErrorCode::$IllegalBuffer;
         }
-        if ($dataObj->watermark->appid != $this->appid) {
+        if (!empty($dataObj->watermark) && $dataObj->watermark->appid != $this->appid) {
             return ErrorCode::$IllegalBuffer;
         }
         $data = $result[1];

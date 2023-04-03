@@ -1,4 +1,5 @@
 <?php
+
 namespace Weixin\Manager\Msg;
 
 use Weixin\Client;
@@ -75,7 +76,7 @@ class Custom
      */
     public function send(array $params)
     {
-        if (! empty($this->_kf_account)) {
+        if (!empty($this->_kf_account)) {
             // 如果需要以某个客服帐号来发消息（在微信6.0.2及以上版本中显示自定义头像），则需在JSON数据包的后半部分加入customservice参数
             $params['customservice'] = array(
                 "kf_account" => $this->_kf_account
@@ -187,9 +188,9 @@ class Custom
      * @param string $articles            
      * @return string
      */
-    public function sendGraphText($toUser, Array $articles)
+    public function sendGraphText($toUser, array $articles)
     {
-        if (! is_array($articles) || count($articles) == 0)
+        if (!is_array($articles) || count($articles) == 0)
             return '';
         $items = array();
         $articles = array_slice($articles, 0, 1); // 图文消息条数限制在1条以内。
@@ -230,6 +231,27 @@ class Custom
         $ret['touser'] = $toUser;
         $ret['msgtype'] = 'mpnews';
         $ret['mpnews']['media_id'] = $media_id;
+        return $this->send($ret);
+    }
+
+    /**
+     * 发送图文消息（点击跳转到图文消息页面）使用通过 “发布” 系列接口得到的 article_id
+     *
+     * {
+     * "touser":"OPENID",
+     * "msgtype":"mpnewsarticle",
+     * "mpnewsarticle":
+     * {
+     * "article_id":"article_id"
+     * }
+     * }
+     */
+    public function sendMpNewsArticle($toUser, $article_id)
+    {
+        $ret = array();
+        $ret['touser'] = $toUser;
+        $ret['msgtype'] = 'mpnewsarticle';
+        $ret['mpnewsarticle']['article_id'] = $article_id;
         return $this->send($ret);
     }
 
@@ -288,7 +310,7 @@ class Custom
         $ret['touser'] = $toUser;
         $ret['msgtype'] = 'wxcard';
         $ret['wxcard']['card_id'] = $card_id;
-        if (! empty($card_ext)) {
+        if (!empty($card_ext)) {
             $ret['wxcard']['card_ext'] = json_encode($card_ext);
         }
         return $this->send($ret);
@@ -364,7 +386,7 @@ class Custom
             $command = 'Typing';
         }
         $params['command'] = $command;
-        
+
         $rst = $this->_request->post($this->_url . 'message/custom/typing', $params);
         return $this->_client->rst($rst);
     }

@@ -35,6 +35,7 @@ use Weixin\Manager\MarketingV3;
 use Weixin\Manager\Draft;
 use Weixin\Manager\FreePublish;
 use Weixin\Manager\Shorten;
+use Weixin\Manager\OpenApi;
 
 class Client
 {
@@ -375,6 +376,16 @@ class Client
     public function getShortenManager()
     {
         return new Shorten($this);
+    }
+
+    /**
+     * Openapi管理器
+     *
+     * @return \Weixin\Manager\OpenApi
+     */
+    public function getOpenApiManager()
+    {
+        return new OpenApi($this);
     }
 
     /**

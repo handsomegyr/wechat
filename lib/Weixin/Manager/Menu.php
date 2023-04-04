@@ -1,24 +1,24 @@
 <?php
+
 /**
  * 自定义菜单接口
  * 自定义菜单能够帮助公众号丰富界面，
  * 让用户更好更快地理解公众号的功能。
+ * https://developers.weixin.qq.com/doc/offiaccount/Custom_Menus/Creating_Custom-Defined_Menu.html
  * @author guoyongrong <handsomegyr@126.com>
  */
+
 namespace Weixin\Manager;
 
 use Weixin\Client;
 
 class Menu
 {
-    
+
     // 接口地址
     private $_url = 'https://api.weixin.qq.com/cgi-bin/';
-
     private $_client;
-
     private $_request;
-
     public function __construct(Client $client)
     {
         $this->_client = $client;
@@ -111,9 +111,26 @@ class Menu
      * "media_id": "MEDIA_ID1"
      * },
      * {
+     * "type":"miniprogram",
+     * "name":"wxa",
+     * "url":"http://mp.weixin.qq.com",
+     * "appid":"wx286b93c14bbf93aa",
+     * "pagepath":"pages/lunar/index"
+     * },
+     * {
      * "type": "view_limited",
      * "name": "图文消息",
      * "media_id": "MEDIA_ID2"
+     * },
+     * {
+     * "type": "article_id",
+     * "name": "发布后的图文消息",
+     * "article_id": "ARTICLE_ID1"
+     * },
+     * {
+     * "type": "article_view_limited",
+     * "name": "发布后的图文消息",
+     * "article_id": "ARTICLE_ID2"
      * }
      * ]
      * }
@@ -126,6 +143,9 @@ class Menu
      * key click等点击类型必须 菜单KEY值，用于消息接口推送，不超过128字节
      * url view类型必须 网页链接，用户点击菜单可打开链接，不超过1024字节
      * media_id media_id类型和view_limited类型必须 调用新增永久素材接口返回的合法media_id
+     * appid miniprogram类型必须 小程序的appid（仅认证公众号可配置）
+     * pagepath miniprogram类型必须 小程序的页面路径
+     * article_id article_id类型和article_view_limited类型必须 发布后获得的合法 article_id
      *
      * 返回结果
      * 正确时的返回JSON数据包如下：
@@ -133,7 +153,7 @@ class Menu
      * 错误时的返回JSON数据包如下（示例为无效菜单名长度）：
      * {"errcode":40018,"errmsg":"invalid button name size"}
      *
-     * @param array $menus            
+     * @param array $menus        	
      */
     public function create($menus)
     {
@@ -273,7 +293,6 @@ class Menu
         $rst = $this->_request->post($this->_url . 'menu/delete', $menus);
         return $this->_client->rst($rst);
     }
-
     private function validateSubbutton($menus)
     {
         $ret = 0;
@@ -291,7 +310,6 @@ class Menu
         }
         return $ret;
     }
-
     private function validateKey($menu)
     {
         // click等点击类型必须
@@ -312,22 +330,20 @@ class Menu
             return 40019;
         return 0;
     }
-
     private function validateName($menu)
     {
         // 按钮描述，既按钮名字，不超过16个字节，子菜单不超过40个字节
         if ($menu['fatherNode']) // 子菜单
-{
+        {
             if (strlen($menu['name']) > 40)
                 return 40018;
         } else // 按钮
-{
+        {
             if (strlen($menu['name']) > 16)
                 return 40018;
         }
         return 0;
     }
-
     public function validateMenu($menu)
     {
         $errcode = $this->validateName($menu);
@@ -340,7 +356,6 @@ class Menu
         }
         return 0;
     }
-
     public function validateAllMenus($menus)
     {
         // 按钮数组，按钮个数应为1~3个
@@ -348,7 +363,7 @@ class Menu
         if ($button_num > 3 || $button_num < 1) {
             return 40017;
         }
-        
+
         // 子按钮数组，按钮个数应为1~5个
         if ($this->validateSubbutton($menus)) {
             return 40023;
@@ -538,12 +553,13 @@ class Menu
      * }]
      * }],
      * "matchrule":{
-     * "group_id":"2",
-     * "sex":"1",
-     * "country":"中国",
-     * "province":"广东",
-     * "city":"广州",
-     * "client_platform_type":"2"
+     * "tag_id": "2",
+     * "sex": "1",
+     * "country": "中国",
+     * "province": "广东",
+     * "city": "广州",
+     * "client_platform_type": "2",
+     * "language": "zh_CN"
      * }
      * }
      * 参数说明
@@ -556,14 +572,18 @@ class Menu
      * key click等点击类型必须 菜单KEY值，用于消息接口推送，不超过128字节
      * url view类型必须 网页链接，用户点击菜单可打开链接，不超过1024字节
      * media_id media_id类型和view_limited类型必须 调用新增永久素材接口返回的合法media_id
+     * article_id article_id类型和article_view_limited类型必须 发布后获得的合法 article_id
+     * appid miniprogram类型必须 小程序的appid
+     * pagepath miniprogram类型必须 小程序的页面路径
      * matchrule 是 菜单匹配规则
-     * group_id 否 用户分组id，可通过用户分组管理接口获取
-     * sex 否 性别：男（1）女（2），不填则不做匹配
+     * tag_id 否 用户标签的id，可通过用户标签管理接口获取
+     * sex 已废除 性别：男（1）女（2），不填则不做匹配
      * client_platform_type 否 客户端版本，当前只具体到系统型号：IOS(1), Android(2),Others(3)，不填则不做匹配
-     * country 否 国家信息，是用户在微信中设置的地区，具体请参考地区信息表
-     * province 否 省份信息，是用户在微信中设置的地区，具体请参考地区信息表
-     * city 否 城市信息，是用户在微信中设置的地区，具体请参考地区信息表
-     * matchrule共六个字段，均可为空，但不能全部为空，至少要有一个匹配信息是不为空的。 country、province、city组成地区信息，将按照country、province、city的顺序进行验证，要符合地区信息表的内容。地区信息从大到小验证，小的可以不填，即若填写了省份信息，则国家信息也必填并且匹配，城市信息可以不填。 例如 “中国 广东省 广州市”、“中国 广东省”都是合法的地域信息，而“中国 广州市”则不合法，因为填写了城市信息但没有填写省份信息。 地区信息表请点击下载。
+     * country 已废除 国家信息，是用户在微信中设置的地区，具体请参考地区信息表
+     * province 已废除 省份信息，是用户在微信中设置的地区，具体请参考地区信息表
+     * city 已废除 城市信息，是用户在微信中设置的地区，具体请参考地区信息表
+     * language 已废除 语言信息，是用户在微信中设置的语言，具体请参考语言表： 1、简体中文 "zh_CN" 2、繁体中文TW "zh_TW"
+     * matchrule共七个字段，均可为空，但不能全部为空，至少要有一个匹配信息是不为空的。 country、province、city组成地区信息，将按照country、province、city的顺序进行验证，要符合地区信息表的内容。地区信息从大到小验证，小的可以不填，即若填写了省份信息，则国家信息也必填并且匹配，城市信息可以不填。 例如 “中国 广东省 广州市”、“中国 广东省”都是合法的地域信息，而“中国 广州市”则不合法，因为填写了城市信息但没有填写省份信息。 地区信息表请点击下载。
      *
      * 返回结果
      *
@@ -644,7 +664,7 @@ class Menu
      * }
      * 错误时的返回码请见接口返回码说明。
      *
-     * @param string $user_id            
+     * @param string $user_id        	
      */
     public function trymatch($user_id)
     {

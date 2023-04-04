@@ -184,13 +184,14 @@ class Server
      * 89506 该IP调用求请求已被公众号管理员拒绝，请24小时后再试，建议调用前与管理员沟通确认
      * 89507 该IP调用求请求已被公众号管理员拒绝，请1小时后再试，建议调用前与管理员沟通确认
      */
-    public function getStableAccessToken()
+    public function getStableAccessToken($force_refresh = false)
     {
         $request = new \Weixin\Http\Request();
         $params = array();
         $params['grant_type'] = "client_credential";
         $params['appid'] = $this->_appid;
         $params['secret'] = $this->_secret;
+        $params['force_refresh'] = $force_refresh;
         $rst = $request->post("https://api.weixin.qq.com/cgi-bin/stable_token", $params);
         return $rst;
     }

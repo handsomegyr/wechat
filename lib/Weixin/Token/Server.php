@@ -14,10 +14,12 @@ class Server
 {
     private $_appid = null;
     private $_secret = null;
+    private $_request;
     public function __construct($appid, $secret)
     {
         $this->_appid = $appid;
         $this->_secret = $secret;
+        $this->_request = new \Weixin\Http\Request(\uniqid(), true, "");
     }
 
     /**
@@ -186,13 +188,12 @@ class Server
      */
     public function getStableAccessToken($force_refresh = false)
     {
-        $request = new \Weixin\Http\Request();
         $params = array();
         $params['grant_type'] = "client_credential";
         $params['appid'] = $this->_appid;
         $params['secret'] = $this->_secret;
         $params['force_refresh'] = $force_refresh;
-        $rst = $request->post("https://api.weixin.qq.com/cgi-bin/stable_token", $params);
+        $rst = $this->_request->post("https://api.weixin.qq.com/cgi-bin/stable_token", $params);
         return $rst;
     }
     public function __destruct()

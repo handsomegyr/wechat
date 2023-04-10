@@ -1,10 +1,12 @@
 <?php
+
 /**
  * 媒体上传下载管理器
  * 
  * @author guoyongrong <handsomegyr@126.com>
  *
  */
+
 namespace Weixin\Manager;
 
 use Weixin\Client;
@@ -20,9 +22,7 @@ class Media
      * @var Weixin\Client
      */
     private $_client;
-
     private $_request;
-
     public function __construct(Client $client)
     {
         $this->_client = $client;
@@ -65,8 +65,8 @@ class Media
      * 缩略图（thumb）：64KB，支持JPG格式
      * 媒体文件在后台保存时间为3天，即3天后media_id失效。
      *
-     * @param string $type            
-     * @param string $media            
+     * @param string $type        	
+     * @param string $media        	
      */
     public function upload($type, $media)
     {
@@ -105,7 +105,7 @@ class Media
      * 错误情况下的返回JSON数据包示例如下（示例为无效媒体ID错误）：
      * {"errcode":40007,"errmsg":"invalid media_id"}
      *
-     * @param string $mediaId            
+     * @param string $mediaId        	
      */
     public function download($mediaId, $file_ext = "")
     {
@@ -149,14 +149,14 @@ class Media
     }
 
     /**
-     * 上传图文消息素材（用于群发图文消息）
-     *
-     * 上传图文消息素材【订阅号与服务号认证后均可用】
+     * 2、上传图文消息素材【订阅号与服务号认证后均可用】
+     * https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Batch_Sends_and_Originality_Checks.html#API%E7%BE%A4%E5%8F%91%E5%AE%89%E5%85%A8%E4%BF%9D%E6%8A%A4
      * 接口调用请求说明
-     * http请求方式: POST
-     * https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token=ACCESS_TOKEN
-     * POST数据说明
+     *
+     * http请求方式: POST https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token=ACCESS_TOKEN
+     *
      * POST数据示例如下：
+     *
      * {
      * "articles": [
      * {
@@ -166,7 +166,9 @@ class Media
      * "content_source_url":"www.qq.com",
      * "content":"content",
      * "digest":"digest",
-     * "show_cover_pic":1
+     * "show_cover_pic":1,
+     * "need_open_comment":1,
+     * "only_fans_can_comment":1
      * },
      * {
      * "thumb_media_id":"qI6_Ze_6PtV7svjolgs-rN6stStuHIjs9_DidOHaj0Q-mwvBelOXCFZiq2OsIU-p",
@@ -175,21 +177,47 @@ class Media
      * "content_source_url":"www.qq.com",
      * "content":"content",
      * "digest":"digest",
-     * "show_cover_pic":0
+     * "show_cover_pic":0,
+     * "need_open_comment":1,
+     * "only_fans_can_comment":1
      * }
      * ]
      * }
+     * 参数说明
+     *
      * 参数 是否必须 说明
      * Articles 是 图文消息，一个图文消息支持1到8条图文
-     * thumb_media_id 是 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
+     * thumb_media_id 是 图文消息缩略图的media_id，可以在素材管理-新增临时素材中获得
      * author 否 图文消息的作者
      * title 是 图文消息的标题
      * content_source_url 否 在图文消息页面点击“阅读原文”后的页面，受安全限制，如需跳转Appstore，可以使用itun.es或appsto.re的短链服务，并在短链后增加 #wechat_redirect 后缀。
-     * content 是 图文消息页面的内容，支持HTML标签。具备微信支付权限的公众号，可以使用a标签，其他公众号不能使用
-     * digest 否 图文消息的描述
+     * content 是 图文消息页面的内容，支持HTML标签。具备微信支付权限的公众号，可以使用a标签，其他公众号不能使用，如需插入小程序卡片，可参考下文。
+     * digest 否 图文消息的描述，如本字段为空，则默认抓取正文前64个字
      * show_cover_pic 否 是否显示封面，1为显示，0为不显示
+     * need_open_comment 否 Uint32 是否打开评论，0不打开，1打开
+     * only_fans_can_comment 否 Uint32 是否粉丝才可评论，0所有人可评论，1粉丝才可评论
+     * 如果需要在群发图文中插入小程序，则在调用上传图文消息素材接口时，需在content字段中添加小程序跳转链接，有以下三种样式的可供选择。
+     *
+     * 小程序卡片跳转小程序，代码示例：
+     *
+     * <mp-miniprogram data-miniprogram-appid="wx123123123" data-miniprogram-path="pages/index/index" data-miniprogram-title="小程序示例" data-miniprogram-imageurl="http://example.com/demo.jpg"></mp-miniprogram>
+     * 文字跳转小程序，代码示例：
+     *
+     * <p><a data-miniprogram-appid="wx123123123" data-miniprogram-path="pages/index" href="">点击文字跳转小程序</a></p>
+     * 图片跳转小程序，代码示例：
+     *
+     * <p><a data-miniprogram-appid="wx123123123" data-miniprogram-path="pages/index" href=""><img src="https://mmbiz.qpic.cn/mmbiz_jpg/demo/0?wx_fmt=jpg" alt="" data-width="null" data-ratio="NaN"></a></p>
+     * 参数说明
+     *
+     * 参数 是否必须 说明
+     * data-miniprogram-appid 是 小程序的AppID
+     * data-miniprogram-path 是 小程序要打开的路径
+     * data-miniprogram-title 是 小程序卡片的标题，不超过35个字
+     * data-miniprogram-imageurl 是 小程序卡片的封面图链接，图片必须为1080*864像素
      * 返回说明
+     *
      * 返回数据示例（正确时的JSON返回结果）：
+     *
      * {
      * "type":"news",
      * "media_id":"CsEf3ldqkAYJAU6EJeIkStVDSvffUJ54vqbThMgplD-VJXXof6ctX5fI6-aYyUiQ",
@@ -201,7 +229,7 @@ class Media
      * created_at 媒体文件上传时间
      * 错误时微信会返回错误码等信息，请根据错误码查询错误信息
      *
-     * @param array $articles            
+     * @param array $articles        	
      * @throws Exception
      */
     public function uploadNews(array $articles)
@@ -217,9 +245,9 @@ class Media
     /**
      * 上传视频素材（用于群发视频消息）
      *
-     * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
+     * @param string $media_id        	
+     * @param string $title        	
+     * @param string $description        	
      */
     public function uploadVideo($media_id, $title, $description)
     {
@@ -231,11 +259,36 @@ class Media
         return $this->_request->post('https://api.weixin.qq.com/cgi-bin/media/uploadvideo', $video);
     }
 
+    /**
+     * https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Batch_Sends_and_Originality_Checks.html#API%E7%BE%A4%E5%8F%91%E5%AE%89%E5%85%A8%E4%BF%9D%E6%8A%A4
+     * 1、上传图文消息内的图片获取URL【订阅号与服务号认证后均可用】
+     * 请注意，本接口所上传的图片不占用公众号的素材库中图片数量的5000个的限制。图片仅支持jpg/png格式，大小必须在1MB以下。
+     * 接口调用请求说明
+     *
+     * http请求方式: POST https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=ACCESS_TOKEN
+     *
+     * 调用示例（使用curl命令，用FORM表单方式上传一个图片）：
+     *
+     * curl -F media=@test.jpg "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=ACCESS_TOKEN"
+     *
+     * 参数说明
+     *
+     * 参数 是否必须 说明
+     * access_token 是 调用接口凭证
+     * media 是 form-data中媒体文件标识，有filename、filelength、content-type等信息
+     * 返回说明 正常情况下的返回结果为：
+     *
+     * {
+     * "url":"http://mmbiz.qpic.cn/mmbiz/gLO17UPS6FS2xsypf378iaNhWacZ1G1UplZYWEYfwvuU6Ont96b1roYs CNFwaRrSaKTPCUdBK9DgEHicsKwWCBRQ/0"
+     * }
+     * 其中url就是上传图片的URL，可用于后续群发中，放置到图文消息中。
+     * 错误时微信会返回错误码等信息，请根据错误码查询错误信息
+     */
     public function uploadImg($img)
     {
         return $this->_request->uploadFile('https://api.weixin.qq.com/cgi-bin/media/uploadimg', $img);
     }
-
     public function __destruct()
-    {}
+    {
+    }
 }

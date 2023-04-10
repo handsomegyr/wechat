@@ -1,10 +1,12 @@
 <?php
+
 namespace Weixin\Manager\Msg;
 
 use Weixin\Client;
 
 /**
  * 群发消息接口
+ * https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Batch_Sends_and_Originality_Checks.html#API%E7%BE%A4%E5%8F%91%E5%AE%89%E5%85%A8%E4%BF%9D%E6%8A%A4
  *
  * @author guoyongrong <handsomegyr@126.com>
  *        
@@ -63,11 +65,15 @@ class Mass
 {
     // 接口地址
     private $_url = 'https://api.weixin.qq.com/cgi-bin/';
-
     private $_client;
-
     private $_request;
 
+    // 增加了对指定微信号发送预览的能力
+    private $_isPreviewByTowxname = false;
+    public function setIsPreviewByTowxname($isPreviewByTowxname)
+    {
+        $this->_isPreviewByTowxname = $isPreviewByTowxname;
+    }
     public function __construct(Client $client)
     {
         $this->_client = $client;
@@ -77,7 +83,7 @@ class Mass
     /**
      * 根据分组进行群发
      *
-     * @param array $params            
+     * @param array $params        	
      * @throws Exception
      * @return array
      */
@@ -90,13 +96,13 @@ class Mass
     /**
      * 发送文本消息
      *
-     * @param string $group_id            
-     * @param string $content            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $content        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendTextByGroup($group_id, $content, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -112,13 +118,13 @@ class Mass
     /**
      * 根据标签发送文本消息
      *
-     * @param string $group_id            
-     * @param string $content            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $content        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendTextByTag($tag_id, $content, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -126,7 +132,7 @@ class Mass
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('text', $content, "", "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
         return $this->sendAll($ret);
@@ -135,13 +141,13 @@ class Mass
     /**
      * 发送图片消息
      *
-     * @param string $group_id            
-     * @param string $media_id            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $media_id        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendImageByGroup($group_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -151,20 +157,20 @@ class Mass
         $ret['filter']['is_to_all'] = $is_to_all;
         $params = $this->buildParamsByMsgType('image', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 根据标签发送图片消息
      *
-     * @param string $group_id            
-     * @param string $media_id            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $media_id        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendImageByTag($tag_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -172,23 +178,23 @@ class Mass
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('image', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 发送语音消息
      *
-     * @param string $group_id            
-     * @param string $media_id            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $media_id        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendVoiceByGroup($group_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -196,23 +202,23 @@ class Mass
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('voice', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 根据标签发送语音消息
      *
-     * @param string $group_id            
-     * @param string $media_id            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $media_id        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendVoiceByTag($tag_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -220,23 +226,23 @@ class Mass
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('voice', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 发送视频消息
      *
-     * @param string $group_id            
-     * @param string $media_id            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $media_id        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendVideoByGroup($group_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -244,23 +250,23 @@ class Mass
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('mpvideo', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 发送视频消息
      *
-     * @param string $group_id            
-     * @param string $media_id            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $media_id        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendVideoByTag($tag_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -268,23 +274,23 @@ class Mass
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('mpvideo', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 发送图文消息
      *
-     * @param string $group_id            
-     * @param string $media_id            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $media_id        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendGraphTextByGroup($group_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -292,23 +298,23 @@ class Mass
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('mpnews', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 发送图文消息
      *
-     * @param string $tag_id            
-     * @param string $media_id            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $tag_id        	
+     * @param string $media_id        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendGraphTextByTag($tag_id, $media_id, $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -316,24 +322,24 @@ class Mass
         $ret = array();
         $ret['filter']['tag_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('mpnews', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 发送卡券消息
      *
-     * @param string $group_id            
-     * @param string $card_id            
-     * @param array $card_ext            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $card_id        	
+     * @param array $card_ext        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendWxcardByGroup($group_id, $card_id, array $card_ext = array(), $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -341,24 +347,24 @@ class Mass
         $ret = array();
         $ret['filter']['group_id'] = $group_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('wxcard', "", "", $card_id, $card_ext, $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 根据标签发送卡券消息
      *
-     * @param string $group_id            
-     * @param string $card_id            
-     * @param array $card_ext            
-     * @param boolean $is_to_all            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $group_id        	
+     * @param string $card_id        	
+     * @param array $card_ext        	
+     * @param boolean $is_to_all        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendWxcardByTag($tag_id, $card_id, array $card_ext = array(), $is_to_all = false, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -366,17 +372,17 @@ class Mass
         $ret = array();
         $ret['filter']['group_id'] = $tag_id;
         $ret['filter']['is_to_all'] = $is_to_all;
-        
+
         $params = $this->buildParamsByMsgType('wxcard', "", "", $card_id, $card_ext, $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->sendAll($ret);
     }
 
     /**
      * 根据OpenID列表群发
      *
-     * @param array $params            
+     * @param array $params        	
      * @throws Exception
      * @return array
      */
@@ -389,19 +395,19 @@ class Mass
     /**
      * 发送文本消息
      *
-     * @param array $toUsers            
-     * @param string $content            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param array $toUsers        	
+     * @param string $content        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendTextByOpenid(array $toUsers, $content, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        
+
         $params = $this->buildParamsByMsgType('text', $content, "", "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
         return $this->send($ret);
@@ -410,12 +416,12 @@ class Mass
     /**
      * 发送图片消息
      *
-     * @param array $toUsers            
-     * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param array $toUsers        	
+     * @param string $media_id        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendImageByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -424,63 +430,63 @@ class Mass
         $ret['touser'] = $toUsers;
         $params = $this->buildParamsByMsgType('image', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->send($ret);
     }
 
     /**
      * 发送语音消息
      *
-     * @param array $toUsers            
-     * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param array $toUsers        	
+     * @param string $media_id        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendVoiceByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        
+
         $params = $this->buildParamsByMsgType('voice', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->send($ret);
     }
 
     /**
      * 发送视频消息
      *
-     * @param array $toUsers            
-     * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param array $toUsers        	
+     * @param string $media_id        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendVideoByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        
+
         $params = $this->buildParamsByMsgType('mpvideo', "", $media_id, "", array(), $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->send($ret);
     }
 
     /**
      * 发送图文消息
      *
-     * @param array $toUsers            
-     * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param array $toUsers        	
+     * @param string $media_id        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendGraphTextByOpenid(array $toUsers, $media_id, $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
@@ -495,36 +501,81 @@ class Mass
     /**
      * 发送卡券消息
      *
-     * @param array $toUsers            
-     * @param string $card_id            
-     * @param array $card_ext            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param array $toUsers        	
+     * @param string $card_id        	
+     * @param array $card_ext        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function sendWxcardByOpenid(array $toUsers, $card_id, array $card_ext = array(), $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = '')
     {
         $ret = array();
         $ret['touser'] = $toUsers;
-        
+
         $params = $this->buildParamsByMsgType('wxcard', "", "", $card_id, $card_ext, $title, $description, $send_ignore_reprint, $clientmsgid);
         $ret = array_merge($ret, $params);
-        
+
         return $this->send($ret);
     }
 
     /**
      * 删除群发
+     * 5、删除群发【订阅号与服务号认证后均可用】
+     * 群发之后，随时可以通过该接口删除群发。
      *
-     * @param string $msgid            
+     * 接口调用请求说明
+     *
+     * http请求方式: POST https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token=ACCESS_TOKEN
+     *
+     * POST数据示例如下：
+     *
+     * {
+     * "msg_id":30124,
+     * "article_idx":2
+     * }
+     * 参数说明
+     *
+     * 参数 是否必须 说明
+     * msg_id 否 发送出去的消息ID
+     * article_idx 否 要删除的文章在图文消息中的位置，第一篇编号为1，该字段不填或填0会删除全部文章
+     * url 否 要删除的文章url，当msg_id未指定时该参数才生效
+     * 请注意：
+     *
+     * msg_id和url中必须有一个参数有传值，当两个参数都有值时只有msg_id有效。
+     * article_idx只有在msg_id有传值的时候才生效。
+     * 只有通过api发送的并且已经发送成功的消息才能删除。
+     * 删除消息是将消息的图文详情页失效，已经收到的用户，还是能在其本地看到消息卡片。
+     * 删除群发消息只能删除图文消息和视频消息，其他类型的消息一经发送，无法删除。
+     * 如果多次群发发送的是一个图文消息，那么删除其中一次群发，就会删除掉这个图文消息页，导致所有群发都失效。
+     * 返回说明
+     *
+     * 参数 说明
+     * errcode 错误码
+     * errmsg 错误信息
+     * 返回数据示例（正确时的JSON返回结果）：
+     *
+     * {
+     * "errcode":0,
+     * "errmsg":"ok"
+     * }
+     *
+     * @param string $msgid        	
      * @return array
      */
-    public function delete($msgid)
+    public function delete($msgid = "", $article_idx = 0, $url = "")
     {
         $ret = array();
-        $ret['msgid'] = $msgid;
+        if (!empty($msgid)) {
+            $ret['msgid'] = $msgid;
+            if (!empty($article_idx)) {
+                $ret['article_idx'] = $article_idx;
+            }
+        } else {
+            $ret['url'] = $url;
+        }
         $rst = $this->_request->post($this->_url . "message/mass/delete", $ret);
         return $this->_client->rst($rst);
     }
@@ -532,17 +583,17 @@ class Mass
     /**
      * 预览文本消息
      *
-     * @param string $touser            
-     * @param string $content            
-     * @param string $title            
-     * @param string $description            
+     * @param string $touser        	
+     * @param string $content        	
+     * @param string $title        	
+     * @param string $description        	
      * @return array
      */
     public function previewText($touser, $content, $title = "", $description = "")
     {
         $ret = array();
         $ret['touser'] = $touser;
-        
+
         $params = $this->buildParamsByMsgType('text', $content, "", "", array(), $title, $description);
         $ret = array_merge($ret, $params);
         return $this->preview($ret);
@@ -551,10 +602,10 @@ class Mass
     /**
      * 预览图片消息
      *
-     * @param string $touser            
-     * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
+     * @param string $touser        	
+     * @param string $media_id        	
+     * @param string $title        	
+     * @param string $description        	
      * @return array
      */
     public function previewImage($touser, $media_id, $title = "", $description = "")
@@ -563,59 +614,59 @@ class Mass
         $ret['touser'] = $touser;
         $params = $this->buildParamsByMsgType('image', "", $media_id, "", array(), $title, $description);
         $ret = array_merge($ret, $params);
-        
+
         return $this->preview($ret);
     }
 
     /**
      * 预览语音消息
      *
-     * @param string $touser            
-     * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
+     * @param string $touser        	
+     * @param string $media_id        	
+     * @param string $title        	
+     * @param string $description        	
      * @return array
      */
     public function previewVoice($touser, $media_id, $title = "", $description = "")
     {
         $ret = array();
         $ret['touser'] = $touser;
-        
+
         $params = $this->buildParamsByMsgType('voice', "", $media_id, "", array(), $title, $description);
         $ret = array_merge($ret, $params);
-        
+
         return $this->preview($ret);
     }
 
     /**
      * 预览视频消息
      *
-     * @param string $touser            
-     * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
+     * @param string $touser        	
+     * @param string $media_id        	
+     * @param string $title        	
+     * @param string $description        	
      * @return array
      */
     public function previewVideo($touser, $media_id, $title = "", $description = "")
     {
         $ret = array();
         $ret['touser'] = $touser;
-        
+
         $params = $this->buildParamsByMsgType('mpvideo', "", $media_id, "", array(), $title, $description);
         $ret = array_merge($ret, $params);
-        
+
         return $this->preview($ret);
     }
 
     /**
      * 预览图文消息
      *
-     * @param string $touser            
-     * @param string $media_id            
-     * @param string $title            
-     * @param string $description            
-     * @param number $send_ignore_reprint            
-     * @param string $clientmsgid            
+     * @param string $touser        	
+     * @param string $media_id        	
+     * @param string $title        	
+     * @param string $description        	
+     * @param number $send_ignore_reprint        	
+     * @param string $clientmsgid        	
      * @return array
      */
     public function previewGraphText($touser, $media_id, $title = "", $description = "")
@@ -630,19 +681,19 @@ class Mass
     /**
      * 预览卡券消息
      *
-     * @param string $touser            
-     * @param string $card_id            
-     * @param array $card_ext            
+     * @param string $touser        	
+     * @param string $card_id        	
+     * @param array $card_ext        	
      * @return array
      */
     public function previewWxcard($touser, $card_id, array $card_ext = array(), $title = "", $description = "")
     {
         $ret = array();
         $ret['touser'] = $touser;
-        
+
         $params = $this->buildParamsByMsgType('wxcard', "", "", $card_id, $card_ext, $title, $description);
         $ret = array_merge($ret, $params);
-        
+
         return $this->preview($ret);
     }
 
@@ -650,11 +701,15 @@ class Mass
      * 预览接口【订阅号与服务号认证后均可用】
      * 开发者可通过该接口发送消息给指定用户，在手机端查看消息的样式和排版。
      *
-     * @param array $params            
+     * @param array $params        	
      * @return array
      */
     public function preview($params)
     {
+        // 请注意，上述JSON数据中的touser字段都可以改为towxname，这样就可以针对微信号进行预览（而非openID），towxname和touser同时赋值时，以towxname优先。
+        if ($this->_isPreviewByTowxname) {
+            $params['towxname'] = $params['touser'];
+        }
         $rst = $this->_request->post($this->_url . "message/mass/preview", $params);
         return $this->_client->rst($rst);
     }
@@ -662,7 +717,7 @@ class Mass
     /**
      * 查询群发消息发送状态【订阅号与服务号认证后均可用】
      *
-     * @param array $params            
+     * @param array $params        	
      * @return array
      */
     public function get($msg_id)
@@ -743,7 +798,6 @@ class Mass
         $rst = $this->_request->post($this->_url . "message/mass/speed/set", $params);
         return $this->_client->rst($rst);
     }
-
     protected function buildParamsByMsgType($msgtype, $content, $media_id, $card_id, array $card_ext = array(), $title = "", $description = "", $send_ignore_reprint = 0, $clientmsgid = "")
     {
         $params = array();
@@ -751,49 +805,49 @@ class Mass
         // 文本
         if ($msgtype == 'text') {
             $params[$msgtype]['content'] = $content;
-        }        
+        }
 
         // 图片
         elseif ($msgtype == 'image') {
             $params[$msgtype]['media_id'] = $media_id;
-        }        
+        }
 
         // 语音/音频
         elseif ($msgtype == 'voice') {
             $params[$msgtype]['media_id'] = $media_id;
-        }        
+        }
 
         // 视频
         elseif ($msgtype == 'mpvideo') {
             $params[$msgtype]['media_id'] = $media_id;
-        }        
+        }
 
         // 图文
         elseif ($msgtype == 'mpnews') {
             $params[$msgtype]['media_id'] = $media_id;
-        }        
+        }
 
         // 卡券
         elseif ($msgtype == 'wxcard') {
             $params[$msgtype]['card_id'] = $card_id;
-            if (! empty($card_ext)) {
+            if (!empty($card_ext)) {
                 $params[$msgtype]['card_ext'] = json_encode($card_ext);
             }
         }
-        
-        if (! empty($title)) {
+
+        if (!empty($title)) {
             $params[$msgtype]['title'] = $title;
         }
-        if (! empty($description)) {
+        if (!empty($description)) {
             $params[$msgtype]['description'] = $description;
         }
-        if (empty($send_ignore_reprint)) {
+        if (!empty($send_ignore_reprint)) {
             $ret['send_ignore_reprint'] = $send_ignore_reprint;
         }
-        if (! empty($clientmsgid)) {
+        if (!empty($clientmsgid)) {
             $ret['clientmsgid'] = $clientmsgid;
         }
-        
+
         return $params;
     }
 }

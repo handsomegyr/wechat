@@ -51,6 +51,7 @@ class User
 
     /**
      * 拉取用户信息(需scope为 snsapi_userinfo)
+     * https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      *
      * 如果网页授权作用域为snsapi_userinfo，则此时开发者可以通过access_token和openid拉取用户信息了。
      *
@@ -108,6 +109,7 @@ class User
 
     /**
      * 检验授权凭证（access_token）是否有效
+     * https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html
      *
      * 请求方法
      *

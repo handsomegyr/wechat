@@ -313,8 +313,17 @@ class Request
         try {
             if ($this->_json) {
                 $json = json_decode($body, true);
-                if (JSON_ERROR_NONE !== json_last_error()) {
-                    throw new \InvalidArgumentException('Unable to parse JSON data: ');
+                $json_last_error = json_last_error();
+                if (JSON_ERROR_NONE !== $json_last_error) {
+                    if ($json_last_error === JSON_ERROR_UTF8) {
+                        $utf8ize_body = $this->utf8ize($contents);
+                        $json = json_decode($utf8ize_body, true);
+                        if (JSON_ERROR_NONE !== json_last_error()) {
+                            throw new \InvalidArgumentException('Unable to parse JSON data: ');
+                        }
+                    } else {
+                        throw new \InvalidArgumentException('Unable to parse JSON data: ');
+                    }
                 }
                 return $json;
             } else {
@@ -323,6 +332,18 @@ class Request
         } catch (\Exception $e) {
             return $contents;
         }
+    }
+
+    private function utf8ize($mixed)
+    {
+        if (is_array($mixed)) {
+            foreach ($mixed as $key => $value) {
+                $mixed[$key] = $this->utf8ize($value);
+            }
+        } elseif (is_string($mixed)) {
+            return mb_convert_encoding($mixed, "UTF-8", "UTF-8");
+        }
+        return $mixed;
     }
 
     protected function getQueryParam4AccessToken()

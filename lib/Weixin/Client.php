@@ -54,9 +54,7 @@ class Client
 
     private $_verifyToken = null;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * 获取服务端的accessToken
@@ -399,6 +397,15 @@ class Client
     }
 
     /**
+     * 获取微信小店总调度器
+     *
+     * @return \Weixin\Channels\Ec\Client
+     */
+    public function getChannelsEcClient()
+    {
+        return new \Weixin\Channels\Ec\Client($this);
+    }
+    /**
      * 设置用户授权的token信息
      *
      * @param string $accessToken            
@@ -492,7 +499,5 @@ class Client
         return $rst;
     }
 
-    public function __destruct()
-    {
-    }
+    public function __destruct() {}
 }

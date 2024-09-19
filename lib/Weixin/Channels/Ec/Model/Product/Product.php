@@ -8,6 +8,11 @@ namespace Weixin\Channels\Ec\Model\Product;
 class Product extends \Weixin\Model\Base
 {
     /**
+     * product_id	string(uint64)	是	小店内部商品ID
+     */
+    public $product_id = NULL;
+
+    /**
      * out_product_id	string	否	商家自定义商品ID，小店后台不作任何唯一性约束，开发者自行保证，一旦添加成功后该字段无法修改，最多128字符
      */
     public $out_product_id = NULL;
@@ -128,6 +133,10 @@ class Product extends \Weixin\Model\Base
     public function getParams()
     {
         $params = array();
+
+        if ($this->isNotNull($this->product_id)) {
+            $params['product_id'] = $this->product_id;
+        }
 
         if ($this->isNotNull($this->out_product_id)) {
             $params['out_product_id'] = $this->out_product_id;

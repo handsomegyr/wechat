@@ -69,22 +69,34 @@ class Order
     public function listGet(
         \Weixin\Channels\Ec\Model\Order\TimeRange $create_time_range,
         \Weixin\Channels\Ec\Model\Order\TimeRange $update_time_range,
-        $status,
-        $openid,
+        $status = 0,
+        $openid = '',
         $page_size = 100,
         $next_key = ""
     ) {
         $params = array();
-        if (!empty($create_time_range)) {
-            $params['create_time_range'] = $create_time_range->getParams();
+
+        $create_time_range_data = $create_time_range->getParams();
+        if (!empty($create_time_range_data)) {
+            $params['create_time_range'] = $create_time_range_data;
         }
-        if (!empty($update_time_range)) {
-            $params['update_time_range'] = $update_time_range->getParams();
+
+        $update_time_range_data = $update_time_range->getParams();
+        if (!empty($update_time_range_data)) {
+            $params['update_time_range'] = $update_time_range_data;
         }
-        $params['status'] = $status;
-        $params['openid'] = $openid;
+
+        if (!empty($status)) {
+            $params['status'] = $status;
+        }
+
+        if (!empty($openid)) {
+            $params['openid'] = $openid;
+        }
+
         $params['page_size'] = $page_size;
         $params['next_key'] = $next_key;
+
         $rst = $this->_request->post($this->_url . 'list/get', $params);
         return $this->_client->rst($rst);
     }

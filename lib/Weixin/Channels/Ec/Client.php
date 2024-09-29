@@ -45,7 +45,7 @@ class Client
     /**
      * 获取分享人管理器
      *
-     * @return \Weixin\Channels\Ec\Manage\Sharer
+     * @return \Weixin\Channels\Ec\Manager\Sharer
      */
     public function getSharerManager()
     {

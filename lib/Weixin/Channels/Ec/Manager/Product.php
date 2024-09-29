@@ -509,10 +509,14 @@ class Product
      * "total_num": 100
      * }
      */
-    public function listGet($status, $page_size = 30, $next_key = "")
+    public function listGet($status = null, $page_size = 30, $next_key = "")
     {
         $params = array();
-        $params['status'] = $status;
+
+        if (isset($status)) {
+            $params['status'] = $status;
+        }
+
         $params['page_size'] = $page_size;
         $params['next_key'] = $next_key;
         $rst = $this->_request->post($this->_url . 'list/get', $params);

@@ -1301,18 +1301,13 @@ class Product
      * "errmsg": "ok"
      * }
      */
-    public function stockUpdate($product_id, $sku_id, $stock_type, $finder_id, $begin_time, $end_time, $op_type_list, $page_size, $next_key = "")
+    public function stockUpdate($product_id, $sku_id, $diff_type, $num)
     {
         $params = array();
         $params['product_id'] = $product_id;
         $params['sku_id'] = $sku_id;
-        $params['stock_type'] = $stock_type;
-        $params['finder_id'] = $finder_id;
-        $params['begin_time'] = $begin_time;
-        $params['end_time'] = $end_time;
-        $params['op_type_list'] = $op_type_list;
-        $params['page_size'] = $page_size;
-        $params['next_key'] = $next_key;
+        $params['diff_type'] = $diff_type;
+        $params['num'] = $num;
         $rst = $this->_request->post($this->_url . 'stock/update', $params);
         return $this->_client->rst($rst);
     }

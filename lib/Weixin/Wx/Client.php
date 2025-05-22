@@ -195,4 +195,14 @@ class Client
     {
         return new PhoneNumber($this->_client);
     }
+
+    /**
+     * 获取物流助手总调度器
+     *
+     * @return \Weixin\Wx\Express\Business\Client
+     */
+    public function getExpressBusinessClient()
+    {
+        return new \Weixin\Wx\Express\Business\Client($this->_client);
+    }
 }

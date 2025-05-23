@@ -12,6 +12,7 @@ namespace Weixin\Wx;
 use Weixin\Wx\Manager\Shop;
 use Weixin\Wx\Manager\Msg;
 use Weixin\Wx\Manager\Card;
+use Weixin\Wx\Manager\InsuranceFreight;
 use Weixin\Wx\Manager\Mall;
 use Weixin\Wx\Manager\User;
 use Weixin\Wx\Manager\Soter;
@@ -214,5 +215,15 @@ class Client
     public function getExpressDeliveryClient()
     {
         return new \Weixin\Wx\Express\Delivery\Client($this->_client);
+    }
+
+    /**
+     * 获取无忧退货（运费险）管理器
+     *
+     * @return \Weixin\Wx\Manager\InsuranceFreight
+     */
+    public function getInsuranceFreightManager()
+    {
+        return new InsuranceFreight($this->_client);
     }
 }

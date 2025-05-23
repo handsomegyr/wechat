@@ -12,6 +12,7 @@
 namespace Weixin\Wx\Express\Delivery;
 
 use Weixin\Wx\Express\Delivery\Manager\OpenMsg;
+use Weixin\Wx\Express\Delivery\Manager\NoWorryReturn;
 
 class Client
 {
@@ -30,5 +31,15 @@ class Client
     public function getOpenMsgManager()
     {
         return new OpenMsg($this->_client);
+    }
+
+    /**
+     * 获取无忧退货管理器
+     *
+     * @return \Weixin\Wx\Express\Business\Manager\NoWorryReturn
+     */
+    public function getNoWorryReturnManager()
+    {
+        return new NoWorryReturn($this->_client);
     }
 }

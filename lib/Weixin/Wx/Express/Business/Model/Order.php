@@ -108,7 +108,7 @@ class Order extends \Weixin\Model\Base
         }
         // receiver	object	是	收件人信息
         if ($this->isNotNull($this->receiver)) {
-            $params['receiver'] = $this->receiver;
+            $params['receiver'] = $this->receiver->getParams();
         }
         // cargo	object	是	包裹信息，将传递给快递公司
         if ($this->isNotNull($this->cargo)) {

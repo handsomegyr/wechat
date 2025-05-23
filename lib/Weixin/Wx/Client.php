@@ -205,4 +205,14 @@ class Client
     {
         return new \Weixin\Wx\Express\Business\Client($this->_client);
     }
+
+    /**
+     * 获取微信物流服务（商家查看）总调度器
+     *
+     * @return \Weixin\Wx\Express\Delivery\Client
+     */
+    public function getExpressDeliveryClient()
+    {
+        return new \Weixin\Wx\Express\Delivery\Client($this->_client);
+    }
 }

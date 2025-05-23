@@ -5,7 +5,7 @@
  * 
  * @author guoyongrong <handsomegyr@126.com>
  * 
- * https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/express/express-by-business/testUpdateOrder.html
+ * https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/express/express-by-business/bindAccount.html
  *
  */
 

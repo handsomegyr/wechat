@@ -147,10 +147,17 @@ class Request
         if (!empty($queryParams)) {
             $query = array_merge($query, $queryParams);
         }
-        $response = $client->patch($url, array(
-            'query' => $query,
-            'body' => empty($body) ? json_encode($params, JSON_UNESCAPED_UNICODE) : $body
-        ));
+        if (!empty($body)) {
+            $response = $client->patch($url, array(
+                'query' => $query,
+                'body' => $body
+            ));
+        } else {
+            $response = $client->patch($url, array(
+                'query' => $query,
+                'json' => $params
+            ));
+        }
 
         if ($this->isSuccessful($response)) {
             return true;

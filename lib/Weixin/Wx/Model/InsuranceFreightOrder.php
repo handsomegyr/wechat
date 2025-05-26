@@ -19,19 +19,19 @@ class InsuranceFreightOrder extends \Weixin\Model\Base
     public $delivery_no = NULL;
 
     /**
-     * @var \Weixin\Wx\Wxa\Business\Model\InsuranceFreightOrder\Place
+     * @var \Weixin\Wx\Model\InsuranceFreightOrder\Place
      * delivery_place	发货地址	object	Y
      */
     public $delivery_place = NULL;
 
     /**
-     * @var \Weixin\Wx\Wxa\Business\Model\InsuranceFreightOrder\Place
+     * @var \Weixin\Wx\Model\InsuranceFreightOrder\Place
      * receipt_place	收货地址	object	Y
      */
     public $receipt_place = NULL;
 
     /**
-     * @var \Weixin\Wx\Wxa\Business\Model\InsuranceFreightOrder\ProductInfo
+     * @var \Weixin\Wx\Model\InsuranceFreightOrder\ProductInfo
      * product_info	投保订单信息	object	Y	用于微信下发投保和理赔通知给用户，用户点击可查看投保订单，点击订单可跳回商家小程序
      */
     public $product_info = NULL;

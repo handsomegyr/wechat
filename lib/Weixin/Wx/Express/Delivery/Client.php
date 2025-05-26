@@ -26,7 +26,7 @@ class Client
     /**
      * 获取物流消息能力管理器
      *
-     * @return \Weixin\Wx\Express\Business\Manager\OpenMsg
+     * @return \Weixin\Wx\Express\Delivery\Manager\OpenMsg
      */
     public function getOpenMsgManager()
     {
@@ -36,7 +36,7 @@ class Client
     /**
      * 获取无忧退货管理器
      *
-     * @return \Weixin\Wx\Express\Business\Manager\NoWorryReturn
+     * @return \Weixin\Wx\Express\Delivery\Manager\NoWorryReturn
      */
     public function getNoWorryReturnManager()
     {

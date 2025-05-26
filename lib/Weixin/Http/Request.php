@@ -98,10 +98,33 @@ class Request
         if (!empty($queryParams)) {
             $query = array_merge($query, $queryParams);
         }
-        $response = $client->post($url, array(
-            'query' => $query,
-            'body' => empty($body) ? json_encode($params, JSON_UNESCAPED_UNICODE) : $body
-        ));
+        // 1. body 参数
+        // 用途：直接传递原始字符串或二进制数据作为请求体。
+        // 特点：
+        // 需要手动处理数据格式（如 JSON 字符串化、编码等）。
+        // 适用于非 JSON 数据（如 XML、纯文本、文件上传等）。
+        // 默认不会自动设置 Content-Type 头，需手动指定（如 'Content-Type' => 'application/json'）。
+        // 2. json 参数
+        // 用途：自动将 PHP 数组/对象转换为 JSON 字符串，并设置正确的 Content-Type 头。
+        // 特点：
+        // 内部自动调用 json_encode 处理数据。
+        // 自动设置 Content-Type: application/json 头。
+        // 更简洁，推荐用于发送 JSON 数据。
+        // $response = $client->post($url, array(
+        //     'query' => $query,
+        //     'body' => empty($body) ? json_encode($params, JSON_UNESCAPED_UNICODE) : $body
+        // ));
+        if (!empty($body)) {
+            $response = $client->post($url, array(
+                'query' => $query,
+                'body' => $body
+            ));
+        } else {
+            $response = $client->post($url, array(
+                'query' => $query,
+                'json' => $params
+            ));
+        }
         if ($this->isSuccessful($response)) {
             return $this->getJson($response); // $response->json();
         } else {

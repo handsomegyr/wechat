@@ -9,11 +9,10 @@
 
 namespace Weixin\Wx;
 
-use Weixin\Wx\Manager\Shop;
 use Weixin\Wx\Manager\Msg;
 use Weixin\Wx\Manager\Card;
-use Weixin\Wx\Manager\InsuranceFreight;
 use Weixin\Wx\Manager\Mall;
+use Weixin\Wx\Manager\Shop;
 use Weixin\Wx\Manager\User;
 use Weixin\Wx\Manager\Soter;
 use Weixin\Wx\Manager\Qrcode;
@@ -23,9 +22,11 @@ use Weixin\Wx\Manager\Merchant;
 use Weixin\Wx\Manager\Security;
 use Weixin\Wx\Manager\Shortlink;
 use Weixin\Wx\Manager\Urlscheme;
-use Weixin\Wx\Manager\RiskControl;
-use Weixin\Wx\Manager\ServiceMarket;
 use Weixin\Wx\Manager\PhoneNumber;
+use Weixin\Wx\Manager\RiskControl;
+use Weixin\Wx\Manager\OrderShipping;
+use Weixin\Wx\Manager\ServiceMarket;
+use Weixin\Wx\Manager\InsuranceFreight;
 
 class Client
 {
@@ -225,5 +226,15 @@ class Client
     public function getInsuranceFreightManager()
     {
         return new InsuranceFreight($this->_client);
+    }
+
+    /**
+     * 获取小程序发货信息管理服务管理器
+     *
+     * @return \Weixin\Wx\Manager\OrderShipping
+     */
+    public function getOrderShippingManager()
+    {
+        return new OrderShipping($this->_client);
     }
 }

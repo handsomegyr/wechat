@@ -14,6 +14,7 @@ use Weixin\Wx\Manager\Card;
 use Weixin\Wx\Manager\Mall;
 use Weixin\Wx\Manager\Shop;
 use Weixin\Wx\Manager\User;
+use Weixin\Wx\Manager\Funds;
 use Weixin\Wx\Manager\Soter;
 use Weixin\Wx\Manager\Qrcode;
 use Weixin\Wx\Manager\Urllink;
@@ -236,5 +237,15 @@ class Client
     public function getOrderShippingManager()
     {
         return new OrderShipping($this->_client);
+    }
+
+    /**
+     * 获取小程序支付管理服务管理器
+     *
+     * @return \Weixin\Wx\Manager\Funds
+     */
+    public function getFundsManager()
+    {
+        return new Funds($this->_client);
     }
 }

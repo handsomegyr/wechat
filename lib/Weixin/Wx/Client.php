@@ -24,6 +24,7 @@ use Weixin\Wx\Manager\Security;
 use Weixin\Wx\Manager\Shortlink;
 use Weixin\Wx\Manager\Urlscheme;
 use Weixin\Wx\Manager\PhoneNumber;
+use Weixin\Wx\Manager\Datacube;
 use Weixin\Wx\Manager\RiskControl;
 use Weixin\Wx\Manager\OrderShipping;
 use Weixin\Wx\Manager\ServiceMarket;
@@ -189,6 +190,16 @@ class Client
         return new Shop($this->_client);
     }
 
+    /**
+     * 获取数据分析管理器
+     *
+     * @return \Weixin\Wx\Manager\Datacube
+     */
+    public function getDatacubeManager()
+    {
+        return new Datacube($this->_client);
+    }
+    
     /**
      * 获取手机号管理器
      *

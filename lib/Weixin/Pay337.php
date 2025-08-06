@@ -1,4 +1,5 @@
 <?php
+
 namespace Weixin;
 
 use Weixin\Helpers;
@@ -14,7 +15,7 @@ class Pay337
 {
 
     private $_url = 'https://api.mch.weixin.qq.com/';
-    
+
     // 设置是否沙箱环境测试
     private $is_sandbox = false;
 
@@ -192,8 +193,7 @@ class Pay337
         return $this->certKey;
     }
 
-    public function __construct()
-    {}
+    public function __construct() {}
 
     /**
      * 统一支付接口
@@ -277,7 +277,7 @@ class Pay337
      * <sign>0CB01533B8C1EF103065174F50BCA001</sign>
      * </xml>
      */
-    public function unifiedorder($device_info, $nonce_str, $body, $attach, $out_trade_no, $total_fee, $spbill_create_ip, $time_start, $time_expire, $goods_tag, $notify_url, $trade_type, $openid, $product_id, $receipt = '')
+    public function unifiedorder($device_info, $nonce_str, $body, $attach, $out_trade_no, $total_fee, $spbill_create_ip, $time_start, $time_expire, $goods_tag, $notify_url, $trade_type, $openid, $product_id, $receipt = '', $limit_pay = '')
     {
         $postData = array();
         $postData["appid"] = $this->getAppId();
@@ -299,7 +299,10 @@ class Pay337
         if (! empty($receipt)) {
             $postData["receipt"] = $receipt;
         }
-        
+        if (!empty($limit_pay)) {
+            $postData["limit_pay"] = $limit_pay;
+        }
+
         $sign = $this->getSign($postData);
         $postData["sign"] = $sign;
         $xml = Helpers::arrayToXml($postData);
@@ -507,7 +510,7 @@ class Pay337
         // $postData["share_content"] = $share_content;
         // $postData["share_url"] = $share_url;
         // $postData["share_imgurl"] = $share_imgurl;
-        
+
         $sign = $this->getSign($postData);
         $postData["sign"] = $sign;
         $xml = Helpers::arrayToXml($postData);
@@ -803,7 +806,7 @@ class Pay337
         $postData["nonce_str"] = $nonce_str;
         $postData["version"] = $version;
         $postData["type"] = $type;
-        
+
         $sign = $this->getSign($postData);
         $postData["sign"] = $sign;
         $xml = Helpers::arrayToXml($postData);
@@ -919,13 +922,13 @@ class Pay337
         $postData["coupon_stock_id"] = $coupon_stock_id;
         $postData["appid"] = $this->getAppId();
         $postData["mch_id"] = $this->getMchid();
-        
+
         $postData["op_user_id"] = $op_user_id;
         $postData["device_info"] = $device_info;
         $postData["nonce_str"] = $nonce_str;
         $postData["version"] = $version;
         $postData["type"] = $type;
-        
+
         $sign = $this->getSign($postData);
         $postData["sign"] = $sign;
         $xml = Helpers::arrayToXml($postData);
@@ -1071,16 +1074,16 @@ class Pay337
         $postData["coupon_id"] = $coupon_id;
         $postData["openid"] = $openid;
         $postData["stock_id"] = $stock_id;
-        
+
         $postData["appid"] = $this->getAppId();
         $postData["mch_id"] = $this->getMchid();
-        
+
         $postData["op_user_id"] = $op_user_id;
         $postData["device_info"] = $device_info;
         $postData["nonce_str"] = $nonce_str;
         $postData["version"] = $version;
         $postData["type"] = $type;
-        
+
         $sign = $this->getSign($postData);
         $postData["sign"] = $sign;
         $xml = Helpers::arrayToXml($postData);
@@ -1229,7 +1232,7 @@ class Pay337
         $postData["refund_desc"] = $refund_desc;
         $postData["refund_account"] = $refund_account;
         // $postData["op_user_id"] = $this->getMchid();
-        
+
         $sign = $this->getSign($postData);
         $postData["sign"] = $sign;
         $xml = Helpers::arrayToXml($postData);
@@ -1392,7 +1395,7 @@ class Pay337
         $postData["amount"] = intval($amount);
         $postData["desc"] = $desc;
         $postData["spbill_create_ip"] = $spbill_create_ip;
-        
+
         $sign = $this->getSign($postData);
         $postData["sign"] = $sign;
         $xml = Helpers::arrayToXml($postData);
@@ -1497,7 +1500,7 @@ class Pay337
         $postData["partner_trade_no"] = $partner_trade_no;
         $postData["mch_id"] = $this->getMchid();
         $postData["appid"] = $this->getAppId();
-        
+
         $sign = $this->getSign($postData);
         $postData["sign"] = $sign;
         $xml = Helpers::arrayToXml($postData);
@@ -1541,7 +1544,7 @@ class Pay337
         $postData = array();
         $postData["nonce_str"] = $nonce_str;
         $postData["mch_id"] = $this->getMchid();
-        
+
         $sign = $this->getSign($postData);
         $postData["sign"] = $sign;
         $xml = Helpers::arrayToXml($postData);
@@ -1579,7 +1582,7 @@ class Pay337
          */
         $sign = $string1 . '&key=' . $this->getKey();
         $sign = strtoupper(md5($sign));
-        
+
         return $sign;
     }
 
@@ -1714,10 +1717,10 @@ class Pay337
      * @param string $input_charset            
      * @return string
      */
-    public function getPackage4JsPay($body, $attach, $out_trade_no, $total_fee, $notify_url, $spbill_create_ip, $time_start, $time_expire, $transport_fee, $product_fee, $goods_tag, $bank_type = "WX", $fee_type = 1, $input_charset = "GBK", $device_info = "", $nonce_str = "", $openid = "")
+    public function getPackage4JsPay($body, $attach, $out_trade_no, $total_fee, $notify_url, $spbill_create_ip, $time_start, $time_expire, $transport_fee, $product_fee, $goods_tag, $bank_type = "WX", $fee_type = 1, $input_charset = "GBK", $device_info = "", $nonce_str = "", $openid = "", $limit_pay = "")
     {
-        $ret = $this->unifiedorder($device_info, $nonce_str, $body, $attach, $out_trade_no, $total_fee, $spbill_create_ip, $time_start, $time_expire, $goods_tag, $notify_url, "JSAPI", $openid, "");
-        
+        $ret = $this->unifiedorder($device_info, $nonce_str, $body, $attach, $out_trade_no, $total_fee, $spbill_create_ip, $time_start, $time_expire, $goods_tag, $notify_url, "JSAPI", $openid, "", "", $limit_pay);
+
         return "prepay_id={$ret['prepay_id']}";
     }
 
@@ -1774,8 +1777,7 @@ class Pay337
      * @throws Exception
      * @return Ambigous <mixed, string>
      */
-    public function updateFeedback($openid, $feedbackid)
-    {}
+    public function updateFeedback($openid, $feedbackid) {}
 
     protected $_request = null;
 
